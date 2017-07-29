@@ -37,18 +37,18 @@ gulp.task('html', function () {
 });
 
 gulp.task('js', function () {
-  gulp.src('./dist/js/bundle.js')
+  gulp.src('./public/js/bundle.js')
     .pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
   gulp.watch(['./*'], ['html']);
-  gulp.watch(['./dist/js/bundle.js'], ['js'])
+  gulp.watch(['./public/js/bundle.js'], ['js'])
 });
 
 gulp.task('bundle', () => {
     let b = browserify({
-        entries : ['./app/app.js'],
+        entries : ['./resources/assets/js/app.js'],
         cache : {},
         packagecache : {},
         plugin: watchify
@@ -76,20 +76,20 @@ gulp.task('bundle', () => {
             this.emit('end');
         })
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest('dist/js/'))
+        .pipe(gulp.dest('public/js/'))
     }
 });
 
 gulp.task('sass', () => {
-    return gulp.src('./app/**/*.scss')
+    return gulp.src('./resources/assets/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(concat('main.css'))
-    .pipe(gulp.dest('./dist/css/'))
+    .pipe(gulp.dest('./public/css/'))
 });
 
 gulp.task('css', function() {
-    gulp.watch('app/**/*.scss', ['sass']);
+    gulp.watch('./resources/assets/**/*.scss', ['sass']);
 })
 
 
