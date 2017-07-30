@@ -769,6 +769,10 @@ new Vue({
 	el: '#app'
 });
 
+// Initialize Materialze Components
+$(".button-collapse").sideNav();
+$(".dropdown-button").dropdown();
+
 /***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
