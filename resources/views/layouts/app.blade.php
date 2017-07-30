@@ -14,7 +14,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
         <nav>
             <div class="nav-wrapper">
               <a href="{{ url('/') }}" class="brand-logo center">{{ config('app.name', 'Laravel') }}</a>
@@ -62,6 +61,8 @@
               </ul>
             </div>
         </nav>
+    <div id="app">
+
 
         @yield('content')
     </div>

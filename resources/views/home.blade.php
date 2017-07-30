@@ -13,5 +13,8 @@
             </div>
         </div>
     </div>
+    <router-link to="/create">Welcome</router-link>
+    <router-view></router-view>
+
 </div>
 @endsection
