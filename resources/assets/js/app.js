@@ -8,6 +8,9 @@ new Vue({
 // Initialize Materialze Components
 $(".button-collapse").sideNav();
 $(".dropdown-button").dropdown();
+$(document).ready(function() {
+    Materialize.updateTextFields();
+});
 
 
 

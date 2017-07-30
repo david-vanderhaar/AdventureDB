@@ -766,12 +766,15 @@ __webpack_require__(10);
 
 new Vue({
 
-	el: '#app'
+  el: '#app'
 });
 
 // Initialize Materialze Components
 $(".button-collapse").sideNav();
 $(".dropdown-button").dropdown();
+$(document).ready(function () {
+  Materialize.updateTextFields();
+});
 
 /***/ }),
 /* 10 */
