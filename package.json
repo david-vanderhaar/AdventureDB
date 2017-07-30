@@ -26,6 +26,7 @@
     "gulp-connect": "^5.0.0",
     "gulp-sass": "^3.1.0",
     "laravel-mix": "^1.4.2",
+    "materialize-css": "^0.100.1",
     "strict-mode": "^1.1.1",
     "stringify": "^5.1.0",
     "vinyl-source-stream": "^1.1.0",
