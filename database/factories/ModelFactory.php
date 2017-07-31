@@ -22,3 +22,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+// Adventurers
+$factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->name,
+        'stamina' => $faker->numberBetween($min = 2, $max = 12),
+        'attack' => $faker->numberBetween($min = 2, $max = 12),
+        'defense' => $faker->numberBetween($min = 2, $max = 12),
+        'treasure' => $faker->numberBetween($min = 0, $max = 5000),
+        'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
+        'user_id' => $faker->numberBetween($min = 1, $max = 2),
+    ];
+});
