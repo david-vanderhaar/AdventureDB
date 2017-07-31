@@ -17,21 +17,11 @@ class AdventurerController extends Controller
 
     public function index(Request $request)
     {
-        // dd(auth()->user());
-        // dd(\Auth::user());
-        // dd($request->server());
+        //Get User Email from request header
         $email = ($request->server()['HTTP_PHP_AUTH_USER']);
-        // dd($email);
-        
-        // dd($this->user);
-        // dd($user);
+        //Find user based on email
         $user = User::where('email', '=', $email)->get()[0];
-        // dd(User::where('email', '=', 'david@david.com')->get());
-        // $user = Auth::user();
-        // dd($user);
-        
-
-
+        //Find all adventurers associated with user
         $adventurers = Adventurer::where('user_id', $user['id'])->get();
 
         return $adventurers;

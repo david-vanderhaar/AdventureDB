@@ -14726,6 +14726,17 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14748,13 +14759,35 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_c('div', {
+  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.adventurers), function(adventurer) {
+    return _c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col s8"
+    }, [_c('button', {
+      staticClass: "btn"
+    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _vm._m(2, true)])
+  })], 2)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "row"
-  }, [_c('h3', [_vm._v("Your Adventurers")])])])
+  }, [_c('h3', [_vm._v("Your Adventurers")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s2"
+  }, [_c('button', {
+    staticClass: "btn yellow darken-3"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("info")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s2"
+  }, [_c('button', {
+    staticClass: "btn red"
+  }, [_vm._v("Embark")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
