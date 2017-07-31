@@ -1,16 +1,16 @@
 <template>
     <div class="container">
         <div class="row">
-            <h3>Your Adventurers</h3>
+            <div class="col s12">
+                <h2 class="flow-text center">Your Adventurers</h2>
+            </div>
         </div>
-        <div class="row" v-for="adventurer in adventurers">
-            <div class="col s8">  
+        <div class="row grey" v-for="adventurer in adventurers">
+            <div class="col s12 l8 center">  
                     <button class="btn">{{adventurer.name}}</button>
             </div>
-            <div class="col s2">
+            <div class="col s12 l4 center">
                 <button class="btn yellow darken-3"><i class="material-icons">info</i></button>
-            </div>
-            <div class="col s2">
                 <button class="btn red">Embark</button>
             </div>
         </div>

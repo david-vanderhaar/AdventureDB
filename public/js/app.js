@@ -14763,29 +14763,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container"
   }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.adventurers), function(adventurer) {
     return _c('div', {
-      staticClass: "row"
+      staticClass: "row grey"
     }, [_c('div', {
-      staticClass: "col s8"
+      staticClass: "col s12 l8 center"
     }, [_c('button', {
       staticClass: "btn"
-    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _vm._m(2, true)])
+    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true)])
   })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
-  }, [_c('h3', [_vm._v("Your Adventurers")])])
+  }, [_c('div', {
+    staticClass: "col s12"
+  }, [_c('h2', {
+    staticClass: "flow-text center"
+  }, [_vm._v("Your Adventurers")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col s2"
+    staticClass: "col s12 l4 center"
   }, [_c('button', {
     staticClass: "btn yellow darken-3"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("info")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s2"
-  }, [_c('button', {
+  }, [_vm._v("info")])]), _vm._v(" "), _c('button', {
     staticClass: "btn red"
   }, [_vm._v("Embark")])])
 }]}
