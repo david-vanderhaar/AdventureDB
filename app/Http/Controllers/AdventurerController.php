@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Adventurer;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,21 +15,24 @@ class AdventurerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        // dd(Auth::check());
-
-        $user = Adventurer::user();
-        dd($user);
-
-
-        if (Auth::check()){
-            $adventurers = Adventurer::where('user_id', Auth::id())->get();
-
-        } else {
-            $adventurers = Adventurer::all();
+        // dd(auth()->user());
+        // dd(\Auth::user());
+        // dd($request->server());
+        $email = ($request->server()['HTTP_PHP_AUTH_USER']);
+        // dd($email);
         
-        }
+        // dd($this->user);
+        // dd($user);
+        $user = User::where('email', '=', $email)->get()[0];
+        // dd(User::where('email', '=', 'david@david.com')->get());
+        // $user = Auth::user();
+        // dd($user);
+        
+
+
+        $adventurers = Adventurer::where('user_id', $user['id'])->get();
 
         return $adventurers;
     }
@@ -63,6 +67,7 @@ class AdventurerController extends Controller
     public function show(Adventurer $adventurer)
     {
         //
+
     }
 
     /**

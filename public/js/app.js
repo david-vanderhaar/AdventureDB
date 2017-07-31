@@ -3436,12 +3436,20 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
+var user = document.head.querySelector('meta[name="auth-user"]');
+
+if (user) {
+    window.axios.defaults.headers.common['PHP_AUTH_USER'] = JSON.parse(user.content)['email'];
+} else {
+    console.error('User Not found');
+}
+
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /***/ }),
@@ -14730,7 +14738,7 @@ exports.default = {
 
         axios.get('/api/adventurer').then(function (response) {
             _this.adventurers = response.data;
-            console.log(_this.adventurers);
+            console.log(response.data);
         });
     }
 };

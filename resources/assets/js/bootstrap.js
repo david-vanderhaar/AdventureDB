@@ -23,6 +23,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
+
+let user = document.head.querySelector('meta[name="auth-user"]');
+
+if (user) {
+    window.axios.defaults.headers.common['PHP_AUTH_USER'] = JSON.parse(user.content)['email'];
+} else {
+    console.error('User Not found');
+}
+
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {

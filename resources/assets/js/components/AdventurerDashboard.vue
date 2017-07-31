@@ -18,8 +18,7 @@
             axios.get('/api/adventurer')
                 .then((response) => { 
                     this.adventurers = response.data;
-                    console.log(this.adventurers);
-
+                    console.log(response.data);
                 });
         }
     }
