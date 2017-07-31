@@ -3388,9 +3388,12 @@ new Vue({
 });
 
 // Initialize Materialze Components
-$(".button-collapse").sideNav();
-$(".dropdown-button").dropdown();
+$(".button-collapse").sideNav(); //side navs
+
+$(".dropdown-button").dropdown(); //dropdowns
+
 $(document).ready(function () {
+	//input fields
 	Materialize.updateTextFields();
 });
 
@@ -14653,7 +14656,8 @@ var routes = [{
 }];
 
 exports.default = new _vueRouter2.default({
-	routes: routes
+	routes: routes,
+	linkActiveClass: 'active'
 });
 
 /***/ }),

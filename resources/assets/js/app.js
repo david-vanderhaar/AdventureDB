@@ -9,11 +9,14 @@ new Vue({
 });
 
 // Initialize Materialze Components
-$(".button-collapse").sideNav();
-$(".dropdown-button").dropdown();
-$(document).ready(function() {
+$(".button-collapse").sideNav(); //side navs
+
+$(".dropdown-button").dropdown(); //dropdowns
+
+$(document).ready(function() { //input fields
     Materialize.updateTextFields();
 });
+
 
 
 
