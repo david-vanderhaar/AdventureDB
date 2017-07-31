@@ -14720,8 +14720,18 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    mounted: function mounted() {
-        console.log('Component mounted.');
+    data: function data() {
+        return {
+            adventurers: []
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/adventurer').then(function (response) {
+            _this.adventurers = response.data;
+            console.log(_this.adventurers);
+        });
     }
 };
 

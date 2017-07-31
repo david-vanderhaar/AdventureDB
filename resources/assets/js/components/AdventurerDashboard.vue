@@ -8,8 +8,19 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
+        data() {
+            return {
+                adventurers: [],
+            }
+        },
+
+        created() {
+            axios.get('/api/adventurer')
+                .then((response) => { 
+                    this.adventurers = response.data;
+                    console.log(this.adventurers);
+
+                });
         }
     }
 </script>

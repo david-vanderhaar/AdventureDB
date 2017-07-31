@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Adventurer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdventurerController extends Controller
 {
@@ -14,7 +15,16 @@ class AdventurerController extends Controller
      */
     public function index()
     {
-        //
+
+        if (Auth::check()){
+            $adventurers = Adventurer::where('user_id', Auth::id())->get();
+
+        } else {
+            $adventurers = Adventurer::all();
+        
+        }
+
+        return $adventurers;
     }
 
     /**
