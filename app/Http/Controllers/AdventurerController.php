@@ -13,8 +13,14 @@ class AdventurerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
+        // dd(Auth::check());
+
+        $user = Adventurer::user();
+        dd($user);
+
 
         if (Auth::check()){
             $adventurers = Adventurer::where('user_id', Auth::id())->get();
