@@ -68,6 +68,11 @@
     </div>
 
     <!-- Scripts -->
+    <!-- Enable Marker Clustering -->
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <!-- Enable Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhWgHy0QFctBl4j-SJlMDMEOy0wr--HE4">
+    </script>
     <!-- JQuery -->
     <script
   src="http://code.jquery.com/jquery-3.2.1.min.js"

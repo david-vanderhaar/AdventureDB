@@ -3388,6 +3388,15 @@ new Vue({
 });
 
 // Initialize Materialze Components
+
+// import './components/mapjs/map-icons.js';
+// import './components/mapjs/interactables.js';
+// import './components/mapjs/monstersV2.js';
+// import './components/mapjs/treasures.js';
+// import './components/mapjs/map-styles.js';
+// import './components/mapjs/map.js';
+// import './components/mapjs/adventurer.js';
+
 $(".button-collapse").sideNav(); //side navs
 
 $(".dropdown-button").dropdown(); //dropdowns
@@ -15243,7 +15252,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
 
 exports.default = {
     mounted: function mounted() {
@@ -15261,8 +15269,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "container"
   }, [_c('div', {
-    staticClass: "row"
-  }, [_c('h3', [_vm._v("The Map")])])])
+    attrs: {
+      "id": "map"
+    }
+  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {

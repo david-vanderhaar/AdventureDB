@@ -1,9 +1,8 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <h3>The Map</h3>
-        </div>
-    </div>
+<div class="container">
+<div id="map"></div>
+    
+  </div>
 </template>
 
 <script>
