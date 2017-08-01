@@ -14744,13 +14744,21 @@ exports.default = {
             adventurers: []
         };
     },
-    created: function created() {
-        var _this = this;
 
-        axios.get('/api/adventurer').then(function (response) {
-            _this.adventurers = response.data;
-            console.log(response.data);
-        });
+
+    methods: {
+        getAdventurers: function getAdventurers() {
+            var _this = this;
+
+            axios.get('/api/adventurer').then(function (response) {
+                _this.adventurers = response.data;
+                console.log(response.data);
+            });
+        }
+    },
+
+    created: function created() {
+        this.getAdventurers();
     }
 };
 

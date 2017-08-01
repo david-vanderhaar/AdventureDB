@@ -25,12 +25,18 @@
             }
         },
 
-        created() {
-            axios.get('/api/adventurer')
+        methods: {
+            getAdventurers() {
+                 axios.get('/api/adventurer')
                 .then((response) => { 
                     this.adventurers = response.data;
                     console.log(response.data);
                 });
+            }
+        },
+
+        created() {
+            this.getAdventurers();
         }
     }
 </script>
