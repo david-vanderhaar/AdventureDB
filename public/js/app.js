@@ -14927,8 +14927,8 @@ exports.default = {
                 attack: 1
             },
 
-            //maximum alottment of stats to be allocated
-            statMax: 12
+            statMax: 12, //maximum alottment of stats to be allocated
+            created: false //control visibility of elements
 
         };
     },
@@ -14936,9 +14936,14 @@ exports.default = {
 
     methods: {
         storeAdventurer: function storeAdventurer() {
+            var _this = this;
+
             //save adventurer to the database
             axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
                 console.log(response.data);
+                _this.created = true;
+            }).catch(function (error) {
+                console.log(error);
             });
         },
         updateStatMax: function updateStatMax() {
@@ -15112,7 +15117,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
-  }, [_c('button', {
+  }, [_c('a', {
     staticClass: "btn red",
     attrs: {
       "type": "number"
@@ -15120,7 +15125,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "textContent": _vm._s(_vm.statMax)
     }
-  })])]), _vm._v(" "), _vm._m(1)])])])
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [(_vm.created != true) ? _c('button', {
+    staticClass: "btn green",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Create")]) : _vm._e()])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -15129,17 +15143,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h2', {
     staticClass: "flow-text center"
   }, [_vm._v("Create A New Adventurer")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col s12 center"
-  }, [_c('button', {
-    staticClass: "btn green",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Create")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

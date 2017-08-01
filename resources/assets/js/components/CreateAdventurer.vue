@@ -31,12 +31,12 @@
               </div>
               <div class="row">
                   <div class="col s12 center">
-                      <button class="btn red" type="number" v-text="statMax"></button>
+                      <a class="btn red" type="number" v-text="statMax"></a>
                   </div>
               </div>
               <div class="row">
                   <div class="col s12 center">
-                      <button class="btn green" type="submit">Create</button>
+                      <button class="btn green" type="submit" v-if="created != true">Create</button>
                   </div>
               </div>
             </form>
@@ -55,8 +55,8 @@
                     attack: 1,
                 },
 
-                //maximum alottment of stats to be allocated
-                statMax: 12,
+                statMax: 12, //maximum alottment of stats to be allocated
+                created: false, //control visibility of elements
 
             }
         },
@@ -66,6 +66,10 @@
                  axios.post('/api/adventurer', this.newAdventurer)
                 .then((response) => { 
                     console.log(response.data);
+                    this.created = true;
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
             },
 
