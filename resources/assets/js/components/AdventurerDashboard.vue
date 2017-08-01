@@ -14,6 +14,11 @@
                 <button class="btn red">Embark</button>
             </div>
         </div>
+        <div class="row grey">
+            <div class="col s12 center">  
+                    <router-link to="/create-adventurer"><button class="btn">Create a New Adventurer</button></router-link>
+            </div>
+        </div>
     </div>
 </template>
 

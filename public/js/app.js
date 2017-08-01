@@ -14737,6 +14737,11 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14777,7 +14782,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('button', {
       staticClass: "btn"
     }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true)])
-  })], 2)
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row grey"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('router-link', {
+    attrs: {
+      "to": "/create-adventurer"
+    }
+  }, [_c('button', {
+    staticClass: "btn"
+  }, [_vm._v("Create a New Adventurer")])])], 1)])], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
