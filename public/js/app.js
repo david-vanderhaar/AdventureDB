@@ -14911,6 +14911,11 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14963,7 +14968,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('form', {
-    staticClass: "col s12"
+    staticClass: "col s12",
+    on: {
+      "submit": function($event) {
+        _vm.storeAdventurer()
+      }
+    }
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
@@ -14980,7 +14990,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "validate",
     attrs: {
       "id": "name",
-      "type": "text"
+      "type": "text",
+      "required": ""
     },
     domProps: {
       "value": (_vm.newAdventurer.name)
@@ -15109,7 +15120,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "textContent": _vm._s(_vm.statMax)
     }
-  })])])])])])
+  })])]), _vm._v(" "), _vm._m(1)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -15118,6 +15129,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h2', {
     staticClass: "flow-text center"
   }, [_vm._v("Create A New Adventurer")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('button', {
+    staticClass: "btn green",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Create")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

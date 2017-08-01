@@ -6,11 +6,11 @@
             </div>
         </div>
         <div class="row">
-            <form class="col s12">
+            <form class="col s12" @submit="storeAdventurer()">
               <div class="row">
                 <div class="input-field col s12">
                   <i class="material-icons prefix">account_circle</i>
-                  <input v-model="newAdventurer.name" id="name" type="text" class="validate">
+                  <input v-model="newAdventurer.name" id="name" type="text" class="validate" required>
                   <label for="name">Name</label>
                 </div>
                 <div class="input-field col s4">
@@ -32,6 +32,11 @@
               <div class="row">
                   <div class="col s12 center">
                       <button class="btn red" type="number" v-text="statMax"></button>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col s12 center">
+                      <button class="btn green" type="submit">Create</button>
                   </div>
               </div>
             </form>
