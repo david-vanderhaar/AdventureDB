@@ -38,6 +38,9 @@
                   <div class="col s12 center">
                       <button class="btn green" type="submit" v-if="created != true">Create</button>
                   </div>
+                  <div class="col s12 center">
+                    <router-link to="/" v-if="created == true"><button class="btn green">View Adventurers</button></router-link>
+                  </div>
               </div>
             </form>
         </div>
@@ -67,6 +70,7 @@
                 .then((response) => { 
                     console.log(response.data);
                     this.created = true;
+                    Materialize.toast(this.newAdventurer.name + ' is ready for adventure!', 4000) // alert the user to success
                 })
                 .catch((error) => {
                     console.log(error);

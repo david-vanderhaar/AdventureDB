@@ -14774,15 +14774,7 @@ exports.default = {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.adventurers), function(adventurer) {
-    return _c('div', {
-      staticClass: "row grey"
-    }, [_c('div', {
-      staticClass: "col s12 l8 center"
-    }, [_c('button', {
-      staticClass: "btn"
-    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true)])
-  }), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "row grey"
   }, [_c('div', {
     staticClass: "col s12 center"
@@ -14792,7 +14784,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn"
-  }, [_vm._v("Create a New Adventurer")])])], 1)])], 2)
+  }, [_vm._v("Create a New Adventurer")])])], 1)]), _vm._v(" "), _vm._l((_vm.adventurers), function(adventurer) {
+    return _c('div', {
+      staticClass: "row grey"
+    }, [_c('div', {
+      staticClass: "col s12 l8 center"
+    }, [_c('button', {
+      staticClass: "btn"
+    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true)])
+  })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -14916,6 +14916,9 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14942,6 +14945,7 @@ exports.default = {
             axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
                 console.log(response.data);
                 _this.created = true;
+                Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
             }).catch(function (error) {
                 console.log(error);
             });
@@ -15134,7 +15138,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("Create")]) : _vm._e()])])])])])
+  }, [_vm._v("Create")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 center"
+  }, [(_vm.created == true) ? _c('router-link', {
+    attrs: {
+      "to": "/"
+    }
+  }, [_c('button', {
+    staticClass: "btn green"
+  }, [_vm._v("View Adventurers")])]) : _vm._e()], 1)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
