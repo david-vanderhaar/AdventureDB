@@ -104,8 +104,10 @@ class AdventurerController extends Controller
      * @param  \App\Adventurer  $adventurer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Adventurer $adventurer)
+    public function destroy($id)
     {
-        //
+        $adventurer = Adventurer::find($id);
+        $adventurer->delete();
+        return ($adventurer);
     }
 }

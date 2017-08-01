@@ -14742,6 +14742,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
     data: function data() {
@@ -14758,6 +14759,18 @@ exports.default = {
             axios.get('/api/adventurer').then(function (response) {
                 _this.adventurers = response.data;
                 console.log(response.data);
+            });
+        },
+        deleteAdventurer: function deleteAdventurer(adventurerId) {
+            var _this2 = this;
+
+            axios.delete('/api/adventurer/' + adventurerId).then(function (response) {
+
+                _this2.getAdventurers(); //on succesfull delete, refresh adventurers
+                Materialize.toast(response.data.name + ' has retired, off to start the final journey', 4000);
+            }).catch(function (error) {
+                Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
+                Materialize.toast('We are having server issues, try again soon!', 4000);
             });
         }
     },
@@ -14791,7 +14804,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "col s12 l8 center"
     }, [_c('button', {
       staticClass: "btn"
-    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _vm._m(1, true)])
+    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _c('div', {
+      staticClass: "col s12 l4 center"
+    }, [_c('button', {
+      staticClass: "btn grey darken-3",
+      on: {
+        "click": function($event) {
+          _vm.deleteAdventurer(adventurer.id)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("delete")])]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('button', {
+      staticClass: "btn red"
+    }, [_vm._v("Embark")])])])
   })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -14802,15 +14828,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "flow-text center"
   }, [_vm._v("Your Adventurers")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s12 l4 center"
-  }, [_c('button', {
+  return _c('button', {
     staticClass: "btn yellow darken-3"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("info")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn red"
-  }, [_vm._v("Embark")])])
+  }, [_vm._v("info")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
