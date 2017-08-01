@@ -1,4 +1,4 @@
-var mapStyles = {
+let mapStyles = {
         'default': null,
         'dark': [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
@@ -191,3 +191,5 @@ var mapStyles = {
               }
             ]
       }
+
+      export default mapStyles;
