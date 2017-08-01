@@ -14878,11 +14878,79 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
+    data: function data() {
+        return {
+            newAdventurer: { //store adventure here, then pass to storeAdventurer call
+                name: '',
+                stamina: 1,
+                defense: 1,
+                attack: 1
+            },
+
+            //maximum alottment of stats to be allocated
+            statMax: 12
+
+        };
+    },
+
+
+    methods: {
+        storeAdventurer: function storeAdventurer() {
+            //save adventurer to the database
+            axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
+                console.log(response.data);
+            });
+        },
+        updateStatMax: function updateStatMax() {
+            //update the statMax display input
+            if (this.statMax >= 0) {
+                this.statMax = 15 - this.newAdventurer.stamina - this.newAdventurer.defense - this.newAdventurer.attack;
+            } else {
+                alert('You have reached this adventurer\'s limit.');
+            }
+        },
+        updateInputMax: function updateInputMax(stat) {
+            //update max on stat inputs to prevent exceeding statMax
+            return parseInt(stat) + this.statMax;
+        }
+    },
+
+    created: function created() {}
 };
 
 /***/ }),
@@ -14890,13 +14958,166 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('form', {
+    staticClass: "col s12"
   }, [_c('div', {
     staticClass: "row"
-  }, [_c('h3', [_vm._v("Create a new adventurer")])])])
+  }, [_c('div', {
+    staticClass: "input-field col s12"
+  }, [_c('i', {
+    staticClass: "material-icons prefix"
+  }, [_vm._v("account_circle")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newAdventurer.name),
+      expression: "newAdventurer.name"
+    }],
+    staticClass: "validate",
+    attrs: {
+      "id": "name",
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.newAdventurer.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newAdventurer.name = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "name"
+    }
+  }, [_vm._v("Name")])]), _vm._v(" "), _c('div', {
+    staticClass: "input-field col s4"
+  }, [_c('i', {
+    staticClass: "material-icons prefix"
+  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newAdventurer.stamina),
+      expression: "newAdventurer.stamina"
+    }],
+    staticClass: "validate",
+    attrs: {
+      "min": "1",
+      "max": _vm.updateInputMax(_vm.newAdventurer.stamina),
+      "id": "stamina",
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.newAdventurer.stamina)
+    },
+    on: {
+      "change": function($event) {
+        _vm.updateStatMax()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newAdventurer.stamina = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "stamina"
+    }
+  }, [_vm._v("Stamina")])]), _vm._v(" "), _c('div', {
+    staticClass: "input-field col s4"
+  }, [_c('i', {
+    staticClass: "material-icons prefix"
+  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newAdventurer.defense),
+      expression: "newAdventurer.defense"
+    }],
+    staticClass: "validate",
+    attrs: {
+      "min": "1",
+      "max": _vm.updateInputMax(_vm.newAdventurer.defense),
+      "id": "defense",
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.newAdventurer.defense)
+    },
+    on: {
+      "change": function($event) {
+        _vm.updateStatMax()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newAdventurer.defense = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "defense"
+    }
+  }, [_vm._v("Defense")])]), _vm._v(" "), _c('div', {
+    staticClass: "input-field col s4"
+  }, [_c('i', {
+    staticClass: "material-icons prefix"
+  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newAdventurer.attack),
+      expression: "newAdventurer.attack"
+    }],
+    staticClass: "validate",
+    attrs: {
+      "min": "1",
+      "max": _vm.updateInputMax(_vm.newAdventurer.attack),
+      "id": "attack",
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.newAdventurer.attack)
+    },
+    on: {
+      "change": function($event) {
+        _vm.updateStatMax()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newAdventurer.attack = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "attack"
+    }
+  }, [_vm._v("Attack")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "textContent": _vm._s(_vm.statMax)
+    }
+  })])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12"
+  }, [_c('h2', {
+    staticClass: "flow-text center"
+  }, [_vm._v("Create A New Adventurer")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

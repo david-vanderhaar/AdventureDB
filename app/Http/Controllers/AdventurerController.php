@@ -45,7 +45,22 @@ class AdventurerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Get User Email from request header
+        $email = ($request->server()['HTTP_PHP_AUTH_USER']);
+        //Find user based on email
+        $user = User::where('email', '=', $email)->get()[0];
+
+        $adventurer = new Adventurer;
+        $adventurer['name'] = $request->name;
+        $adventurer['stamina'] = $request->stamina;
+        $adventurer['defense'] = $request->defense;
+        $adventurer['attack'] = $request->attack;
+        $adventurer['monsters_defeated'] = 0;
+        $adventurer['treasure'] = 0;
+        $adventurer['user_id'] = $user['id'];
+        $adventurer->save();
+
+        return ($adventurer);
     }
 
     /**
