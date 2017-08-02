@@ -18,6 +18,8 @@ class CreateTreasuresTable extends Migration
             $table->string('title')->nullable();
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
+            $table->integer('treasure_type_id')->unsigned();
+            $table->foreign('treasure_type_id')->references('id')->on('treasure__types');
             $table->timestamps();
         });
     }

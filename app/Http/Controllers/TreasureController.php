@@ -14,7 +14,16 @@ class TreasureController extends Controller
      */
     public function index()
     {
-        //
+        //Get all treasure
+        $treasures = Treasure::all();
+
+        //Attach relevant treasure type info
+        foreach($treasures as $treasure){
+            $treasureType = $treasure->treasureType()->get();
+            $treasure['type'] = $treasureType;
+        }
+
+        return $treasures;
     }
 
     /**
