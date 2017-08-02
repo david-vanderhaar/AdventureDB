@@ -43,23 +43,21 @@ export default {
                 .then((response) => { 
                     this.monsters = response.data;
                     console.log('monsters recieved');
-                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers);
-                    console.log('generated?');
+                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
                 })
                 .catch((error) => {
                   console.log(error);
                 });
             },
 
-            generateMarkers(entities, markers, encounterRangeMarkers) {
+            generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
 
               // Add Interactable Markers
               (entities).forEach((entity) => {
-                console.log(entity.lat);
                 markers.push(new google.maps.Marker({
                   position: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
                   map: this.map,
-                  icon: this.monsterIcon,
+                  icon: iconGroup[entity.type[0]['name']],
                   title: 'You found something!'
                 }));
 
@@ -82,7 +80,7 @@ export default {
             initMap() {
                 this.map = new google.maps.Map($('#map')[0], {
                   center: {lat: 38.0423268, lng: -84.49276569999999},
-                  zoom: 14,
+                  zoom: 18,
                   styles: mapStyles['army']
                 });
                 this.infoWindow = new google.maps.InfoWindow;
@@ -203,7 +201,7 @@ export default {
                         fillOpacity: 0.35,
                         map: this.map,
                         center: this.pos,
-                        radius: 400
+                        radius: 10
                     });
                 }
             }, //end showHideEncounterRange

@@ -32,15 +32,33 @@ import mapMethods from './mapjs/adventurer';
                 monsters: [],
                 monsterMarkers: [],
                 monsterEncounterRangeMarkers: [],
-                monsterIcon: {
-                    path: mapIcon['monster']['slime'],
-                    fillColor: 'white',
-                    fillOpacity: 0.8,
-                    scale: .15,
-                    strokeColor: 'black',
-                    strokeWeight: 1
-                }
-            }
+                monsterIcon: { 
+                   'Slime': {
+                        path: mapIcon['monster']['slime'],
+                        fillColor: 'green',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: 'black',
+                        strokeWeight: 1
+                    },
+                    'Bear': {
+                        path: mapIcon['monster']['bear'],
+                        fillColor: 'brown',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: 'black',
+                        strokeWeight: 1
+                    },
+                    'Bandit': {
+                        path: mapIcon['monster']['bandit'],
+                        fillColor: 'black',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: 'black',
+                        strokeWeight: 1
+                    }
+                }//end monster icons
+            }//end return
         }, //end data
 
         methods: mapMethods,
