@@ -33,31 +33,43 @@ $factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
         'defense' => $faker->numberBetween($min = 2, $max = 12),
         'treasure' => $faker->numberBetween($min = 0, $max = 5000),
         'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
-        'user_id' => $faker->numberBetween($min = 1, $max = 2),
-    ];
-});
-
-// Monster_Types
-$factory->define(App\Monster_Type::class, function ($name, $s, $d, $a) {
-
-    return [
-        'name' => $name,
-        'stamina' => $s,
-        'attack' => $d,
-        'defense' => $a,
+        'user_id' => $faker->numberBetween($min = 1, $max = 2), 
     ];
 });
 
 // Monsters
 $factory->define(App\Monster::class, function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['Lexington'] = {
+         'N': 38.211404,
+         'S': 37.845256,
+         'E': -84.282715,
+         'W': -84.660415
+        };
+
+        ['LexingtonDowntown'] = {
+          'N': 38.054707,
+          'S': 38.036752,
+          'E': -84.489183,
+          'W': -84.503093
+        };
+
+        ['ChevyChase'] = {
+          'N': 38.041314,
+          'S': 37.990589,
+          'E': -84.453474,
+          'W': -84.515582
+        };
+*/
+
+    $monsterTypeIds = App\Monster_Type::all()->pluck('id')->all();
 
     return [
-        'name' => $faker->name,
-        'stamina' => $faker->numberBetween($min = 2, $max = 12),
-        'attack' => $faker->numberBetween($min = 2, $max = 12),
-        'defense' => $faker->numberBetween($min = 2, $max = 12),
-        'treasure' => $faker->numberBetween($min = 0, $max = 5000),
-        'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
-        'user_id' => $faker->numberBetween($min = 1, $max = 2),
+        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
+        'lng' => $faker->longitude($min = -84.489183, $max = -84.503093), 
+        'treasure' => $faker->numberBetween($min = 0, $max = 50),
+        'adventurers_defeated' => 0,
+        'monster_type_id' => $faker->randomElement($monsterTypeIds),
+
     ];
 });

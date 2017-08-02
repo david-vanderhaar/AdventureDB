@@ -12,5 +12,6 @@ class MonsterTableSeeder extends Seeder
     public function run()
     {
         //
+        factory(App\Monster::class, 50)->create();
     }
 }

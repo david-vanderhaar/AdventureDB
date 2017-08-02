@@ -14,7 +14,16 @@ class MonsterController extends Controller
      */
     public function index()
     {
-        //
+        //Get all monster
+        $monsters = Monster::all();
+
+        //Attach relevant monster type info
+        foreach($monsters as $monster){
+            $monsterType = $monster->monsterType()->get();
+            $monster['type'] = $monsterType;
+        }
+
+        return $monsters;
     }
 
     /**
