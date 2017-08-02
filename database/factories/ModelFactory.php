@@ -38,16 +38,13 @@ $factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
 });
 
 // Monster_Types
-$factory->define(App\Monster_Type::class, function (Faker\Generator $faker) {
+$factory->define(App\Monster_Type::class, function ($name, $s, $d, $a) {
 
     return [
-        'name' => $faker->name,
-        'stamina' => $faker->numberBetween($min = 2, $max = 12),
-        'attack' => $faker->numberBetween($min = 2, $max = 12),
-        'defense' => $faker->numberBetween($min = 2, $max = 12),
-        'treasure' => $faker->numberBetween($min = 0, $max = 5000),
-        'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
-        'user_id' => $faker->numberBetween($min = 1, $max = 2),
+        'name' => $name,
+        'stamina' => $s,
+        'attack' => $d,
+        'defense' => $a,
     ];
 });
 
