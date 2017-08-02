@@ -1,9 +1,9 @@
 import mapIcon from './map-icons'; //import icons for map objects
 
 //watch postition vars
-      var timeoutVal = 10 * 1000 * 1000;
+let timeoutVal = 10 * 1000 * 1000;
       
-      var watchId = null;
+let watchId = null;
 
 //Build the Adventurer Icon here
 let adventurerIcon = {
@@ -17,7 +17,7 @@ let adventurerIcon = {
 
 //Build the Adventurer encounter radius here
 //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
-var adventurerEncounterRangeMarker = null;
+let adventurerEncounterRangeMarker = null;
 
 function generateAdventurer (pos, map ,marker) {
   marker = new google.maps.Marker({
@@ -30,7 +30,7 @@ function generateAdventurer (pos, map ,marker) {
   // showHideEncounterRangeMarker();
 }
 
-function updateAdventurerPosition () {
+function updateAdventurerPosition (infoWindow, map, handleLocationError) {
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     
@@ -58,29 +58,26 @@ function pauseUpdateAdventurerPosition () {
 }
 
 function successAdventurerWatch(position) {
-      pos = {
+      this.pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
 
       //Update encounter range to adventurer
       if (adventurerEncounterRangeMarker != null) {
-        adventurerEncounterRangeMarker.setCenter(pos);
+        adventurerEncounterRangeMarker.setCenter(this.pos);
       }
 
-      console.log(pos);
-
-
-      consoleDisplay.innerText = 'lat: ' + pos['lat'] + ' ' + 'lng: ' + pos['lng'];
+      console.log(this.pos);
       
       //Updates Adventurer Marker
-      adventurerMarker.setPosition(pos);
+      this.adventurerMarker.setPosition(this.pos);
 
       //Monsters check for adventurer
       // checkForAdventurer();
       //Adventurer checks for monsters
-      checkForMonster();
-      checkForTreasure();
+      // checkForMonster();
+      // checkForTreasure();
       // checkForInteractable();
   }
 
@@ -110,8 +107,8 @@ function successAdventurerWatch(position) {
 //May later change this to checking for interactable
 function checkForMonster () {
   if (Monster.entitys != [] && adventurerEncounterRangeMarker != null) { 
-    var bounds = adventurerEncounterRangeMarker.getBounds();
-    for (var i in Monster.entitys) {
+    let bounds = adventurerEncounterRangeMarker.getBounds();
+    for (let i in Monster.entitys) {
       if (bounds.contains(Monster.entitys[i].interactablePos)) {
         console.log('fight!');
         console.log('You have encountered a monster that has '
@@ -131,8 +128,8 @@ function checkForMonster () {
 //May later change this to checking for interactable
 function checkForTreasure () {
   if (Treasure.entitys != [] && adventurerEncounterRangeMarker != null) { 
-    var bounds = adventurerEncounterRangeMarker.getBounds();
-    for (var i in Treasure.entitys) {
+    let bounds = adventurerEncounterRangeMarker.getBounds();
+    for (let i in Treasure.entitys) {
       if (bounds.contains(Treasure.entitys[i].interactablePos)) {
         console.log('Gold!');
         consoleDisplay.innerText = 'Treasure!';
@@ -142,5 +139,8 @@ function checkForTreasure () {
 }
 
 
-export {generateAdventurer, adventurerIcon};
+export {generateAdventurer,
+        adventurerIcon,
+        updateAdventurerPosition,
+        successAdventurerWatch};
 
