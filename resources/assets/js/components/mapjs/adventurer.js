@@ -34,8 +34,51 @@ function checkForTreasure () {
     }
   }
 }
+
 import mapStyles from './map-styles'; //import map styles
 export default {
+
+            getMonsters() {
+              axios.get('/api/monster')
+                .then((response) => { 
+                    this.monsters = response.data;
+                    console.log('monsters recieved');
+                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers);
+                    console.log('generated?');
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            },
+
+            generateMarkers(entities, markers, encounterRangeMarkers) {
+
+              // Add Interactable Markers
+              (entities).forEach((entity) => {
+                console.log(entity.lat);
+                markers.push(new google.maps.Marker({
+                  position: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
+                  map: this.map,
+                  icon: this.monsterIcon,
+                  title: 'You found something!'
+                }));
+
+                // Add Interactable Encounter Range Markers
+                encounterRangeMarkers.push(new google.maps.Circle({
+                  strokeColor: '#0000',
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
+                  fillColor: 'red',
+                  fillOpacity: 0.35,
+                  map: this.map,
+                  center: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
+                  radius: 30
+                }));
+              });
+
+          }, //end generate markers
+
+
             initMap() {
                 this.map = new google.maps.Map($('#map')[0], {
                   center: {lat: 38.0423268, lng: -84.49276569999999},

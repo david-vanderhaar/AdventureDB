@@ -6,7 +6,7 @@
 
 <script>
 import mapIcon from './mapjs/map-icons'; //import icons for map objects
-import adventurerMethods from './mapjs/adventurer';
+import mapMethods from './mapjs/adventurer';
 
     export default {
         data() {
@@ -15,6 +15,8 @@ import adventurerMethods from './mapjs/adventurer';
                 infoWindow: null,
                 watchId: null,
                 pos: null,
+
+                //Adventurer Vars
                 adventurerMarker: null,
                 adventurerIcon: {
                     path: mapIcon['adventurer']['WingedSword'],
@@ -25,13 +27,27 @@ import adventurerMethods from './mapjs/adventurer';
                     strokeWeight: 1
                 }, //end adventurerIcon
                 adventurerEncounterRangeMarker: null,
+
+                //Monster Vars
+                monsters: [],
+                monsterMarkers: [],
+                monsterEncounterRangeMarkers: [],
+                monsterIcon: {
+                    path: mapIcon['monster']['slime'],
+                    fillColor: 'white',
+                    fillOpacity: 0.8,
+                    scale: .15,
+                    strokeColor: 'black',
+                    strokeWeight: 1
+                }
             }
         }, //end data
 
-        methods: adventurerMethods,
+        methods: mapMethods,
 
         mounted() {
             this.initMap();
+            this.getMonsters();
             console.log('map dash mounted');
         }, //end mounted
 

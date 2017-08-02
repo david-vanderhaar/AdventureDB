@@ -15641,6 +15641,8 @@ exports.default = {
             infoWindow: null,
             watchId: null,
             pos: null,
+
+            //Adventurer Vars
             adventurerMarker: null,
             adventurerIcon: {
                 path: _mapIcons2.default['adventurer']['WingedSword'],
@@ -15650,7 +15652,20 @@ exports.default = {
                 strokeColor: 'black',
                 strokeWeight: 1
             }, //end adventurerIcon
-            adventurerEncounterRangeMarker: null
+            adventurerEncounterRangeMarker: null,
+
+            //Monster Vars
+            monsters: [],
+            monsterMarkers: [],
+            monsterEncounterRangeMarkers: [],
+            monsterIcon: {
+                path: _mapIcons2.default['monster']['slime'],
+                fillColor: 'white',
+                fillOpacity: 0.8,
+                scale: .15,
+                strokeColor: 'black',
+                strokeWeight: 1
+            }
         };
     },
     //end data
@@ -15658,20 +15673,14 @@ exports.default = {
     methods: _adventurer2.default,
 
     mounted: function mounted() {
-        // this.map = null;
-        // this.infoWindow = null;
-        // this.watchId = null;
-        // this.pos = null;
-        // this.adventurerMarker = null;
-        // this.adventurerIcon = null;
-        // this.adventurerEncounterRangeMarker = null;
         this.initMap();
+        this.getMonsters();
         console.log('map dash mounted');
     },
     //end mounted
 
     beforeDestroy: function beforeDestroy() {
-        console.log('destroy');
+        console.log('map dash destroy');
     }
 }; //import icons for map objects
 
@@ -15713,7 +15722,7 @@ exports.default = mapIcon;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _mapStyles = __webpack_require__(50);
@@ -15725,165 +15734,207 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //Adventurer Checks for Monster
 //May later change this to checking for interactable
 function checkForMonster() {
-    if (Monster.entitys != [] && adventurerEncounterRangeMarker != null) {
-        var bounds = adventurerEncounterRangeMarker.getBounds();
-        for (var i in Monster.entitys) {
-            if (bounds.contains(Monster.entitys[i].interactablePos)) {
-                console.log('fight!');
-                console.log('You have encountered a monster that has ' + Monster.entitys[i].stats['health'] + ' points of health, ' + Monster.entitys[i].stats['attack'] + ' points of attack, and ' + Monster.entitys[i].stats['defense'] + ' points of defense.');
-                consoleDisplay.innerText = 'Fight!';
-            }
-        }
+  if (Monster.entitys != [] && adventurerEncounterRangeMarker != null) {
+    var bounds = adventurerEncounterRangeMarker.getBounds();
+    for (var i in Monster.entitys) {
+      if (bounds.contains(Monster.entitys[i].interactablePos)) {
+        console.log('fight!');
+        console.log('You have encountered a monster that has ' + Monster.entitys[i].stats['health'] + ' points of health, ' + Monster.entitys[i].stats['attack'] + ' points of attack, and ' + Monster.entitys[i].stats['defense'] + ' points of defense.');
+        consoleDisplay.innerText = 'Fight!';
+      }
     }
+  }
 }
 
 //Adventurer Checks for Treasure
 //May later change this to checking for interactable
 function checkForTreasure() {
-    if (Treasure.entitys != [] && adventurerEncounterRangeMarker != null) {
-        var bounds = adventurerEncounterRangeMarker.getBounds();
-        for (var i in Treasure.entitys) {
-            if (bounds.contains(Treasure.entitys[i].interactablePos)) {
-                console.log('Gold!');
-                consoleDisplay.innerText = 'Treasure!';
-            }
-        }
+  if (Treasure.entitys != [] && adventurerEncounterRangeMarker != null) {
+    var bounds = adventurerEncounterRangeMarker.getBounds();
+    for (var i in Treasure.entitys) {
+      if (bounds.contains(Treasure.entitys[i].interactablePos)) {
+        console.log('Gold!');
+        consoleDisplay.innerText = 'Treasure!';
+      }
     }
+  }
 }
+
 //import map styles
 exports.default = {
-    initMap: function initMap() {
-        this.map = new google.maps.Map($('#map')[0], {
-            center: { lat: 38.0423268, lng: -84.49276569999999 },
-            zoom: 14,
-            styles: _mapStyles2.default['army']
-        });
-        this.infoWindow = new google.maps.InfoWindow();
+  getMonsters: function getMonsters() {
+    var _this = this;
 
-        this.getCurrentLocation();
-        this.updateAdventurerPosition();
-    },
-    getCurrentLocation: function getCurrentLocation() {
-        var _this = this;
+    axios.get('/api/monster').then(function (response) {
+      _this.monsters = response.data;
+      console.log('monsters recieved');
+      _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers);
+      console.log('generated?');
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+  generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers) {
+    var _this2 = this;
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
+    // Add Interactable Markers
+    entities.forEach(function (entity) {
+      console.log(entity.lat);
+      markers.push(new google.maps.Marker({
+        position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        map: _this2.map,
+        icon: _this2.monsterIcon,
+        title: 'You found something!'
+      }));
 
-                _this.pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+      // Add Interactable Encounter Range Markers
+      encounterRangeMarkers.push(new google.maps.Circle({
+        strokeColor: '#0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'red',
+        fillOpacity: 0.35,
+        map: _this2.map,
+        center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        radius: 30
+      }));
+    });
+  },
+  //end generate markers
 
-                _this.infoWindow.setPosition(_this.pos);
-                _this.infoWindow.setContent('Adventurer, you are here');
-                _this.infoWindow.open(_this.map);
 
-                _this.map.setCenter(_this.pos);
+  initMap: function initMap() {
+    this.map = new google.maps.Map($('#map')[0], {
+      center: { lat: 38.0423268, lng: -84.49276569999999 },
+      zoom: 14,
+      styles: _mapStyles2.default['army']
+    });
+    this.infoWindow = new google.maps.InfoWindow();
 
-                //Generates Adventurer Marker
-                _this.generateAdventurer(_this.pos, _this.map);
-            }, function () {
-                _this.handleLocationError(true, _this.infoWindow, _this.map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-        }
-    },
-    //end getCurrentLocation
+    this.getCurrentLocation();
+    this.updateAdventurerPosition();
+  },
+  getCurrentLocation: function getCurrentLocation() {
+    var _this3 = this;
 
-    handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(this.map);
-    },
-    //end handleLocationError
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
 
-    generateAdventurer: function generateAdventurer() {
-        this.adventurerMarker = new google.maps.Marker({
-            position: this.pos,
-            map: this.map,
-            icon: this.adventurerIcon,
-            title: 'Adventurer, you are here'
-        });
-
-        this.showHideEncounterRange();
-    },
-    //end generateAdventurer
-
-    updateAdventurerPosition: function updateAdventurerPosition() {
-        var _this2 = this;
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-
-            //Clear old watch first, then create new one
-            navigator.geolocation.clearWatch(this.watchId);
-
-            //Set watch id and watch position
-            this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-                _this2.handleLocationError(true, _this2.infoWindow, _this2.map.getCenter());
-            }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
-        } else {
-            // Browser doesn't support Geolocation
-            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-        }
-    },
-    //end updateAdventurerPosition
-
-    pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
-        if (navigator.geolocation) {
-            navigator.geolocation.clearWatch(this.watchId);
-        }
-    },
-    //end updateAdventurerPositionStop
-
-    updateAdventurerSuccess: function updateAdventurerSuccess(position) {
-        this.pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
+        _this3.pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
 
-        //Update encounter range to adventurer
-        if (this.adventurerEncounterRangeMarker != null) {
-            this.adventurerEncounterRangeMarker.setCenter(this.pos);
-        }
+        _this3.infoWindow.setPosition(_this3.pos);
+        _this3.infoWindow.setContent('Adventurer, you are here');
+        _this3.infoWindow.open(_this3.map);
 
-        console.log(this.pos.lat + ' ' + this.pos.lng);
+        _this3.map.setCenter(_this3.pos);
 
-        //Updates Adventurer Marker
-        this.adventurerMarker.setPosition(this.pos);
-
-        //Monsters check for adventurer
-        // checkForAdventurer();
-        //Adventurer checks for monsters
-        // checkForMonster();
-        // checkForTreasure();
-        // checkForInteractable();
-    },
-    //end updateAdventurerSuccess
-
-    showHideEncounterRange: function showHideEncounterRange() {
-        //First hide and clear old marker
-        if (this.adventurerEncounterRangeMarker != null) {
-            this.adventurerEncounterRangeMarker.setMap(null);
-            this.adventurerEncounterRangeMarker = null;
-        } else {
-            //Build the Adventurer encounter radius here
-            //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
-            this.adventurerEncounterRangeMarker = new google.maps.Circle({
-                strokeColor: '#0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: 'blue',
-                fillOpacity: 0.35,
-                map: this.map,
-                center: this.pos,
-                radius: 400
-            });
-        }
+        //Generates Adventurer Marker
+        _this3.generateAdventurer(_this3.pos, _this3.map);
+      }, function () {
+        _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
     }
+  },
+  //end getCurrentLocation
+
+  handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(this.map);
+  },
+  //end handleLocationError
+
+  generateAdventurer: function generateAdventurer() {
+    this.adventurerMarker = new google.maps.Marker({
+      position: this.pos,
+      map: this.map,
+      icon: this.adventurerIcon,
+      title: 'Adventurer, you are here'
+    });
+
+    this.showHideEncounterRange();
+  },
+  //end generateAdventurer
+
+  updateAdventurerPosition: function updateAdventurerPosition() {
+    var _this4 = this;
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+
+      //Clear old watch first, then create new one
+      navigator.geolocation.clearWatch(this.watchId);
+
+      //Set watch id and watch position
+      this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
+        _this4.handleLocationError(true, _this4.infoWindow, _this4.map.getCenter());
+      }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
+    } else {
+      // Browser doesn't support Geolocation
+      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
+    }
+  },
+  //end updateAdventurerPosition
+
+  pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.clearWatch(this.watchId);
+    }
+  },
+  //end updateAdventurerPositionStop
+
+  updateAdventurerSuccess: function updateAdventurerSuccess(position) {
+    this.pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
+
+    //Update encounter range to adventurer
+    if (this.adventurerEncounterRangeMarker != null) {
+      this.adventurerEncounterRangeMarker.setCenter(this.pos);
+    }
+
+    console.log(this.pos.lat + ' ' + this.pos.lng);
+
+    //Updates Adventurer Marker
+    this.adventurerMarker.setPosition(this.pos);
+
+    //Monsters check for adventurer
+    // checkForAdventurer();
+    //Adventurer checks for monsters
+    // checkForMonster();
+    // checkForTreasure();
+    // checkForInteractable();
+  },
+  //end updateAdventurerSuccess
+
+  showHideEncounterRange: function showHideEncounterRange() {
+    //First hide and clear old marker
+    if (this.adventurerEncounterRangeMarker != null) {
+      this.adventurerEncounterRangeMarker.setMap(null);
+      this.adventurerEncounterRangeMarker = null;
+    } else {
+      //Build the Adventurer encounter radius here
+      //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
+      this.adventurerEncounterRangeMarker = new google.maps.Circle({
+        strokeColor: '#0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'blue',
+        fillOpacity: 0.35,
+        map: this.map,
+        center: this.pos,
+        radius: 400
+      });
+    }
+  }
 };
 
 /***/ }),
