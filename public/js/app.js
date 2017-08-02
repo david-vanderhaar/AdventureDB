@@ -15930,12 +15930,8 @@ exports.default = {
     //Updates Adventurer Marker
     this.adventurerMarker.setPosition(this.pos);
 
-    //Monsters check for adventurer
-    // checkForAdventurer();
     //Adventurer checks for monsters
-    // checkForMonster();
-    // checkForTreasure();
-    // checkForInteractable();
+    this.checkForEntity(this.monsters);
   },
   //end updateAdventurerSuccess
 
@@ -15955,7 +15951,20 @@ exports.default = {
         fillOpacity: 0.35,
         map: this.map,
         center: this.pos,
-        radius: 10
+        radius: 200
+      });
+    }
+  },
+  //end showHideEncounterRange
+
+  checkForEntity: function checkForEntity(entities) {
+    if (entities != [] && this.adventurerEncounterRangeMarker != null) {
+      var bounds = this.adventurerEncounterRangeMarker.getBounds();
+
+      entities.forEach(function (entity) {
+        if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
+          console.log('Encounter!');
+        }
       });
     }
   }
