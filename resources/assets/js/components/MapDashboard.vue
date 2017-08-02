@@ -31,8 +31,20 @@ import adventurerMethods from './mapjs/adventurer';
         methods: adventurerMethods,
 
         mounted() {
+            // this.map = null;
+            // this.infoWindow = null;
+            // this.watchId = null;
+            // this.pos = null;
+            // this.adventurerMarker = null;
+            // this.adventurerIcon = null;
+            // this.adventurerEncounterRangeMarker = null;
             this.initMap();
+            console.log('map dash mounted');
         }, //end mounted
+
+        beforeDestroy() {
+            console.log('destroy');
+        }, //end beforeDestroy
     }
 </script>
 

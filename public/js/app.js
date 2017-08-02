@@ -15658,7 +15658,20 @@ exports.default = {
     methods: _adventurer2.default,
 
     mounted: function mounted() {
+        // this.map = null;
+        // this.infoWindow = null;
+        // this.watchId = null;
+        // this.pos = null;
+        // this.adventurerMarker = null;
+        // this.adventurerIcon = null;
+        // this.adventurerEncounterRangeMarker = null;
         this.initMap();
+        console.log('map dash mounted');
+    },
+    //end mounted
+
+    beforeDestroy: function beforeDestroy() {
+        console.log('destroy');
     }
 }; //import icons for map objects
 
@@ -15748,7 +15761,7 @@ exports.default = {
         this.infoWindow = new google.maps.InfoWindow();
 
         this.getCurrentLocation();
-        this.updateAdventurerPosition(this.infoWindow, this.map, this.handleLocationError);
+        this.updateAdventurerPosition();
     },
     getCurrentLocation: function getCurrentLocation() {
         var _this = this;
@@ -15799,7 +15812,7 @@ exports.default = {
     },
     //end generateAdventurer
 
-    updateAdventurerPosition: function updateAdventurerPosition(infoWindow, map, handleLocationError) {
+    updateAdventurerPosition: function updateAdventurerPosition() {
         var _this2 = this;
 
         // Try HTML5 geolocation.
@@ -15810,11 +15823,11 @@ exports.default = {
 
             //Set watch id and watch position
             this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-                _this2.handleLocationError(true, infoWindow, map.getCenter());
+                _this2.handleLocationError(true, _this2.infoWindow, _this2.map.getCenter());
             }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
         } else {
             // Browser doesn't support Geolocation
-            this.handleLocationError(false, infoWindow, map.getCenter());
+            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
         }
     },
     //end updateAdventurerPosition
