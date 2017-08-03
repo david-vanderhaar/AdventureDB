@@ -2,6 +2,12 @@
     <div class="container">
         <div id="map" class="grey"></div>
 
+        <div class="row">
+            <div class="col s12">
+                <router-link to="/"><button class="center btn green darken-2">Back to the Tavern</button></router-link>
+            </div>
+        </div>
+
         <!-- Modal Structure -->
         <div id="monster-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
@@ -50,7 +56,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat">Fight!</a>
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Fight!</a>
                     <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Run</a>
             </div>
         </div>
@@ -162,7 +168,7 @@ import mapMethods from './mapjs/adventurer';
         }, //end mounted
 
         beforeDestroy() {
-            
+
         }, //end beforeDestroy
     }
 </script>

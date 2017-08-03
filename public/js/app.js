@@ -15739,6 +15739,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -16308,6 +16314,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "map"
     }
   }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12"
+  }, [_c('router-link', {
+    attrs: {
+      "to": "/"
+    }
+  }, [_c('button', {
+    staticClass: "center btn green darken-2"
+  }, [_vm._v("Back to the Tavern")])])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "monster-modal"
@@ -16401,7 +16417,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
+    on: {
+      "click": function($event) {
+        _vm.deactivateMonster(_vm.monsterActive)
+      }
+    }
   }, [_vm._v("Fight!")]), _vm._v(" "), _c('a', {
     staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
     on: {
