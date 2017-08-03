@@ -76,8 +76,19 @@ import mapMethods from './mapjs/adventurer';
         }, //end data
 
         methods: mapMethods,
+        created() {
+            
+            //initialize the encounter modal
+            $(document).ready(function(){
+                // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+                $('.modal').modal();
+            });
+        },
 
         mounted() {
+
+            
+
             this.initMap();
             this.getMonsters();
             this.getActiveAdventurer();

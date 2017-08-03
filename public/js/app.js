@@ -3382,9 +3382,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 new Vue({
 
-    el: '#app',
+	el: '#app',
 
-    router: _routes2.default
+	router: _routes2.default
 });
 
 // Initialize Materialze Components
@@ -3393,13 +3393,8 @@ $(".button-collapse").sideNav(); //side navs
 $(".dropdown-button").dropdown(); //dropdowns
 
 $(document).ready(function () {
-    //input fields
-    Materialize.updateTextFields();
-});
-
-$(document).ready(function () {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
+	//input fields
+	Materialize.updateTextFields();
 });
 
 /***/ }),
@@ -14797,7 +14792,7 @@ exports.default = {
         disembarkAdventurers: function disembarkAdventurers(adventurers) {
             adventurers.forEach(function (adventurer) {
                 axios.patch('/api/adventurer/deactivate/' + adventurer.id).then(function (response) {
-                    Materialize.toast(adventurer.name + ' is back at the tavern, ready to journey', 4000);
+                    Materialize.toast(adventurer.name + ' is here at the tavern, ready to journey', 4000);
                 });
             });
         }
@@ -15736,8 +15731,14 @@ exports.default = {
     //end data
 
     methods: _adventurer2.default,
-
+    created: function created() {
+        $(document).ready(function () {
+            // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+            $('.modal').modal();
+        });
+    },
     mounted: function mounted() {
+
         this.initMap();
         this.getMonsters();
         this.getActiveAdventurer();
