@@ -158,12 +158,11 @@ import mapMethods from './mapjs/adventurer';
             this.initMap();
             this.getMonsters();
             this.getActiveAdventurer();
-            console.log('map dash mounted');
 
         }, //end mounted
 
         beforeDestroy() {
-            console.log('map dash destroy');
+            
         }, //end beforeDestroy
     }
 </script>

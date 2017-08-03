@@ -6,7 +6,6 @@ export default {
               axios.get('/api/monster')
                 .then((response) => { 
                     this.monsters = response.data;
-                    console.log('monsters recieved');
                     this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
                 })
                 .catch((error) => {
@@ -103,12 +102,9 @@ export default {
             getActiveAdventurer() {
                  axios.get('/api/adventurer')
                 .then((response) => { 
-                  console.log('get active');
-                  console.log(response.data);
                     response.data.forEach((adventurer) => {
                       if (adventurer.active) {
                         this.adventurerActive = adventurer; //capture users active adventurer
-                        console.log(adventurer);
                       }
                     });
                     
@@ -152,7 +148,6 @@ export default {
                     this.adventurerEncounterRangeMarker.setCenter(this.pos);
                 }
 
-                console.log(this.pos.lat + ' ' + this.pos.lng);
 
                 //Updates Adventurer Marker
                 this.adventurerMarker.setPosition(this.pos);
@@ -167,7 +162,6 @@ export default {
             }, //end updateAdventurerSuccess
 
             showHideEncounterRange () {
-              console.log('show hide');
                 //First hide and clear old marker
                 if (this.adventurerEncounterRangeMarker != null) {
                     this.adventurerEncounterRangeMarker.setMap(null);
@@ -193,9 +187,7 @@ export default {
                 let bounds = this.adventurerEncounterRangeMarker.getBounds();
 
                 entities.forEach((entity) => {
-                  if (bounds.contains({lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)})) {
-                    console.log('Encounter!');
-                    
+                  if (bounds.contains({lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)})) {                    
 
                       switch(entityType) {
                         case 'monster':
