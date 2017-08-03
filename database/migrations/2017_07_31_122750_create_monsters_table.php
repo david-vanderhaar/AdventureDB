@@ -21,6 +21,7 @@ class CreateMonstersTable extends Migration
             $table->integer('treasure');
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
+            $table->boolean('active');
             $table->integer('monster_type_id')->unsigned();
             $table->foreign('monster_type_id')->references('id')->on('monster__types');
             $table->timestamps();

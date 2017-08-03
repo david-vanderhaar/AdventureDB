@@ -81,6 +81,20 @@ class MonsterController extends Controller
         //
     }
 
+    public function activate($id) {
+        $monster = Monster::find($id);
+        $monster['active'] = true;
+        
+        return $monster;
+    }
+
+    public function deactivate($id) {
+        $monster = Monster::find($id);
+        $monster['active'] = false;
+        
+        return $monster;
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -57,6 +57,7 @@ class AdventurerController extends Controller
         $adventurer['attack'] = $request->attack;
         $adventurer['monsters_defeated'] = 0;
         $adventurer['treasure'] = 0;
+        $adventurer['active'] = false;
         $adventurer['user_id'] = $user['id'];
         $adventurer->save();
 
@@ -95,7 +96,21 @@ class AdventurerController extends Controller
      */
     public function update(Request $request, Adventurer $adventurer)
     {
-        //
+        
+    }
+
+    public function activate($id) {
+        $adventurer = Adventurer::find($id);
+        $adventurer['active'] = true;
+        
+        return $adventurer;
+    }
+
+    public function deactivate($id) {
+        $adventurer = Adventurer::find($id);
+        $adventurer['active'] = false;
+        
+        return $adventurer;
     }
 
     /**

@@ -38,7 +38,7 @@
                     this.adventurers = response.data;
                     console.log(response.data);
                 });
-            },
+            }, //end getAdventurers
 
             deleteAdventurer(adventurerId) {
                 axios.delete('/api/adventurer/'+adventurerId)
@@ -51,7 +51,18 @@
                     Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
                     Materialize.toast('We are having server issues, try again soon!', 4000);
                 });
-            },
+            }, //end deleteAdventurers
+
+            embarkAdventurer(id) {
+                axios.patch('/api/adventurer/activate/'+id)
+                .then((response) => { 
+                    console.log(response.data);
+                });
+            }, //end embarkAdventurer
+
+            disembarkAdventurers(adventurers) {
+                
+            }, //end disembarkAdventurers
         },
 
         created() {

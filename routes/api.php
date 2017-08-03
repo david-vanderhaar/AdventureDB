@@ -19,6 +19,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('adventurer', 'AdventurerController');
 
+//Control adventure activation (active on embark)
+Route::patch('adventurer/activate/{adventurer}', 'AdventurerController@activate');
+Route::patch('adventurer/deactivate/{adventurer}', 'AdventurerController@deactivate');
+
 Route::resource('monster', 'MonsterController');
+
+//Control adventure activation (active on embark)
+Route::patch('monster/activate/{monster}', 'MonsterController@activate');
+Route::patch('monster/deactivate/{monster}', 'MonsterController@deactivate');
 
 Route::resource('treasure', 'TreasureController');

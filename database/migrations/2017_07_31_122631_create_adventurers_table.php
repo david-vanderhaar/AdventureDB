@@ -22,6 +22,7 @@ class CreateAdventurersTable extends Migration
             $table->integer('attack');
             $table->integer('monsters_defeated');
             $table->integer('treasure');
+            $table->boolean('active');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

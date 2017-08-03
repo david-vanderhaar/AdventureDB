@@ -11,6 +11,6 @@ class AdventurerTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Adventurer::class, 10)->create();
     }
 }

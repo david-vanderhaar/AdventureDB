@@ -32,6 +32,7 @@ $factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
         'attack' => $faker->numberBetween($min = 2, $max = 12),
         'defense' => $faker->numberBetween($min = 2, $max = 12),
         'treasure' => $faker->numberBetween($min = 0, $max = 5000),
+        'active' => false,
         'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
         'user_id' => $faker->numberBetween($min = 1, $max = 2), 
     ];
@@ -69,6 +70,7 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) {
         'lng' => $faker->longitude($min = -84.489183, $max = -84.503093), 
         'treasure' => $faker->numberBetween($min = 0, $max = 50),
         'adventurers_defeated' => 0,
+        'active' => false,
         'monster_type_id' => $faker->randomElement($monsterTypeIds),
 
     ];
