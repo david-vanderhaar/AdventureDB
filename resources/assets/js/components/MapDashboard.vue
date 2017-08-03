@@ -1,16 +1,15 @@
 <template>
     <div class="container">
         <div id="map" class="grey"></div>
-        <!-- Modal Trigger -->
-        <a class="waves-effect waves-light btn modal-trigger" href="#encounter-modal">Modal</a>
+
         <!-- Modal Structure -->
         <div id="encounter-modal" class="modal">
             <div class="modal-content">
-              <h4>Modal Header</h4>
-              <p>A bunch of text</p>
+                <h4>Modal Header</h4>
+                <p>A bunch of text</p>
             </div>
             <div class="modal-footer">
-              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
             </div>
         </div>
   </div>
@@ -23,7 +22,6 @@ import mapMethods from './mapjs/adventurer';
     export default {
         data() {
             return {
-                // modal: $('#encounter-modal'),
 
                 map: null,
                 infoWindow: null,
@@ -31,6 +29,7 @@ import mapMethods from './mapjs/adventurer';
                 pos: null,
 
                 //Adventurer Vars
+                adventurerActive: null,
                 adventurerMarker: null,
                 adventurerIcon: {
                     path: mapIcon['adventurer']['WingedSword'],
@@ -43,6 +42,7 @@ import mapMethods from './mapjs/adventurer';
                 adventurerEncounterRangeMarker: null,
 
                 //Monster Vars
+                monsterActive: null,
                 monsters: [],
                 monsterMarkers: [],
                 monsterEncounterRangeMarkers: [],
@@ -80,9 +80,8 @@ import mapMethods from './mapjs/adventurer';
         mounted() {
             this.initMap();
             this.getMonsters();
-            // $('#encounter-modal').modal('open');
-            // document.getElementById('encounter-modal').modal('open');
             console.log('map dash mounted');
+
         }, //end mounted
 
         beforeDestroy() {

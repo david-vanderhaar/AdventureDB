@@ -210,7 +210,9 @@ export default {
                 entities.forEach((entity) => {
                   if (bounds.contains({lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)})) {
                     console.log('Encounter!');
-                    
+                    if (!$('#encounter-modal').modal('open')) {
+                      $('#encounter-modal').modal('open');
+                    }
                   } 
                 });
               }

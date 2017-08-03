@@ -15649,12 +15649,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 
 exports.default = {
     data: function data() {
         return {
-            // modal: $('#encounter-modal'),
 
             map: null,
             infoWindow: null,
@@ -15662,6 +15660,7 @@ exports.default = {
             pos: null,
 
             //Adventurer Vars
+            adventurerActive: null,
             adventurerMarker: null,
             adventurerIcon: {
                 path: _mapIcons2.default['adventurer']['WingedSword'],
@@ -15674,6 +15673,7 @@ exports.default = {
             adventurerEncounterRangeMarker: null,
 
             //Monster Vars
+            monsterActive: null,
             monsters: [],
             monsterMarkers: [],
             monsterEncounterRangeMarkers: [],
@@ -15712,8 +15712,6 @@ exports.default = {
     mounted: function mounted() {
         this.initMap();
         this.getMonsters();
-        // $('#encounter-modal').modal('open');
-        document.getElementById('encounter-modal').modal('open');
         console.log('map dash mounted');
     },
     //end mounted
@@ -15985,6 +15983,9 @@ exports.default = {
       entities.forEach(function (entity) {
         if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
           console.log('Encounter!');
+          if (!$('#encounter-modal').modal('open')) {
+            $('#encounter-modal').modal('open');
+          }
         }
       });
     }
@@ -16167,12 +16168,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "map"
     }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "waves-effect waves-light btn modal-trigger",
-    attrs: {
-      "href": "#encounter-modal"
-    }
-  }, [_vm._v("Modal")]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "modal",
     attrs: {
       "id": "encounter-modal"
@@ -16182,10 +16178,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h4', [_vm._v("Modal Header")]), _vm._v(" "), _c('p', [_vm._v("A bunch of text")])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
-    attrs: {
-      "href": "#!"
-    }
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
   }, [_vm._v("Agree")])])])])
 }]}
 module.exports.render._withStripped = true
