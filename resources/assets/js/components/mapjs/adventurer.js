@@ -194,11 +194,12 @@ export default {
                 this.adventurerMarker.setPosition(this.pos);
 
                 //Adventurer checks for monsters
-                this.checkForEntity(this.monsters);
+                this.checkForEntity(this.monsters, 'monster');
                 
             }, //end updateAdventurerSuccess
 
             showHideEncounterRange () {
+              console.log('show hide');
                 //First hide and clear old marker
                 if (this.adventurerEncounterRangeMarker != null) {
                     this.adventurerEncounterRangeMarker.setMap(null);
@@ -219,19 +220,58 @@ export default {
                 }
             }, //end showHideEncounterRange
 
-            checkForEntity (entities) {
+            checkForEntity (entities, entityType) {
               if (entities != [] && this.adventurerEncounterRangeMarker != null) { 
                 let bounds = this.adventurerEncounterRangeMarker.getBounds();
 
                 entities.forEach((entity) => {
                   if (bounds.contains({lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)})) {
                     console.log('Encounter!');
-                    if (!$('#encounter-modal').modal('open')) {
-                      $('#encounter-modal').modal('open');
-                    }
-                  } 
+                    
+
+                      switch(entityType) {
+                        case 'monster':
+                          if (this.encounter == false) {
+                             $('#monster-modal').modal('open'); //open modal
+                             this.activateMonster(entity); //activate monster
+
+                           }
+
+                             // this.pauseUpdateAdventurerPosition();
+                             // this.showHideEncounterRange(); //break the forEach after first encounter
+                            break;
+                        case 'treasure':
+                            
+                            break;
+
+
+                    } //end switch
+
+                    this.encounter = true; //set status to true to interupt further activations
+
+                  }
+
+                  
+
                 });
               }
           }, //end check for entity
+
+          activateMonster(monster) {
+                axios.patch('/api/monster/activate/'+monster.id)
+                .then((response) => { 
+                    console.log('monster activated');
+                    console.log(monster);
+                    this.monsterActive = monster;
+                });
+            }, //end activateMonster
+
+            deactivateMonster(monster) {
+                    axios.patch('/api/monster/deactivate/'+monster.id)
+                        .then((response) => { 
+                          console.log(response.data);
+                          this.encounter = false; //set status to false to continue further activations
+                        });
+            }, //end deactivateMonster
         } //end methods
 

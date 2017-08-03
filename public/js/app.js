@@ -15704,6 +15704,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -15713,6 +15725,8 @@ exports.default = {
             infoWindow: null,
             watchId: null,
             pos: null,
+
+            encounter: false,
 
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
@@ -15733,7 +15747,16 @@ exports.default = {
             adventurerEncounterRangeMarker: null,
 
             //Monster Vars
-            monsterActive: null,
+            monsterActive: { //placeholder for encounter modal initialization
+                active: false,
+                type: [{
+                    name: 'none',
+                    stamina: '0',
+                    defense: '0',
+                    attack: '0'
+
+                }]
+            },
             monsters: [],
             monsterMarkers: [],
             monsterEncounterRangeMarkers: [],
@@ -16039,11 +16062,12 @@ exports.default = {
     this.adventurerMarker.setPosition(this.pos);
 
     //Adventurer checks for monsters
-    this.checkForEntity(this.monsters);
+    this.checkForEntity(this.monsters, 'monster');
   },
   //end updateAdventurerSuccess
 
   showHideEncounterRange: function showHideEncounterRange() {
+    console.log('show hide');
     //First hide and clear old marker
     if (this.adventurerEncounterRangeMarker != null) {
       this.adventurerEncounterRangeMarker.setMap(null);
@@ -16065,19 +16089,57 @@ exports.default = {
   },
   //end showHideEncounterRange
 
-  checkForEntity: function checkForEntity(entities) {
+  checkForEntity: function checkForEntity(entities, entityType) {
+    var _this6 = this;
+
     if (entities != [] && this.adventurerEncounterRangeMarker != null) {
       var bounds = this.adventurerEncounterRangeMarker.getBounds();
 
       entities.forEach(function (entity) {
         if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
           console.log('Encounter!');
-          if (!$('#encounter-modal').modal('open')) {
-            $('#encounter-modal').modal('open');
-          }
+
+          switch (entityType) {
+            case 'monster':
+              if (_this6.encounter == false) {
+                $('#monster-modal').modal('open'); //open modal
+                _this6.activateMonster(entity); //activate monster
+              }
+
+              // this.pauseUpdateAdventurerPosition();
+              // this.showHideEncounterRange(); //break the forEach after first encounter
+              break;
+            case 'treasure':
+
+              break;
+
+          } //end switch
+
+          _this6.encounter = true; //set status to true to interupt further activations
         }
       });
     }
+  },
+  //end check for entity
+
+  activateMonster: function activateMonster(monster) {
+    var _this7 = this;
+
+    axios.patch('/api/monster/activate/' + monster.id).then(function (response) {
+      console.log('monster activated');
+      console.log(monster);
+      _this7.monsterActive = monster;
+    });
+  },
+  //end activateMonster
+
+  deactivateMonster: function deactivateMonster(monster) {
+    var _this8 = this;
+
+    axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
+      console.log(response.data);
+      _this8.encounter = false; //set status to false to continue further activations
+    });
   }
 };
 
@@ -16258,11 +16320,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
-      "id": "encounter-modal"
+      "id": "monster-modal"
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_c('h4', [_vm._v("Modal Header")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("You've Found Something!")]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 m6"
@@ -16274,87 +16336,126 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Stamina: "), _c('button', {
-    staticClass: "btn red",
+    staticClass: "center btn red",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.stamina)
     }
-  })]), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Defense: "), _c('button', {
-    staticClass: "btn red",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.defense)
-    }
-  })]), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Attack: "), _c('button', {
-    staticClass: "btn red",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.attack)
-    }
-  })]), _c('div', {
-    staticClass: "divider"
   })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
     staticClass: "col s12 m6"
   }, [_c('div', {
     staticClass: "row"
   }, [_c('h5', {
     domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.name)
+      "textContent": _vm._s(_vm.monsterActive.type['0'].name)
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Stamina: "), _c('button', {
-    staticClass: "btn blue",
+    staticClass: "center btn blue",
     domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.stamina)
+      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
     }
-  })]), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "row"
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Defense: "), _c('button', {
-    staticClass: "btn blue",
+    staticClass: "center btn blue",
     domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.defense)
+      "textContent": _vm._s(_vm.monsterActive.type['0'].defense)
     }
-  })]), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "row"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v("Attack: "), _c('button', {
-    staticClass: "btn blue",
+    staticClass: "center btn blue",
     domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.attack)
+      "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
     }
-  })]), _c('div', {
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })])])])]), _vm._v(" "), _vm._m(0)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('a', {
     staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
   }, [_vm._v("Fight!")]), _vm._v(" "), _c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
-  }, [_vm._v("Run")])])
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
+    on: {
+      "click": function($event) {
+        _vm.deactivateMonster(_vm.monsterActive)
+      }
+    }
+  }, [_vm._v("Run")])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack:")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

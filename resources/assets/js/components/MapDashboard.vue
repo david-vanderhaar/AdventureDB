@@ -3,7 +3,7 @@
         <div id="map" class="grey"></div>
 
         <!-- Modal Structure -->
-        <div id="encounter-modal" class="modal modal-fixed-footer">
+        <div id="monster-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>You've Found Something!</h4>
                 <div class="row">
@@ -12,34 +12,46 @@
                             <h5 v-text="adventurerActive.name"></h5>
                         </div>
                         <div class="row">
-                            <p class="flow-text">Stamina: <button class="btn red" v-text="adventurerActive.stamina"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Stamina:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
                         </div>
+                            <div class="divider"></div>
                         <div class="row">
-                            <p class="flow-text">Defense: <button class="btn red" v-text="adventurerActive.defense"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Defense:</p></div>
+                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
                         </div>
+                            <div class="divider"></div>
                         <div class="row">
-                            <p class="flow-text">Attack: <button class="btn red" v-text="adventurerActive.attack"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Attack:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
                         </div>
+                            <div class="divider"></div>
                     </div>
                     <div class="col s12 m6">
                         <div class="row">
-                            <h5 v-text="adventurerActive.name"></h5>
+                            <h5 v-text="monsterActive.type['0'].name"></h5>
                         </div>
                         <div class="row">
-                            <p class="flow-text">Stamina: <button class="btn blue" v-text="adventurerActive.stamina"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Stamina:</p></div>
+                            <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].stamina"></p></div>
                         </div>
+                            <div class="divider"></div>
                         <div class="row">
-                            <p class="flow-text">Defense: <button class="btn blue" v-text="adventurerActive.defense"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Defense:</p></div>
+                            <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].defense"></p></div>
                         </div>
+                            <div class="divider"></div>
                         <div class="row">
-                            <p class="flow-text">Attack: <button class="btn blue" v-text="adventurerActive.attack"></button></p><div class="divider"></div>
+                            <div class="col s6"><p class="flow-text">Attack:</p></div>
+                            <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].attack"></p></div>
                         </div>
+                            <div class="divider"></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                     <a class="modal-action modal-close waves-effect waves-green btn-flat">Fight!</a>
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat">Run</a>
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Run</a>
             </div>
         </div>
   </div>
@@ -60,6 +72,8 @@ import mapMethods from './mapjs/adventurer';
                 watchId: null,
                 pos: null,
 
+                encounter: false,
+
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization
                     name: 'none',
@@ -79,7 +93,18 @@ import mapMethods from './mapjs/adventurer';
                 adventurerEncounterRangeMarker: null,
 
                 //Monster Vars
-                monsterActive: null,
+                monsterActive: { //placeholder for encounter modal initialization
+                    active: false,
+                    type:[
+                        {
+                            name:'none',
+                            stamina: '0',
+                            defense: '0',
+                            attack: '0'
+
+                        }
+                    ],
+                },
                 monsters: [],
                 monsterMarkers: [],
                 monsterEncounterRangeMarkers: [],
