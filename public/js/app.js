@@ -14782,8 +14782,9 @@ exports.default = {
         embarkAdventurer: function embarkAdventurer(id) {
             var _this3 = this;
 
+            //set this adventurer to active
             axios.patch('/api/adventurer/activate/' + id).then(function (response) {
-                console.log('embark');
+
                 _this3.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
             });
         },
@@ -14791,9 +14792,7 @@ exports.default = {
 
         disembarkAdventurers: function disembarkAdventurers(adventurers) {
             adventurers.forEach(function (adventurer) {
-                axios.patch('/api/adventurer/deactivate/' + adventurer.id).then(function (response) {
-                    Materialize.toast(adventurer.name + ' is here at the tavern, ready to journey', 4000);
-                });
+                axios.patch('/api/adventurer/deactivate/' + adventurer.id).then(function (response) {});
             });
         }
     },
@@ -14969,6 +14968,12 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14992,13 +14997,17 @@ exports.default = {
             var _this = this;
 
             //save adventurer to the database
-            axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
-                console.log(response.data);
-                _this.created = true;
-                Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
-            }).catch(function (error) {
-                console.log(error);
-            });
+            if (this.newAdventurer.name != '') {
+                axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
+                    console.log(response.data);
+                    _this.created = true;
+                    Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            } else {
+                Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000); // alert the user to success
+            }
         },
         updateStatMax: function updateStatMax() {
             //update the statMax display input
@@ -15026,14 +15035,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_c('form', {
-    staticClass: "col s12",
-    on: {
-      "submit": function($event) {
-        _vm.storeAdventurer()
-      }
-    }
   }, [_c('div', {
+    staticClass: "col s12"
+  }, [(_vm.created != true) ? _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "input-field col s12"
@@ -15167,7 +15171,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "attack"
     }
-  }, [_vm._v("Attack")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Attack")])])]) : _vm._e(), _vm._v(" "), (_vm.created != true) ? _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
@@ -15179,14 +15183,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "textContent": _vm._s(_vm.statMax)
     }
-  })])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
   }, [(_vm.created != true) ? _c('button', {
     staticClass: "btn green",
-    attrs: {
-      "type": "submit"
+    on: {
+      "click": function($event) {
+        _vm.storeAdventurer()
+      }
     }
   }, [_vm._v("Create")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "col s12 center"
@@ -15196,7 +15202,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn green"
-  }, [_vm._v("View Adventurers")])]) : _vm._e()], 1)])])])])
+  }, [_vm._v("View Adventurers")])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+    staticClass: "col s12 center"
+  }, [(_vm.created == false) ? _c('router-link', {
+    attrs: {
+      "to": "/"
+    }
+  }, [_c('button', {
+    staticClass: "btn green darken-2"
+  }, [_vm._v("Back to the Tavern")])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+    staticClass: "col s12 center"
+  }, [(_vm.created == true) ? _c('button', {
+    staticClass: "btn green darken-2",
+    on: {
+      "click": function($event) {
+        _vm.created = false;
+      }
+    }
+  }, [_vm._v("Hire Another Adventurer")]) : _vm._e()])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -15293,7 +15316,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 80vh;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 60vh;\n}\n", ""]);
 
 // exports
 
@@ -15730,6 +15753,7 @@ exports.default = {
 
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
+                active: false,
                 name: 'none',
                 stamina: '0',
                 defense: '0',
@@ -15872,36 +15896,8 @@ var _mapStyles2 = _interopRequireDefault(_mapStyles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Adventurer Checks for Monster
-//May later change this to checking for interactable
-function checkForMonster() {
-  if (Monster.entitys != [] && adventurerEncounterRangeMarker != null) {
-    var bounds = adventurerEncounterRangeMarker.getBounds();
-    for (var i in Monster.entitys) {
-      if (bounds.contains(Monster.entitys[i].interactablePos)) {
-        console.log('fight!');
-        console.log('You have encountered a monster that has ' + Monster.entitys[i].stats['health'] + ' points of health, ' + Monster.entitys[i].stats['attack'] + ' points of attack, and ' + Monster.entitys[i].stats['defense'] + ' points of defense.');
-        consoleDisplay.innerText = 'Fight!';
-      }
-    }
-  }
-}
-
-//Adventurer Checks for Treasure
-//May later change this to checking for interactable
-function checkForTreasure() {
-  if (Treasure.entitys != [] && adventurerEncounterRangeMarker != null) {
-    var bounds = adventurerEncounterRangeMarker.getBounds();
-    for (var i in Treasure.entitys) {
-      if (bounds.contains(Treasure.entitys[i].interactablePos)) {
-        console.log('Gold!');
-        consoleDisplay.innerText = 'Treasure!';
-      }
-    }
-  }
-}
-
 //import map styles
+
 exports.default = {
   getMonsters: function getMonsters() {
     var _this = this;
@@ -16061,8 +16057,13 @@ exports.default = {
     //Updates Adventurer Marker
     this.adventurerMarker.setPosition(this.pos);
 
-    //Adventurer checks for monsters
-    this.checkForEntity(this.monsters, 'monster');
+    if (this.adventurerActive.active == true) {
+      //first check if user has embarked w/ adventurer
+      //Adventurer checks for monsters
+      this.checkForEntity(this.monsters, 'monster');
+    } else {
+      //notify user
+    }
   },
   //end updateAdventurerSuccess
 
@@ -16324,50 +16325,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_c('h4', [_vm._v("You've Found Something!")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Look Out!")]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col s12 m6"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('h5', {
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.name)
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "col s6"
-  }, [_c('p', {
-    staticClass: "center btn red",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.stamina)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
-    staticClass: "col s6"
-  }, [_c('p', {
-    staticClass: "center btn red",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.defense)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "col s6"
-  }, [_c('p', {
-    staticClass: "center btn red",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.attack)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
     staticClass: "col s12 m6"
   }, [_c('div', {
     staticClass: "row"
@@ -16377,7 +16337,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16388,7 +16348,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16399,12 +16359,53 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 m6"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.name)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.stamina)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"

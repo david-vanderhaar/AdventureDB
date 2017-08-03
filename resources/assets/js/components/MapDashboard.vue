@@ -5,28 +5,8 @@
         <!-- Modal Structure -->
         <div id="monster-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>You've Found Something!</h4>
+                <h4>Look Out!</h4>
                 <div class="row">
-                    <div class="col s12 m6">
-                        <div class="row">
-                            <h5 v-text="adventurerActive.name"></h5>
-                        </div>
-                        <div class="row">
-                            <div class="col s6"><p class="flow-text">Stamina:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
-                        </div>
-                            <div class="divider"></div>
-                        <div class="row">
-                            <div class="col s6"><p class="flow-text">Defense:</p></div>
-                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
-                        </div>
-                            <div class="divider"></div>
-                        <div class="row">
-                            <div class="col s6"><p class="flow-text">Attack:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
-                        </div>
-                            <div class="divider"></div>
-                    </div>
                     <div class="col s12 m6">
                         <div class="row">
                             <h5 v-text="monsterActive.type['0'].name"></h5>
@@ -44,6 +24,26 @@
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Attack:</p></div>
                             <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].attack"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="row">
+                            <h5 v-text="adventurerActive.name"></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Stamina:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Defense:</p></div>
+                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Attack:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
                         </div>
                             <div class="divider"></div>
                     </div>
@@ -76,6 +76,7 @@ import mapMethods from './mapjs/adventurer';
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization
+                    active: false,
                     name: 'none',
                     stamina: '0',
                     defense: '0',
@@ -169,7 +170,7 @@ import mapMethods from './mapjs/adventurer';
 
 <style>
     #map {
-          height: 80vh;
+          height: 60vh;
       }
 </style>
 

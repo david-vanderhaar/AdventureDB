@@ -55,10 +55,10 @@
                 });
             }, //end deleteAdventurers
 
-            embarkAdventurer(id) {
+            embarkAdventurer(id) { //set this adventurer to active
                 axios.patch('/api/adventurer/activate/'+id)
                 .then((response) => { 
-                    console.log('embark')
+
                     this.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
                 });
             }, //end embarkAdventurer
@@ -67,7 +67,7 @@
                 adventurers.forEach((adventurer) => {
                     axios.patch('/api/adventurer/deactivate/'+adventurer.id)
                         .then((response) => { 
-                            Materialize.toast(adventurer.name + ' is here at the tavern, ready to journey', 4000);
+
                         });
                 });
             }, //end disembarkAdventurers

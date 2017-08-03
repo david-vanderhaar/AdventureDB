@@ -6,8 +6,8 @@
             </div>
         </div>
         <div class="row">
-            <form class="col s12" @submit="storeAdventurer()">
-              <div class="row">
+            <div class="col s12">
+              <div class="row"  v-if="created != true">
                 <div class="input-field col s12">
                   <i class="material-icons prefix">account_circle</i>
                   <input v-model="newAdventurer.name" id="name" type="text" class="validate" required>
@@ -29,20 +29,26 @@
                   <label for="attack">Attack</label>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" v-if="created != true">
                   <div class="col s12 center">
                       <a class="btn red" type="number" v-text="statMax"></a>
                   </div>
               </div>
               <div class="row">
                   <div class="col s12 center">
-                      <button class="btn green" type="submit" v-if="created != true">Create</button>
+                      <button class="btn green" v-if="created != true" @click="storeAdventurer()">Create</button>
                   </div>
                   <div class="col s12 center">
                     <router-link to="/" v-if="created == true"><button class="btn green">View Adventurers</button></router-link>
                   </div>
+                  <div class="col s12 center">
+                    <router-link to="/" v-if="created == false"><button class="btn green darken-2">Back to the Tavern</button></router-link>
+                  </div>
+                  <div class="col s12 center">
+                    <button class="btn green darken-2" v-if="created == true" @click="created = false;">Hire Another Adventurer</button>
+                  </div>
               </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -66,6 +72,7 @@
 
         methods: {
             storeAdventurer() { //save adventurer to the database
+              if (this.newAdventurer.name != ''){
                  axios.post('/api/adventurer', this.newAdventurer)
                 .then((response) => { 
                     console.log(response.data);
@@ -75,6 +82,9 @@
                 .catch((error) => {
                     console.log(error);
                 });
+              } else {
+                Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000) // alert the user to success
+              }
             },
 
             updateStatMax() { //update the statMax display input

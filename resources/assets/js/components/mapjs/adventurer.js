@@ -1,41 +1,5 @@
-
-
-//Adventurer Checks for Monster
-//May later change this to checking for interactable
-function checkForMonster () {
-  if (Monster.entitys != [] && adventurerEncounterRangeMarker != null) { 
-    let bounds = adventurerEncounterRangeMarker.getBounds();
-    for (let i in Monster.entitys) {
-      if (bounds.contains(Monster.entitys[i].interactablePos)) {
-        console.log('fight!');
-        console.log('You have encountered a monster that has '
-          + Monster.entitys[i].stats['health']
-          + ' points of health, '
-          + Monster.entitys[i].stats['attack']
-          + ' points of attack, and '
-          + Monster.entitys[i].stats['defense']
-          + ' points of defense.');
-        consoleDisplay.innerText = 'Fight!';
-       } 
-    }
-  }
-}
-
-//Adventurer Checks for Treasure
-//May later change this to checking for interactable
-function checkForTreasure () {
-  if (Treasure.entitys != [] && adventurerEncounterRangeMarker != null) { 
-    let bounds = adventurerEncounterRangeMarker.getBounds();
-    for (let i in Treasure.entitys) {
-      if (bounds.contains(Treasure.entitys[i].interactablePos)) {
-        console.log('Gold!');
-        consoleDisplay.innerText = 'Treasure!';
-       } 
-    }
-  }
-}
-
 import mapStyles from './map-styles'; //import map styles
+
 export default {
 
             getMonsters() {
@@ -193,8 +157,12 @@ export default {
                 //Updates Adventurer Marker
                 this.adventurerMarker.setPosition(this.pos);
 
-                //Adventurer checks for monsters
-                this.checkForEntity(this.monsters, 'monster');
+                if (this.adventurerActive.active == true) { //first check if user has embarked w/ adventurer
+                  //Adventurer checks for monsters
+                  this.checkForEntity(this.monsters, 'monster');
+                } else {
+                  //notify user
+                }
                 
             }, //end updateAdventurerSuccess
 
