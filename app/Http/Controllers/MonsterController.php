@@ -84,6 +84,8 @@ class MonsterController extends Controller
     public function activate($id) {
         $monster = Monster::find($id);
         $monster['active'] = true;
+
+        $monster->save();
         
         return $monster;
     }
@@ -91,6 +93,8 @@ class MonsterController extends Controller
     public function deactivate($id) {
         $monster = Monster::find($id);
         $monster['active'] = false;
+
+        $monster->save();
         
         return $monster;
     }
