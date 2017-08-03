@@ -102,6 +102,8 @@ class AdventurerController extends Controller
     public function activate($id) {
         $adventurer = Adventurer::find($id);
         $adventurer['active'] = true;
+
+        $adventurer->save();
         
         return $adventurer;
     }
@@ -109,6 +111,8 @@ class AdventurerController extends Controller
     public function deactivate($id) {
         $adventurer = Adventurer::find($id);
         $adventurer['active'] = false;
+        
+         $adventurer->save();
         
         return $adventurer;
     }

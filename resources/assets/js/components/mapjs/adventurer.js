@@ -136,6 +136,22 @@ export default {
                 this.showHideEncounterRange();
             }, //end generateAdventurer
 
+            getActiveAdventurer() {
+                 axios.get('/api/adventurer')
+                .then((response) => { 
+                  console.log('get active');
+                  console.log(response.data);
+                    response.data.forEach((adventurer) => {
+                      if (adventurer.active) {
+                        this.adventurerActive = adventurer; //capture users active adventurer
+                        console.log(adventurer);
+                      }
+                    });
+                    
+
+                });
+            }, //end getAdventurers
+
             updateAdventurerPosition () {
                 // Try HTML5 geolocation.
                 if (navigator.geolocation) {

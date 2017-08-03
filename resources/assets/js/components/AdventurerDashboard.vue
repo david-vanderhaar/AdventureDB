@@ -17,7 +17,7 @@
             <div class="col s12 l4 center">
                 <button class="btn grey darken-3" @click="deleteAdventurer(adventurer.id)"><i class="material-icons">delete</i></button>
                 <button class="btn yellow darken-3"><i class="material-icons">info</i></button>
-                <button class="btn red">Embark</button>
+                <button class="btn red" @click="embarkAdventurer(adventurer.id)">Embark</button>
             </div>
         </div>
     </div>
@@ -35,8 +35,10 @@
             getAdventurers() {
                  axios.get('/api/adventurer')
                 .then((response) => { 
-                    this.adventurers = response.data;
+                    this.adventurers = response.data; //capture all user's adventurers
                     console.log(response.data);
+
+                    this.disembarkAdventurers(this.adventurers); //deactivate all active adventures for clean slate
                 });
             }, //end getAdventurers
 
@@ -56,16 +58,22 @@
             embarkAdventurer(id) {
                 axios.patch('/api/adventurer/activate/'+id)
                 .then((response) => { 
-                    console.log(response.data);
+                    console.log('embark')
+                    this.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
                 });
             }, //end embarkAdventurer
 
             disembarkAdventurers(adventurers) {
-                
+                adventurers.forEach((adventurer) => {
+                    axios.patch('/api/adventurer/deactivate/'+adventurer.id)
+                        .then((response) => { 
+                            Materialize.toast(adventurer.name + ' is here at the tavern, ready to journey', 4000);
+                        });
+                });
             }, //end disembarkAdventurers
         },
 
-        created() {
+        mounted() {
             this.getAdventurers();
         }
     }

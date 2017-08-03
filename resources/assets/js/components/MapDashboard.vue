@@ -80,6 +80,7 @@ import mapMethods from './mapjs/adventurer';
         mounted() {
             this.initMap();
             this.getMonsters();
+            this.getActiveAdventurer();
             console.log('map dash mounted');
 
         }, //end mounted

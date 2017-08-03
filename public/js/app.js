@@ -14762,10 +14762,14 @@ exports.default = {
             var _this = this;
 
             axios.get('/api/adventurer').then(function (response) {
-                _this.adventurers = response.data;
+                _this.adventurers = response.data; //capture all user's adventurers
                 console.log(response.data);
+
+                _this.disembarkAdventurers(_this.adventurers); //deactivate all active adventures for clean slate
             });
         },
+        //end getAdventurers
+
         deleteAdventurer: function deleteAdventurer(adventurerId) {
             var _this2 = this;
 
@@ -14777,10 +14781,29 @@ exports.default = {
                 Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
                 Materialize.toast('We are having server issues, try again soon!', 4000);
             });
+        },
+        //end deleteAdventurers
+
+        embarkAdventurer: function embarkAdventurer(id) {
+            var _this3 = this;
+
+            axios.patch('/api/adventurer/activate/' + id).then(function (response) {
+                console.log('embark');
+                _this3.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
+            });
+        },
+        //end embarkAdventurer
+
+        disembarkAdventurers: function disembarkAdventurers(adventurers) {
+            adventurers.forEach(function (adventurer) {
+                axios.patch('/api/adventurer/deactivate/' + adventurer.id).then(function (response) {
+                    Materialize.toast(adventurer.name + ' is back at the tavern, ready to journey', 4000);
+                });
+            });
         }
     },
 
-    created: function created() {
+    mounted: function mounted() {
         this.getAdventurers();
     }
 };
@@ -14821,7 +14844,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('i', {
       staticClass: "material-icons"
     }, [_vm._v("delete")])]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('button', {
-      staticClass: "btn red"
+      staticClass: "btn red",
+      on: {
+        "click": function($event) {
+          _vm.embarkAdventurer(adventurer.id)
+        }
+      }
     }, [_vm._v("Embark")])])])
   })], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -15712,6 +15740,7 @@ exports.default = {
     mounted: function mounted() {
         this.initMap();
         this.getMonsters();
+        this.getActiveAdventurer();
         console.log('map dash mounted');
     },
     //end mounted
@@ -15906,8 +15935,24 @@ exports.default = {
   },
   //end generateAdventurer
 
-  updateAdventurerPosition: function updateAdventurerPosition() {
+  getActiveAdventurer: function getActiveAdventurer() {
     var _this4 = this;
+
+    axios.get('/api/adventurer').then(function (response) {
+      console.log('get active');
+      console.log(response.data);
+      response.data.forEach(function (adventurer) {
+        if (adventurer.active) {
+          _this4.adventurerActive = adventurer; //capture users active adventurer
+          console.log(adventurer);
+        }
+      });
+    });
+  },
+  //end getAdventurers
+
+  updateAdventurerPosition: function updateAdventurerPosition() {
+    var _this5 = this;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -15917,7 +15962,7 @@ exports.default = {
 
       //Set watch id and watch position
       this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-        _this4.handleLocationError(true, _this4.infoWindow, _this4.map.getCenter());
+        _this5.handleLocationError(true, _this5.infoWindow, _this5.map.getCenter());
       }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
     } else {
       // Browser doesn't support Geolocation
