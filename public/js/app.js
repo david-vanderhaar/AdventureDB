@@ -15672,6 +15672,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -15683,7 +15715,12 @@ exports.default = {
             pos: null,
 
             //Adventurer Vars
-            adventurerActive: null,
+            adventurerActive: { //placeholder for encounter modal initialization
+                name: 'none',
+                stamina: '0',
+                defense: '0',
+                attack: '0'
+            },
             adventurerMarker: null,
             adventurerIcon: {
                 path: _mapIcons2.default['adventurer']['WingedSword'],
@@ -15732,13 +15769,19 @@ exports.default = {
 
     methods: _adventurer2.default,
     created: function created() {
+
+        //initialize the encounter modal
         $(document).ready(function () {
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-            $('.modal').modal();
+            $('.modal').modal({
+                dismissible: false, // Modal can be dismissed by clicking outside of the modal
+                opacity: .5, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200 // Transition out duration
+            });
         });
     },
     mounted: function mounted() {
-
         this.initMap();
         this.getMonsters();
         this.getActiveAdventurer();
@@ -16205,8 +16248,6 @@ exports.default = mapStyles;
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
   }, [_c('div', {
@@ -16215,17 +16256,105 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "map"
     }
   }), _vm._v(" "), _c('div', {
-    staticClass: "modal",
+    staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "encounter-modal"
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_c('h4', [_vm._v("Modal Header")]), _vm._v(" "), _c('p', [_vm._v("A bunch of text")])]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Modal Header")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 m6"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.name)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina: "), _c('button', {
+    staticClass: "btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.stamina)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense: "), _c('button', {
+    staticClass: "btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack: "), _c('button', {
+    staticClass: "btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 m6"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.name)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina: "), _c('button', {
+    staticClass: "btn blue",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.stamina)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense: "), _c('button', {
+    staticClass: "btn blue",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack: "), _c('button', {
+    staticClass: "btn blue",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
+    }
+  })]), _c('div', {
+    staticClass: "divider"
+  })])])])]), _vm._v(" "), _vm._m(0)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "modal-footer"
   }, [_c('a', {
     staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
-  }, [_vm._v("Agree")])])])])
+  }, [_vm._v("Fight!")]), _vm._v(" "), _c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+  }, [_vm._v("Run")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
