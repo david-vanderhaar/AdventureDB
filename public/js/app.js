@@ -15756,6 +15756,8 @@ exports.default = {
     data: function data() {
         return {
 
+            user: JSON.parse($("meta[name=auth-user]").attr('content')),
+
             map: null,
             infoWindow: null,
             watchId: null,
