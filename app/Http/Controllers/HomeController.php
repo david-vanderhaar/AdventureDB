@@ -14,6 +14,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // $this->middleware('https');
     }
 
     /**
@@ -22,7 +23,9 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home');
+    {   
+        // var_dump(env('APP_URL'));
+        return redirect(env('APP_URL').'/home');
+        // return view('home');
     }
 }
