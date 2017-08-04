@@ -25,7 +25,8 @@ class HomeController extends Controller
     public function index()
     {   
         // var_dump(env('APP_URL'));
-        return redirect(env('APP_URL').'/home');
-        // return view('home');
+        // return redirect()->secure_url('/home');
+        // var_dump(view('home'));
+        return view('home');
     }
 }
