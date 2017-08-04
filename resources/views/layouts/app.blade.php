@@ -16,23 +16,23 @@
 <body>
         <nav>
             <div class="nav-wrapper">
-              <a href="{{ secure_url('/') }}" class="brand-logo center">{{ config('app.name', 'Laravel') }}</a>
+              <a href="{{ url('/') }}" class="brand-logo center">{{ config('app.name', 'Laravel') }}</a>
               <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ secure_url('/login') }}">Login</a></li>
-                    <li><a href="{{ secure_url('/register') }}">Register</a></li>
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
                 @else
                     <li>{{ Auth::user()->name }}</li> 
                     <li>
-                        <a href="{{ secure_url('logout') }}"
+                        <a href="{{ url('logout') }}"
                             onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                             Logout
                         </a>
 
-                        <form id="logout-form" action="{{ secure_url('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </li>  
@@ -41,19 +41,19 @@
               <ul class="side-nav" id="nav-mobile">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ secure_url('login') }}">Login</a></li>
-                    <li><a href="{{ secure_url('register') }}">Register</a></li>
+                    <li><a href="{{ url('login') }}">Login</a></li>
+                    <li><a href="{{ url('register') }}">Register</a></li>
                 @else
                     <li>{{ Auth::user()->name }}</li>
                     <li class="divider"></li>
                     <li>
-                        <a href="{{ secure_url('logout') }}"
+                        <a href="{{ url('logout') }}"
                             onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                             Logout
                         </a>
 
-                        <form id="logout-form" action="{{ secure_url('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </li>
