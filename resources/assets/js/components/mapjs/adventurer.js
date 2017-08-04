@@ -177,7 +177,7 @@ export default {
                         fillOpacity: 0.35,
                         map: this.map,
                         center: this.pos,
-                        radius: 200
+                        radius: 30
                     });
                 }
             }, //end showHideEncounterRange
