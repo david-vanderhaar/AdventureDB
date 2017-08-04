@@ -1,25 +1,56 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col s12">
-                <h2 class="flow-text center">Your Adventurers</h2>
+            <div class="col s12 center">
+                <i class="material-icons red-text text-darken-4 large">home</i>
             </div>
         </div>
-        <div class="row grey">
+        <div class="row">
             <div class="col s12 center">  
                     <router-link to="/create-adventurer"><button class="btn">Create a New Adventurer</button></router-link>
             </div>
         </div>
-        <div class="row grey" v-for="adventurer in adventurers">
-            <div class="col s12 l8 center">  
-                    <button class="btn">{{adventurer.name}}</button>
-            </div>
-            <div class="col s12 l4 center">
-                <button class="btn grey darken-3" @click="deleteAdventurer(adventurer.id)"><i class="material-icons">delete</i></button>
-                <button class="btn yellow darken-3"><i class="material-icons">info</i></button>
-                <button class="btn red" @click="embarkAdventurer(adventurer.id)">Embark</button>
-            </div>
+        <div class="row">
+        <ul class="collapsible" data-collapsible="accordion">
+            <li v-for="adventurer in adventurers">
+              <div class="collapsible-header"><h5>{{adventurer.name}}</h5></div>
+              <div class="collapsible-body white">
+
+                  <div class="row">
+                      <div class="center col s6">
+                          <div class="row"><p class="flow-text grey-text text-darken-4" style="text-decoration: overline underline;">Monsters Defeated</p></div>
+                          <div class="row"><p class="flow-text grey-text text-darken-4">{{adventurer.monsters_defeated}}</p></div>
+                      </div>
+                      <div class="center col s6">
+                          <div class="row"><p class="flow-text grey-text text-darken-4" style="text-decoration: overline underline;">Treasure Gained</p></div>
+                          <div class="row"><p class="flow-text grey-text text-darken-4">{{adventurer.treasure}}</p></div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row">
+                          <div class="center col s4">
+                                <div class="row"><p class="flow-text grey-text text-darken-4" style="text-decoration: overline underline;">Stamina</p></div>
+                                <div class="row"><p class="flow-text grey-text text-darken-4">{{adventurer.stamina}}</p></div>
+                            </div>
+                          <div class="center col s4">
+                                <div class="row"><p class="flow-text grey-text text-darken-4" style="text-decoration: overline underline;">Defense</p></div>
+                                <div class="row"><p class="flow-text grey-text text-darken-4">{{adventurer.defense}}</p></div>
+                            </div>
+                          <div class="center col s4">
+                                <div class="row"><p class="flow-text grey-text text-darken-4" style="text-decoration: overline underline;">Attack</p></div>
+                                <div class="row"><p class="flow-text grey-text text-darken-4">{{adventurer.attack}}</p></div>
+                            </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <button class="btn grey darken-3" @click="deleteAdventurer(adventurer.id)"><i class="material-icons">delete</i></button>
+                     <button class=" right btn red" @click="embarkAdventurer(adventurer.id)">Embark</button>
+                  </div>
+              </div>
+            </li>
+        </ul>
         </div>
+
     </div>
 </template>
 
@@ -76,6 +107,9 @@
         },
 
         mounted() {
+            $(document).ready(function(){
+                $('.collapsible').collapsible();
+              });
             this.getAdventurers();
         }
     }

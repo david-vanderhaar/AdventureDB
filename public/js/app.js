@@ -14743,6 +14743,37 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -14800,6 +14831,9 @@ exports.default = {
     },
 
     mounted: function mounted() {
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+        });
         this.getAdventurers();
     }
 };
@@ -14812,7 +14846,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "container"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "row grey"
+    staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
   }, [_c('router-link', {
@@ -14821,15 +14855,56 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn"
-  }, [_vm._v("Create a New Adventurer")])])], 1)]), _vm._v(" "), _vm._l((_vm.adventurers), function(adventurer) {
-    return _c('div', {
-      staticClass: "row grey"
+  }, [_vm._v("Create a New Adventurer")])])], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('ul', {
+    staticClass: "collapsible",
+    attrs: {
+      "data-collapsible": "accordion"
+    }
+  }, _vm._l((_vm.adventurers), function(adventurer) {
+    return _c('li', [_c('div', {
+      staticClass: "collapsible-header"
+    }, [_c('h5', [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _c('div', {
+      staticClass: "collapsible-body white"
     }, [_c('div', {
-      staticClass: "col s12 l8 center"
-    }, [_c('button', {
-      staticClass: "btn"
-    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _c('div', {
-      staticClass: "col s12 l4 center"
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "center col s6"
+    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('p', {
+      staticClass: "flow-text grey-text text-darken-4"
+    }, [_vm._v(_vm._s(adventurer.monsters_defeated))])])]), _vm._v(" "), _c('div', {
+      staticClass: "center col s6"
+    }, [_vm._m(2, true), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('p', {
+      staticClass: "flow-text grey-text text-darken-4"
+    }, [_vm._v(_vm._s(adventurer.treasure))])])])]), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "center col s4"
+    }, [_vm._m(3, true), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('p', {
+      staticClass: "flow-text grey-text text-darken-4"
+    }, [_vm._v(_vm._s(adventurer.stamina))])])]), _vm._v(" "), _c('div', {
+      staticClass: "center col s4"
+    }, [_vm._m(4, true), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('p', {
+      staticClass: "flow-text grey-text text-darken-4"
+    }, [_vm._v(_vm._s(adventurer.defense))])])]), _vm._v(" "), _c('div', {
+      staticClass: "center col s4"
+    }, [_vm._m(5, true), _vm._v(" "), _c('div', {
+      staticClass: "row"
+    }, [_c('p', {
+      staticClass: "flow-text grey-text text-darken-4"
+    }, [_vm._v(_vm._s(adventurer.attack))])])])])]), _vm._v(" "), _c('div', {
+      staticClass: "row"
     }, [_c('button', {
       staticClass: "btn grey darken-3",
       on: {
@@ -14839,29 +14914,68 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "material-icons"
-    }, [_vm._v("delete")])]), _vm._v(" "), _vm._m(1, true), _vm._v(" "), _c('button', {
-      staticClass: "btn red",
+    }, [_vm._v("delete")])]), _vm._v(" "), _c('button', {
+      staticClass: " right btn red",
       on: {
         "click": function($event) {
           _vm.embarkAdventurer(adventurer.id)
         }
       }
-    }, [_vm._v("Embark")])])])
-  })], 2)
+    }, [_vm._v("Embark")])])])])
+  }))])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col s12"
-  }, [_c('h2', {
-    staticClass: "flow-text center"
-  }, [_vm._v("Your Adventurers")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn yellow darken-3"
+    staticClass: "col s12 center"
   }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("info")])])
+    staticClass: "material-icons red-text text-darken-4 large"
+  }, [_vm._v("home")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text grey-text text-darken-4",
+    staticStyle: {
+      "text-decoration": "overline underline"
+    }
+  }, [_vm._v("Monsters Defeated")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text grey-text text-darken-4",
+    staticStyle: {
+      "text-decoration": "overline underline"
+    }
+  }, [_vm._v("Treasure Gained")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text grey-text text-darken-4",
+    staticStyle: {
+      "text-decoration": "overline underline"
+    }
+  }, [_vm._v("Stamina")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text grey-text text-darken-4",
+    staticStyle: {
+      "text-decoration": "overline underline"
+    }
+  }, [_vm._v("Defense")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('p', {
+    staticClass: "flow-text grey-text text-darken-4",
+    staticStyle: {
+      "text-decoration": "overline underline"
+    }
+  }, [_vm._v("Attack")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

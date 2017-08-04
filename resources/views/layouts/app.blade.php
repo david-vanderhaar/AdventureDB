@@ -13,10 +13,10 @@
     <!-- Styles -->
     <link href="./css/app.css" rel="stylesheet">
 </head>
-<body>
-        <nav>
+<body class="red">
+        <nav class="red darken-4">
             <div class="nav-wrapper">
-              <a href="{{ url('/') }}" class="brand-logo center">{{ config('app.name', 'Laravel') }}</a>
+              <a href="{{ url('/') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
               <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <!-- Authentication Links -->
@@ -24,7 +24,7 @@
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Register</a></li>
                 @else
-                    <li>{{ Auth::user()->name }}</li> 
+                    <li><a href="{{ url('/home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
                     <li>
                         <a href="{{ url('logout') }}"
                             onclick="event.preventDefault();
@@ -44,7 +44,7 @@
                     <li><a href="{{ url('login') }}">Login</a></li>
                     <li><a href="{{ url('register') }}">Register</a></li>
                 @else
-                    <li>{{ Auth::user()->name }}</li>
+                    <li><a href="{{ url('/home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
                     <li class="divider"></li>
                     <li>
                         <a href="{{ url('logout') }}"

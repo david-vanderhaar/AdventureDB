@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+   <!--  <div class="row">
     <nav class="nav-extended">
         <div class="nav-content">
             <ul class="tabs">
@@ -12,8 +12,9 @@
                 <li class="tab"><router-link to="/" exact>Adventurer Dashboard</router-link></li>
             </ul>
         </div>
-    </div>
+    
     </nav>
+    </div> -->
     <router-view></router-view>
     
 </div>
