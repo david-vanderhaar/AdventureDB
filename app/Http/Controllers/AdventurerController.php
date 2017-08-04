@@ -18,7 +18,7 @@ class AdventurerController extends Controller
     public function index(Request $request)
     {
 
-        // dd($request->header('php-auth-user'));
+        dd($request->header('php-auth-user'));
         //Get User Email from request header
         // $email = ($request->server()['HTTP_PHP_AUTH_USER']);
         // $email = $request->server()['PHP_AUTH_USER'];
