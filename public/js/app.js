@@ -14988,7 +14988,7 @@ exports.default = {
                 stamina: 1,
                 defense: 1,
                 attack: 1,
-                user_id: this.user.id
+                user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
             },
 
             statMax: 12, //maximum alottment of stats to be allocated
