@@ -100,7 +100,7 @@ export default {
             }, //end generateAdventurer
 
             getActiveAdventurer() {
-                 axios.get('/api/adventurer')
+                 axios.get('/api/adventurer/user/'+this.user.id)
                 .then((response) => { 
                     response.data.forEach((adventurer) => {
                       if (adventurer.active) {

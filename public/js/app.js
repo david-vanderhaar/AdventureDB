@@ -16009,7 +16009,7 @@ exports.default = {
     getActiveAdventurer: function getActiveAdventurer() {
         var _this4 = this;
 
-        axios.get('/api/adventurer').then(function (response) {
+        axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
             response.data.forEach(function (adventurer) {
                 if (adventurer.active) {
                     _this4.adventurerActive = adventurer; //capture users active adventurer
