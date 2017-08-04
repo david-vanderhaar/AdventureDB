@@ -1,10 +1,24 @@
 <template>
     <div class="container">
-        <div id="map" class="grey"></div>
+        <div class="row">
+            <br>
+            <div id="map" class="grey"></div>
+        </div>
 
         <div class="row">
-            <div class="col s12">
-                <router-link to="/"><button class="center btn green darken-2">Back to the Tavern</button></router-link>
+<!--             <div class="col s12 center">
+                <router-link to="/"><button class="btn">Back to the Tavern</button></router-link>
+            </div> -->
+            <div class="fixed-action-btn toolbar">
+                <a class="btn-floating btn-large">
+                  <i class="large material-icons">menu</i>
+                </a>
+                <ul>
+                  <li class="waves-effect waves-light"><router-link to="/"><i class="material-icons white-text">home</i></router-link></li>
+                  <li class="waves-effect waves-light white-text"><i class="material-icons">format_quote</i></li>
+                  <li class="waves-effect waves-light white-text"><i class="material-icons">publish</i></li>
+                  <li class="waves-effect waves-light white-text"><i class="material-icons">attach_file</i></li>
+                </ul>
             </div>
         </div>
 
@@ -177,7 +191,7 @@ import mapMethods from './mapjs/adventurer';
 
 <style>
     #map {
-          height: 60vh;
+          height: 70vh;
       }
 </style>
 

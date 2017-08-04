@@ -15090,6 +15090,9 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -15122,6 +15125,13 @@ exports.default = {
                     console.log(response.data);
                     _this.created = true;
                     Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
+                    _this.newAdventurer = { //reset form fields
+                        name: '',
+                        stamina: 1,
+                        defense: 1,
+                        attack: 1,
+                        user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
+                    };
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -15154,7 +15164,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "container"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "row"
+    staticClass: "row grey lighten-4"
   }, [_c('div', {
     staticClass: "col s12"
   }, [(_vm.created != true) ? _c('div', {
@@ -15162,7 +15172,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "input-field col s12"
   }, [_c('i', {
-    staticClass: "material-icons prefix"
+    staticClass: "material-icons prefix red-text text-darken-4"
   }, [_vm._v("account_circle")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
@@ -15170,7 +15180,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.newAdventurer.name),
       expression: "newAdventurer.name"
     }],
-    staticClass: "validate",
+    staticClass: "validate ",
     attrs: {
       "id": "name",
       "type": "text",
@@ -15192,15 +15202,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Name")])]), _vm._v(" "), _c('div', {
     staticClass: "input-field col s4"
   }, [_c('i', {
-    staticClass: "material-icons prefix"
-  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("directions_run")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.newAdventurer.stamina),
       expression: "newAdventurer.stamina"
     }],
-    staticClass: "validate",
+    staticClass: "validate ",
     attrs: {
       "min": "1",
       "max": _vm.updateInputMax(_vm.newAdventurer.stamina),
@@ -15226,15 +15236,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Stamina")])]), _vm._v(" "), _c('div', {
     staticClass: "input-field col s4"
   }, [_c('i', {
-    staticClass: "material-icons prefix"
-  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("brightness_5")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.newAdventurer.defense),
       expression: "newAdventurer.defense"
     }],
-    staticClass: "validate",
+    staticClass: "validate ",
     attrs: {
       "min": "1",
       "max": _vm.updateInputMax(_vm.newAdventurer.defense),
@@ -15260,15 +15270,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Defense")])]), _vm._v(" "), _c('div', {
     staticClass: "input-field col s4"
   }, [_c('i', {
-    staticClass: "material-icons prefix"
-  }, [_vm._v("phone")]), _vm._v(" "), _c('input', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("gavel")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.newAdventurer.attack),
       expression: "newAdventurer.attack"
     }],
-    staticClass: "validate",
+    staticClass: "validate ",
     attrs: {
       "min": "1",
       "max": _vm.updateInputMax(_vm.newAdventurer.attack),
@@ -15296,58 +15306,52 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col s12 center"
   }, [_c('a', {
-    staticClass: "btn red",
+    staticClass: "btn red darken-4",
     attrs: {
       "type": "number"
     },
     domProps: {
       "textContent": _vm._s(_vm.statMax)
     }
-  })])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "row"
+  })])]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 red"
   }, [_c('div', {
-    staticClass: "col s12 center"
-  }, [(_vm.created != true) ? _c('button', {
+    staticClass: "row"
+  }, [_c('br'), _vm._v(" "), (_vm.created != true) ? _c('button', {
     staticClass: "btn green",
     on: {
       "click": function($event) {
         _vm.storeAdventurer()
       }
     }
-  }, [_vm._v("Create")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "col s12 center"
-  }, [(_vm.created == true) ? _c('router-link', {
+  }, [_vm._v("Create")]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('router-link', {
     attrs: {
       "to": "/"
     }
   }, [_c('button', {
-    staticClass: "btn green"
-  }, [_vm._v("View Adventurers")])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "col s12 center"
-  }, [(_vm.created == false) ? _c('router-link', {
+    staticClass: "btn"
+  }, [_vm._v("View Adventurers")])]) : _vm._e(), _vm._v(" "), (_vm.created == false) ? _c('router-link', {
     attrs: {
       "to": "/"
     }
   }, [_c('button', {
-    staticClass: "btn green darken-2"
-  }, [_vm._v("Back to the Tavern")])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "col s12 center"
-  }, [(_vm.created == true) ? _c('button', {
-    staticClass: "btn green darken-2",
+    staticClass: "btn"
+  }, [_vm._v("Back to the Tavern")])]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('button', {
+    staticClass: "btn green",
     on: {
       "click": function($event) {
         _vm.created = false;
       }
     }
-  }, [_vm._v("Hire Another Adventurer")]) : _vm._e()])])])])])
+  }, [_vm._v("Hire Another Adventurer")]) : _vm._e()], 1)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12"
   }, [_c('h2', {
-    staticClass: "flow-text center"
-  }, [_vm._v("Create A New Adventurer")])])])
+    staticClass: "center red-text text-darken-4"
+  }, [_vm._v("A New Adventurer")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -15436,7 +15440,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 60vh;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n", ""]);
 
 // exports
 
@@ -15798,6 +15802,20 @@ var _adventurer2 = _interopRequireDefault(_adventurer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16430,22 +16448,19 @@ exports.default = mapStyles;
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_c('div', {
-    staticClass: "grey",
-    attrs: {
-      "id": "map"
-    }
-  }), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col s12"
+    staticClass: "fixed-action-btn toolbar"
+  }, [_vm._m(1), _vm._v(" "), _c('ul', [_c('li', {
+    staticClass: "waves-effect waves-light"
   }, [_c('router-link', {
     attrs: {
       "to": "/"
     }
-  }, [_c('button', {
-    staticClass: "center btn green darken-2"
-  }, [_vm._v("Back to the Tavern")])])], 1)]), _vm._v(" "), _c('div', {
+  }, [_c('i', {
+    staticClass: "material-icons white-text"
+  }, [_vm._v("home")])])], 1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)])])]), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "monster-modal"
@@ -16464,7 +16479,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16475,7 +16490,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16486,7 +16501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16505,7 +16520,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16516,7 +16531,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16527,7 +16542,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16554,6 +16569,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Run")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('br'), _vm._v(" "), _c('div', {
+    staticClass: "grey",
+    attrs: {
+      "id": "map"
+    }
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "btn-floating btn-large"
+  }, [_c('i', {
+    staticClass: "large material-icons"
+  }, [_vm._v("menu")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "waves-effect waves-light white-text"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("format_quote")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "waves-effect waves-light white-text"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("publish")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "waves-effect waves-light white-text"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("attach_file")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
