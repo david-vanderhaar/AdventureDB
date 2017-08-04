@@ -31,6 +31,15 @@ class AdventurerController extends Controller
         return $adventurers;
     }
 
+    public function userIndex($userId)
+    {
+
+        //Find all adventurers associated with user
+        $adventurers = Adventurer::where('user_id', $userId)->get();
+
+        return $adventurers;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,13 +60,6 @@ class AdventurerController extends Controller
     {
 
 
-        //Get User Email from request header
-        // $email = ($request->server()['HTTP_PHP_AUTH_USER']);
-        // $email = $request->server()['PHP_AUTH_USER'];
-        $email = $request->header('php-auth-user');
-        //Find user based on email
-        $user = User::where('email', '=', $email)->get()[0];
-
         $adventurer = new Adventurer;
         $adventurer['name'] = $request->name;
         $adventurer['stamina'] = $request->stamina;
@@ -66,7 +68,7 @@ class AdventurerController extends Controller
         $adventurer['monsters_defeated'] = 0;
         $adventurer['treasure'] = 0;
         $adventurer['active'] = false;
-        $adventurer['user_id'] = $user['id'];
+        $adventurer['user_id'] = $request->user_id;
         $adventurer->save();
 
         return ($adventurer);

@@ -14747,7 +14747,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
-            adventurers: []
+            adventurers: [],
+            user: JSON.parse($("meta[name=auth-user]").attr('content'))
+
         };
     },
 
@@ -14756,7 +14758,7 @@ exports.default = {
         getAdventurers: function getAdventurers() {
             var _this = this;
 
-            axios.get('/api/adventurer/', { user: this.user }).then(function (response) {
+            axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
                 _this.adventurers = response.data; //capture all user's adventurers
                 console.log(response.data);
 
@@ -14978,11 +14980,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
+
+            user: JSON.parse($("meta[name=auth-user]").attr('content')),
+
             newAdventurer: { //store adventure here, then pass to storeAdventurer call
                 name: '',
                 stamina: 1,
                 defense: 1,
-                attack: 1
+                attack: 1,
+                user_id: this.user.id
             },
 
             statMax: 12, //maximum alottment of stats to be allocated

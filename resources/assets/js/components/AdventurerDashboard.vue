@@ -28,12 +28,14 @@
         data() {
             return {
                 adventurers: [],
+                user: JSON.parse($("meta[name=auth-user]").attr('content')),
+
             }
         },
 
         methods: {
             getAdventurers() {
-                 axios.get('/api/adventurer/', {user: this.user})
+                 axios.get('/api/adventurer/user/'+this.user.id)
                 .then((response) => { 
                     this.adventurers = response.data; //capture all user's adventurers
                     console.log(response.data);
