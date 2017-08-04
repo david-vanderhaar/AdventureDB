@@ -14747,30 +14747,29 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
-            adventurers: []
+            adventurers: [],
+            user: $("meta[name=auth-user]").attr("content")
         };
     },
 
 
     methods: {
         getAdventurers: function getAdventurers() {
-            var _this = this;
-
-            axios.get('/api/adventurer').then(function (response) {
-                _this.adventurers = response.data; //capture all user's adventurers
+            axios.get('/api/adventurer/', { user: this.user }).then(function (response) {
+                // this.adventurers = response.data; //capture all user's adventurers
                 console.log(response.data);
 
-                _this.disembarkAdventurers(_this.adventurers); //deactivate all active adventures for clean slate
+                // this.disembarkAdventurers(this.adventurers); //deactivate all active adventures for clean slate
             });
         },
         //end getAdventurers
 
         deleteAdventurer: function deleteAdventurer(adventurerId) {
-            var _this2 = this;
+            var _this = this;
 
             axios.delete('/api/adventurer/' + adventurerId).then(function (response) {
 
-                _this2.getAdventurers(); //on succesfull delete, refresh adventurers
+                _this.getAdventurers(); //on succesfull delete, refresh adventurers
                 Materialize.toast(response.data.name + ' has retired, off to start the final journey', 4000);
             }).catch(function (error) {
                 Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
@@ -14780,12 +14779,12 @@ exports.default = {
         //end deleteAdventurers
 
         embarkAdventurer: function embarkAdventurer(id) {
-            var _this3 = this;
+            var _this2 = this;
 
             //set this adventurer to active
             axios.patch('/api/adventurer/activate/' + id).then(function (response) {
 
-                _this3.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
+                _this2.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
             });
         },
         //end embarkAdventurer

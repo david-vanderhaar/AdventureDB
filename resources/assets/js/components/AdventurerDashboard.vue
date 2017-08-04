@@ -33,7 +33,7 @@
 
         methods: {
             getAdventurers() {
-                 axios.get('/api/adventurer')
+                 axios.get('/api/adventurer/', {user: this.user})
                 .then((response) => { 
                     this.adventurers = response.data; //capture all user's adventurers
                     console.log(response.data);
