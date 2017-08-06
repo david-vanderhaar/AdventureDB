@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <h2 class="center red-text text-darken-4">A New Adventurer</h2>
+                <h2 class="center white-text text-darken-4">A New Adventurer</h2>
             </div>
         </div>
         <div class="row grey lighten-4">
@@ -42,7 +42,7 @@
                       <button class="btn green" v-if="created != true" @click="storeAdventurer()">Create</button>
                   
                   
-                    <router-link to="/" v-if="created == true"><button class="btn">View Adventurers</button></router-link>
+                    <router-link to="/" v-if="created == true"><button class="btn">Back to the Tavern</button></router-link>
                   
                   
                     <router-link to="/" v-if="created == false"><button class="btn">Back to the Tavern</button></router-link>

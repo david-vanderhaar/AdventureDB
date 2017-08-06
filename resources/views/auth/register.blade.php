@@ -9,9 +9,9 @@
                         {{ csrf_field() }}
 
                         <div class="input-field{{ $errors->has('name') ? ' red lighten-1' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label white-text">Name</label>
 
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control white-text" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -21,9 +21,9 @@
                         </div>
 
                         <div class="input-field{{ $errors->has('email') ? ' red lighten-1' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label white-text">E-Mail Address</label>
 
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="form-control white-text" name="email" value="{{ old('email') }}" required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -33,9 +33,9 @@
                         </div>
 
                         <div class="input-field{{ $errors->has('password') ? ' red lighten-1' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label white-text">Password</label>
 
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control white-text" name="password" required>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -45,9 +45,9 @@
                         </div>
 
                         <div class="input-field">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label white-text">Confirm Password</label>
 
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control white-text" name="password_confirmation" required>
                         </div>
 
                         <div class="input-field">

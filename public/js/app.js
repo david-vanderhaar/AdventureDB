@@ -14864,8 +14864,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, _vm._l((_vm.adventurers), function(adventurer) {
     return _c('li', [_c('div', {
-      staticClass: "collapsible-header"
-    }, [_c('h5', [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _c('div', {
+      staticClass: "collapsible-header red darken-4"
+    }, [_c('h4', {
+      staticClass: "white-text"
+    }, [_vm._v(_vm._s(adventurer.name))])]), _vm._v(" "), _c('div', {
       staticClass: "collapsible-body white"
     }, [_c('div', {
       staticClass: "row"
@@ -14929,7 +14931,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col s12 center"
   }, [_c('i', {
-    staticClass: "material-icons red-text text-darken-4 large"
+    staticClass: "material-icons white-text text-darken-4 large"
   }, [_vm._v("home")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -15330,7 +15332,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn"
-  }, [_vm._v("View Adventurers")])]) : _vm._e(), _vm._v(" "), (_vm.created == false) ? _c('router-link', {
+  }, [_vm._v("Back to the Tavern")])]) : _vm._e(), _vm._v(" "), (_vm.created == false) ? _c('router-link', {
     attrs: {
       "to": "/"
     }
@@ -15350,7 +15352,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col s12"
   }, [_c('h2', {
-    staticClass: "center red-text text-darken-4"
+    staticClass: "center white-text text-darken-4"
   }, [_vm._v("A New Adventurer")])])])
 }]}
 module.exports.render._withStripped = true

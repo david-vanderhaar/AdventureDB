@@ -2,3 +2,10 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css");
 // Import Icons
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// Import Fonts
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200i");
+
+h1,h2,h3,h4,h5,h6 {
+	font-family: "Montserrat", Georgia, Serif;
+	// font-weight: 100;
+}

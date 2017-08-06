@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12 center">
-                <i class="material-icons red-text text-darken-4 large">home</i>
+                <i class="material-icons white-text text-darken-4 large">home</i>
             </div>
         </div>
         <div class="row">
@@ -13,7 +13,7 @@
         <div class="row">
         <ul class="collapsible" data-collapsible="accordion">
             <li v-for="adventurer in adventurers">
-              <div class="collapsible-header"><h5>{{adventurer.name}}</h5></div>
+              <div class="collapsible-header red darken-4"><h4 class="white-text">{{adventurer.name}}</h4></div>
               <div class="collapsible-body white">
 
                   <div class="row">
