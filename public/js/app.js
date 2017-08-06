@@ -15883,8 +15883,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
 
 exports.default = {
     data: function data() {
@@ -16757,7 +16755,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons white-text"
-  }, [_vm._v("home")])])], 1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("home")])])], 1), _vm._v(" "), _vm._m(2)])])]), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "monster-modal"
@@ -16776,7 +16774,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16787,7 +16785,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16798,7 +16796,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16817,7 +16815,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16828,7 +16826,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(9), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16839,7 +16837,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(10), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16883,21 +16881,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "waves-effect waves-light white-text"
-  }, [_c('i', {
+  }, [_c('a', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("format_quote")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "waves-effect waves-light white-text"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("publish")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "waves-effect waves-light white-text"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("attach_file")])])
+  }, [_vm._v("accessibility")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col s6"

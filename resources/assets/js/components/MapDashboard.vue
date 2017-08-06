@@ -15,9 +15,7 @@
                 </a>
                 <ul>
                   <li class="waves-effect waves-light"><router-link to="/"><i class="material-icons white-text">home</i></router-link></li>
-                  <li class="waves-effect waves-light white-text"><i class="material-icons">format_quote</i></li>
-                  <li class="waves-effect waves-light white-text"><i class="material-icons">publish</i></li>
-                  <li class="waves-effect waves-light white-text"><i class="material-icons">attach_file</i></li>
+                  <li class="waves-effect waves-light white-text"><a><i class="material-icons">accessibility</i></a></li>
                 </ul>
             </div>
         </div>
