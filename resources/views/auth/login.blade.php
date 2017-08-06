@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -9,9 +9,9 @@
                         {{ csrf_field() }}
 
                         <div class="input-field{{ $errors->has('email') ? ' red lighten-1' : '' }}">
-                            <label for="email">E-Mail Address</label>
+                            <label for="email" class="white-text">E-Mail Address</label>
 
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control white-text" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="red lighten-1 white-text">
@@ -21,9 +21,9 @@
                         </div>
 
                         <div class="input-field{{ $errors->has('password') ? ' red lighten-1' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="white-text control-label">Password</label>
 
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class=" white-text form-control" name="password" required>
 
                                 @if ($errors->has('password'))
                                     <span class="red lighten-1 white-text">
@@ -32,22 +32,15 @@
                                 @endif
                         </div>
 
-                        <div class="input-field">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                        </div>
 
                         <div class="input-field">
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
-                                </a>
+                                </a> -->
                         </div>
                     </form>
                 </div>
