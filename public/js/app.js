@@ -16032,7 +16032,7 @@ exports.default = mapIcon;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _mapStyles = __webpack_require__(50);
@@ -16044,241 +16044,247 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //import map styles
 
 exports.default = {
-    getMonsters: function getMonsters() {
-        var _this = this;
+  getMonsters: function getMonsters() {
+    var _this = this;
 
-        axios.get('/api/monster').then(function (response) {
-            _this.monsters = response.data;
-            _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers, _this.monsterIcon);
-        }).catch(function (error) {
-            console.log(error);
-        });
-    },
-    generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
-        var _this2 = this;
+    axios.get('/api/monster').then(function (response) {
+      _this.monsters = response.data;
+      _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers, _this.monsterIcon);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+  generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
+    var _this2 = this;
 
-        // Add Interactable Markers
-        entities.forEach(function (entity) {
-            markers.push(new google.maps.Marker({
-                position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-                map: _this2.map,
-                icon: iconGroup[entity.type[0]['name']],
-                title: 'You found something!'
-            }));
+    // Add Interactable Markers
+    entities.forEach(function (entity) {
+      markers.push(new google.maps.Marker({
+        position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        map: _this2.map,
+        icon: iconGroup[entity.type[0]['name']],
+        title: 'You found something!'
+      }));
 
-            // Add Interactable Encounter Range Markers
-            encounterRangeMarkers.push(new google.maps.Circle({
-                strokeColor: '#0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: 'red',
-                fillOpacity: 0.35,
-                map: _this2.map,
-                center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-                radius: 30
-            }));
-        });
-    },
-    //end generate markers
+      // Add Interactable Encounter Range Markers
+      encounterRangeMarkers.push(new google.maps.Circle({
+        strokeColor: '#0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'red',
+        fillOpacity: 0.35,
+        map: _this2.map,
+        center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        radius: 30
+      }));
+    });
+  },
+  //end generate markers
 
 
-    initMap: function initMap() {
-        this.map = new google.maps.Map($('#map')[0], {
-            center: { lat: 38.0423268, lng: -84.49276569999999 },
-            zoom: 18,
-            styles: _mapStyles2.default['army']
-        });
-        this.infoWindow = new google.maps.InfoWindow();
+  initMap: function initMap() {
+    this.map = new google.maps.Map($('#map')[0], {
+      center: { lat: 38.0423268, lng: -84.49276569999999 },
+      zoom: 18,
+      styles: _mapStyles2.default['fantasy'],
+      zoomControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false
+    });
+    this.infoWindow = new google.maps.InfoWindow();
 
-        this.getCurrentLocation();
-        this.updateAdventurerPosition();
-    },
-    getCurrentLocation: function getCurrentLocation() {
-        var _this3 = this;
+    this.getCurrentLocation();
+    this.updateAdventurerPosition();
+  },
+  getCurrentLocation: function getCurrentLocation() {
+    var _this3 = this;
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
 
-                _this3.pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-
-                _this3.infoWindow.setPosition(_this3.pos);
-                _this3.infoWindow.setContent('Adventurer, you are here');
-                _this3.infoWindow.open(_this3.map);
-
-                _this3.map.setCenter(_this3.pos);
-
-                //Generates Adventurer Marker
-                _this3.generateAdventurer(_this3.pos, _this3.map);
-            }, function () {
-                _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-        }
-    },
-    //end getCurrentLocation
-
-    handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(this.map);
-    },
-    //end handleLocationError
-
-    generateAdventurer: function generateAdventurer() {
-        this.adventurerMarker = new google.maps.Marker({
-            position: this.pos,
-            map: this.map,
-            icon: this.adventurerIcon,
-            title: 'Adventurer, you are here'
-        });
-
-        this.showHideEncounterRange();
-    },
-    //end generateAdventurer
-
-    getActiveAdventurer: function getActiveAdventurer() {
-        var _this4 = this;
-
-        axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
-            response.data.forEach(function (adventurer) {
-                if (adventurer.active) {
-                    _this4.adventurerActive = adventurer; //capture users active adventurer
-                }
-            });
-        });
-    },
-    //end getAdventurers
-
-    updateAdventurerPosition: function updateAdventurerPosition() {
-        var _this5 = this;
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-
-            //Clear old watch first, then create new one
-            navigator.geolocation.clearWatch(this.watchId);
-
-            //Set watch id and watch position
-            this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-                _this5.handleLocationError(true, _this5.infoWindow, _this5.map.getCenter());
-            }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
-        } else {
-            // Browser doesn't support Geolocation
-            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-        }
-    },
-    //end updateAdventurerPosition
-
-    pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
-        if (navigator.geolocation) {
-            navigator.geolocation.clearWatch(this.watchId);
-        }
-    },
-    //end updateAdventurerPositionStop
-
-    updateAdventurerSuccess: function updateAdventurerSuccess(position) {
-        this.pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
+        _this3.pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
 
-        //Update encounter range to adventurer
-        if (this.adventurerEncounterRangeMarker != null) {
-            this.adventurerEncounterRangeMarker.setCenter(this.pos);
-        }
+        _this3.infoWindow.setPosition(_this3.pos);
+        _this3.infoWindow.setContent('Adventurer, you are here');
+        _this3.infoWindow.open(_this3.map);
 
-        //Updates Adventurer Marker
-        this.adventurerMarker.setPosition(this.pos);
+        _this3.map.setCenter(_this3.pos);
 
-        if (this.adventurerActive.active == true) {
-            //first check if user has embarked w/ adventurer
-            //Adventurer checks for monsters
-            this.checkForEntity(this.monsters, 'monster');
-        } else {
-            //notify user
-        }
-    },
-    //end updateAdventurerSuccess
-
-    showHideEncounterRange: function showHideEncounterRange() {
-        //First hide and clear old marker
-        if (this.adventurerEncounterRangeMarker != null) {
-            this.adventurerEncounterRangeMarker.setMap(null);
-            this.adventurerEncounterRangeMarker = null;
-        } else {
-            //Build the Adventurer encounter radius here
-            //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
-            this.adventurerEncounterRangeMarker = new google.maps.Circle({
-                strokeColor: '#0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: 'blue',
-                fillOpacity: 0.35,
-                map: this.map,
-                center: this.pos,
-                radius: 30
-            });
-        }
-    },
-    //end showHideEncounterRange
-
-    checkForEntity: function checkForEntity(entities, entityType) {
-        var _this6 = this;
-
-        if (entities != [] && this.adventurerEncounterRangeMarker != null) {
-            var bounds = this.adventurerEncounterRangeMarker.getBounds();
-
-            entities.forEach(function (entity) {
-                if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
-
-                    switch (entityType) {
-                        case 'monster':
-                            if (_this6.encounter == false) {
-                                $('#monster-modal').modal('open'); //open modal
-                                _this6.activateMonster(entity); //activate monster
-                            }
-
-                            // this.pauseUpdateAdventurerPosition();
-                            // this.showHideEncounterRange(); //break the forEach after first encounter
-                            break;
-                        case 'treasure':
-
-                            break;
-
-                    } //end switch
-
-                    _this6.encounter = true; //set status to true to interupt further activations
-                }
-            });
-        }
-    },
-    //end check for entity
-
-    activateMonster: function activateMonster(monster) {
-        var _this7 = this;
-
-        axios.patch('/api/monster/activate/' + monster.id).then(function (response) {
-            console.log('monster activated');
-            console.log(monster);
-            _this7.monsterActive = monster;
-        });
-    },
-    //end activateMonster
-
-    deactivateMonster: function deactivateMonster(monster) {
-        var _this8 = this;
-
-        axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
-            console.log(response.data);
-            _this8.encounter = false; //set status to false to continue further activations
-        });
+        //Generates Adventurer Marker
+        _this3.generateAdventurer(_this3.pos, _this3.map);
+      }, function () {
+        _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
     }
+  },
+  //end getCurrentLocation
+
+  handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(this.map);
+  },
+  //end handleLocationError
+
+  generateAdventurer: function generateAdventurer() {
+    this.adventurerMarker = new google.maps.Marker({
+      position: this.pos,
+      map: this.map,
+      icon: this.adventurerIcon,
+      title: 'Adventurer, you are here'
+    });
+
+    this.showHideEncounterRange();
+  },
+  //end generateAdventurer
+
+  getActiveAdventurer: function getActiveAdventurer() {
+    var _this4 = this;
+
+    axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
+      response.data.forEach(function (adventurer) {
+        if (adventurer.active) {
+          _this4.adventurerActive = adventurer; //capture users active adventurer
+        }
+      });
+    });
+  },
+  //end getAdventurers
+
+  updateAdventurerPosition: function updateAdventurerPosition() {
+    var _this5 = this;
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+
+      //Clear old watch first, then create new one
+      navigator.geolocation.clearWatch(this.watchId);
+
+      //Set watch id and watch position
+      this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
+        _this5.handleLocationError(true, _this5.infoWindow, _this5.map.getCenter());
+      }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
+    } else {
+      // Browser doesn't support Geolocation
+      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
+    }
+  },
+  //end updateAdventurerPosition
+
+  pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.clearWatch(this.watchId);
+    }
+  },
+  //end updateAdventurerPositionStop
+
+  updateAdventurerSuccess: function updateAdventurerSuccess(position) {
+    this.pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
+
+    //Update encounter range to adventurer
+    if (this.adventurerEncounterRangeMarker != null) {
+      this.adventurerEncounterRangeMarker.setCenter(this.pos);
+    }
+
+    //Updates Adventurer Marker
+    this.adventurerMarker.setPosition(this.pos);
+
+    if (this.adventurerActive.active == true) {
+      //first check if user has embarked w/ adventurer
+      //Adventurer checks for monsters
+      this.checkForEntity(this.monsters, 'monster');
+    } else {
+      //notify user
+    }
+  },
+  //end updateAdventurerSuccess
+
+  showHideEncounterRange: function showHideEncounterRange() {
+    //First hide and clear old marker
+    if (this.adventurerEncounterRangeMarker != null) {
+      this.adventurerEncounterRangeMarker.setMap(null);
+      this.adventurerEncounterRangeMarker = null;
+    } else {
+      //Build the Adventurer encounter radius here
+      //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
+      this.adventurerEncounterRangeMarker = new google.maps.Circle({
+        strokeColor: '#0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'blue',
+        fillOpacity: 0.35,
+        map: this.map,
+        center: this.pos,
+        radius: 30
+      });
+    }
+  },
+  //end showHideEncounterRange
+
+  checkForEntity: function checkForEntity(entities, entityType) {
+    var _this6 = this;
+
+    if (entities != [] && this.adventurerEncounterRangeMarker != null) {
+      var bounds = this.adventurerEncounterRangeMarker.getBounds();
+
+      entities.forEach(function (entity) {
+        if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
+
+          switch (entityType) {
+            case 'monster':
+              if (_this6.encounter == false) {
+                $('#monster-modal').modal('open'); //open modal
+                _this6.activateMonster(entity); //activate monster
+              }
+
+              // this.pauseUpdateAdventurerPosition();
+              // this.showHideEncounterRange(); //break the forEach after first encounter
+              break;
+            case 'treasure':
+
+              break;
+
+          } //end switch
+
+          _this6.encounter = true; //set status to true to interupt further activations
+        }
+      });
+    }
+  },
+  //end check for entity
+
+  activateMonster: function activateMonster(monster) {
+    var _this7 = this;
+
+    axios.patch('/api/monster/activate/' + monster.id).then(function (response) {
+      console.log('monster activated');
+      console.log(monster);
+      _this7.monsterActive = monster;
+    });
+  },
+  //end activateMonster
+
+  deactivateMonster: function deactivateMonster(monster) {
+    var _this8 = this;
+
+    axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
+      console.log(response.data);
+      _this8.encounter = false; //set status to false to continue further activations
+    });
+  }
 };
 
 /***/ }),
@@ -16289,156 +16295,445 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 var mapStyles = {
-  'default': null,
-  'dark': [{ elementType: 'geometry', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] }, {
-    featureType: 'administrative.locality',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  }, {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  }, {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [{ color: '#263c3f' }]
-  }, {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#6b9a76' }]
-  }, {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [{ color: '#38414e' }]
-  }, {
-    featureType: 'road',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#212a37' }]
-  }, {
-    featureType: 'road',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#9ca5b3' }]
-  }, {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [{ color: '#746855' }]
-  }, {
-    featureType: 'road.highway',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#1f2835' }]
-  }, {
-    featureType: 'road.highway',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#f3d19c' }]
-  }, {
-    featureType: 'transit',
-    elementType: 'geometry',
-    stylers: [{ color: '#2f3948' }]
-  }, {
-    featureType: 'transit.station',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#d59563' }]
-  }, {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [{ color: '#17263c' }]
-  }, {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#515c6d' }]
-  }, {
-    featureType: 'water',
-    elementType: 'labels.text.stroke',
-    stylers: [{ color: '#17263c' }]
-  }],
-  'army': [{ elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] }, {
-    featureType: 'administrative',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#c9b2a6' }]
-  }, {
-    featureType: 'administrative.land_parcel',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#dcd2be' }]
-  }, {
-    featureType: 'administrative.land_parcel',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#ae9e90' }]
-  }, {
-    featureType: 'landscape.natural',
-    elementType: 'geometry',
-    stylers: [{ color: '#dfd2ae' }]
-  }, {
-    featureType: 'poi',
-    elementType: 'geometry',
-    stylers: [{ color: '#dfd2ae' }]
-  }, {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#93817c' }]
-  }, {
-    featureType: 'poi.park',
-    elementType: 'geometry.fill',
-    stylers: [{ color: '#a5b076' }]
-  }, {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#447530' }]
-  }, {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [{ color: '#f5f1e6' }]
-  }, {
-    featureType: 'road.arterial',
-    elementType: 'geometry',
-    stylers: [{ color: '#fdfcf8' }]
-  }, {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [{ color: '#f8c967' }]
-  }, {
-    featureType: 'road.highway',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#e9bc62' }]
-  }, {
-    featureType: 'road.highway.controlled_access',
-    elementType: 'geometry',
-    stylers: [{ color: '#e98d58' }]
-  }, {
-    featureType: 'road.highway.controlled_access',
-    elementType: 'geometry.stroke',
-    stylers: [{ color: '#db8555' }]
-  }, {
-    featureType: 'road.local',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#806b63' }]
-  }, {
-    featureType: 'transit.line',
-    elementType: 'geometry',
-    stylers: [{ color: '#dfd2ae' }]
-  }, {
-    featureType: 'transit.line',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#8f7d77' }]
-  }, {
-    featureType: 'transit.line',
-    elementType: 'labels.text.stroke',
-    stylers: [{ color: '#ebe3cd' }]
-  }, {
-    featureType: 'transit.station',
-    elementType: 'geometry',
-    stylers: [{ color: '#dfd2ae' }]
-  }, {
-    featureType: 'water',
-    elementType: 'geometry.fill',
-    stylers: [{ color: '#b9d3c2' }]
-  }, {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#92998d' }]
-  }]
+    'default': null,
+    'dark': [{ elementType: 'geometry', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] }, {
+        featureType: 'administrative.locality',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }]
+    }, {
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }]
+    }, {
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [{ color: '#263c3f' }]
+    }, {
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#6b9a76' }]
+    }, {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{ color: '#38414e' }]
+    }, {
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#212a37' }]
+    }, {
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#9ca5b3' }]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{ color: '#746855' }]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#1f2835' }]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#f3d19c' }]
+    }, {
+        featureType: 'transit',
+        elementType: 'geometry',
+        stylers: [{ color: '#2f3948' }]
+    }, {
+        featureType: 'transit.station',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#d59563' }]
+    }, {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [{ color: '#17263c' }]
+    }, {
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#515c6d' }]
+    }, {
+        featureType: 'water',
+        elementType: 'labels.text.stroke',
+        stylers: [{ color: '#17263c' }]
+    }],
+    'army': [{ elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] }, {
+        featureType: 'administrative',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#c9b2a6' }]
+    }, {
+        featureType: 'administrative.land_parcel',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#dcd2be' }]
+    }, {
+        featureType: 'administrative.land_parcel',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#ae9e90' }]
+    }, {
+        featureType: 'landscape.natural',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }]
+    }, {
+        featureType: 'poi',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }]
+    }, {
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#93817c' }]
+    }, {
+        featureType: 'poi.park',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#a5b076' }]
+    }, {
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#447530' }]
+    }, {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{ color: '#f5f1e6' }]
+    }, {
+        featureType: 'road.arterial',
+        elementType: 'geometry',
+        stylers: [{ color: '#fdfcf8' }]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{ color: '#f8c967' }]
+    }, {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#e9bc62' }]
+    }, {
+        featureType: 'road.highway.controlled_access',
+        elementType: 'geometry',
+        stylers: [{ color: '#e98d58' }]
+    }, {
+        featureType: 'road.highway.controlled_access',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#db8555' }]
+    }, {
+        featureType: 'road.local',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#806b63' }]
+    }, {
+        featureType: 'transit.line',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }]
+    }, {
+        featureType: 'transit.line',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#8f7d77' }]
+    }, {
+        featureType: 'transit.line',
+        elementType: 'labels.text.stroke',
+        stylers: [{ color: '#ebe3cd' }]
+    }, {
+        featureType: 'transit.station',
+        elementType: 'geometry',
+        stylers: [{ color: '#dfd2ae' }]
+    }, {
+        featureType: 'water',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#b9d3c2' }]
+    }, {
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{ color: '#92998d' }]
+    }],
+    "fantasy": [{
+        "featureType": "all",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#ecdcc3"
+        }]
+    }, {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+            "gamma": 0.01
+        }, {
+            "lightness": 20
+        }]
+    }, {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+            "saturation": -31
+        }, {
+            "lightness": -33
+        }, {
+            "weight": 2
+        }, {
+            "gamma": 0.8
+        }]
+    }, {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "administrative.country",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "simplified"
+        }, {
+            "color": "#776340"
+        }, {
+            "invert_lightness": true
+        }]
+    }, {
+        "featureType": "administrative.province",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "simplified"
+        }, {
+            "color": "#776340"
+        }]
+    }, {
+        "featureType": "administrative.province",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "administrative.province",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "administrative.neighborhood",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [{
+            "lightness": 30
+        }, {
+            "saturation": 30
+        }]
+    }, {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "landscape.natural",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "simplified"
+        }]
+    }, {
+        "featureType": "landscape.natural",
+        "elementType": "labels",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "landscape.natural.terrain",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "color": "#e5d8c3"
+        }, {
+            "lightness": "-6"
+        }]
+    }, {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [{
+            "saturation": 20
+        }]
+    }, {
+        "featureType": "poi.park",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [{
+            "lightness": 20
+        }, {
+            "saturation": -20
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [{
+            "weight": "1"
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [{
+            "lightness": 10
+        }, {
+            "saturation": -30
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "color": "#8f8470"
+        }, {
+            "lightness": "0"
+        }, {
+            "weight": "1"
+        }, {
+            "invert_lightness": true
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "saturation": 25
+        }, {
+            "lightness": 25
+        }, {
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "labels.text",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "weight": "2.00"
+        }, {
+            "invert_lightness": true
+        }]
+    }, {
+        "featureType": "road.arterial",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "weight": "2"
+        }]
+    }, {
+        "featureType": "road.arterial",
+        "elementType": "labels",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "road.local",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "transit.line",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "invert_lightness": true
+        }, {
+            "lightness": "37"
+        }]
+    }, {
+        "featureType": "transit.station.airport",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "transit.station.bus",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "transit.station.rail",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "transit.station.rail",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "color": "#b0b0b0"
+        }]
+    }, {
+        "featureType": "transit.station.rail",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "transit.station.rail",
+        "elementType": "labels",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [{
+            "lightness": -20
+        }, {
+            "visibility": "simplified"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "lightness": "28"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "labels.icon",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }]
 };
 
 exports.default = mapStyles;

@@ -44,7 +44,13 @@ export default {
                 this.map = new google.maps.Map($('#map')[0], {
                   center: {lat: 38.0423268, lng: -84.49276569999999},
                   zoom: 18,
-                  styles: mapStyles['army']
+                  styles: mapStyles['fantasy'],
+                  zoomControl: true,
+                  mapTypeControl: false,
+                  scaleControl: true,
+                  streetViewControl: false,
+                  rotateControl: false,
+                  fullscreenControl: false
                 });
                 this.infoWindow = new google.maps.InfoWindow;
 
