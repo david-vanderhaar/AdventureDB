@@ -26,6 +26,29 @@ class MonsterController extends Controller
         return $monsters;
     }
 
+    public function monstersInRange($lat, $lng, $distance) { //returns monsters within distance (km)
+            // return $lat.$lng.' '.$distance;
+            $monsters = Monster::all()->filter(function ($monster) use ($lat, $lng, $distance) {
+                $actual = 6371 * acos(
+                    cos(deg2rad($lat)) * cos(deg2rad($monster->lat))
+                    * cos(deg2rad($monster->lng) - deg2rad($lng))
+                    + sin(deg2rad($lat)) * sin(deg2rad($monster->lat))
+                );
+                // var_dump($actual < $distance);
+                return $actual < $distance;
+            });
+
+            $monsters = $monsters->values();
+
+            //Attach relevant monster type info
+            foreach($monsters as $monster){
+                $monsterType = $monster->monsterType()->get();
+                $monster['type'] = $monsterType;
+            }
+
+            return $monsters;
+        }
+
     /**
      * Show the form for creating a new resource.
      *

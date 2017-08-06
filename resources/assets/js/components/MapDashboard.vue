@@ -6,9 +6,9 @@
         </div>
 
         <div class="row">
-<!--             <div class="col s12 center">
-                <router-link to="/"><button class="btn">Back to the Tavern</button></router-link>
-            </div> -->
+            <div class="col s6 center">
+                <a><button class="btn" @click="getMonstersInRange()">Search</button></a>
+            </div>
             <div class="fixed-action-btn toolbar">
                 <a class="btn-floating btn-large">
                   <i class="large material-icons">menu</i>
@@ -135,6 +135,7 @@ import mapMethods from './mapjs/adventurer';
                 pos: null,
 
                 encounter: false,
+                encounterRange: 30, //Range within which adventure encounters entity
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization
@@ -218,7 +219,8 @@ import mapMethods from './mapjs/adventurer';
 
         mounted() {
             this.initMap();
-            this.getMonsters();
+            // console.log(this.pos);
+            // this.getMonstersInRange(.9);
             this.getActiveAdventurer();
 
         }, //end mounted

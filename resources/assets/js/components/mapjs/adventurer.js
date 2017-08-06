@@ -2,7 +2,7 @@ import mapStyles from './map-styles'; //import map styles
 
 export default {
 
-            getMonsters() {
+            getMonsters() { //get all monsters
               axios.get('/api/monster')
                 .then((response) => { 
                     this.monsters = response.data;
@@ -13,7 +13,24 @@ export default {
                 });
             },
 
+            getMonstersInRange(range) { //get monsters in certain range of user (in km)
+              range = (this.encounterRange / 1000) * 30;
+              console.log(range);
+              axios.get('/api/monster/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
+                .then((response) => { 
+                    this.monsters = response.data;
+                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            },
+
             generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
+
+              if(markers) { //check for existing markers
+                this.clearMarkers(markers, encounterRangeMarkers);
+              }
 
               // Add Interactable Markers
               (entities).forEach((entity) => {
@@ -33,11 +50,30 @@ export default {
                   fillOpacity: 0.35,
                   map: this.map,
                   center: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
-                  radius: 30
+                  radius: 5
                 }));
               });
 
           }, //end generate markers
+
+          clearMarkers(markers, encounterRangeMarkers) {
+            //Remove Interactable markers from map
+            markers.forEach((marker) => {
+              marker.setMap(null);
+              marker = null; 
+            });
+
+            encounterRangeMarkers.forEach((encounterRangeMarker) => {
+              encounterRangeMarker.setMap(null);
+              encounterRangeMarker = null;
+            });
+
+            //Clear Encounter markers array
+            encounterRangeMarkers = [];
+
+            //Clear Interactable markers array
+            markers = [];
+          }, //end clear markers
 
 
             initMap() {
@@ -56,6 +92,7 @@ export default {
 
                 this.getCurrentLocation();
                 this.updateAdventurerPosition();
+
             },
 
             getCurrentLocation() {
@@ -76,6 +113,8 @@ export default {
 
                   //Generates Adventurer Marker
                   this.generateAdventurer(this.pos, this.map);
+                  //Gets all monsters in range
+                  this.getMonstersInRange();
 
                 }, () => {
                   this.handleLocationError(true, this.infoWindow, this.map.getCenter());
@@ -187,7 +226,7 @@ export default {
                         fillOpacity: 0.35,
                         map: this.map,
                         center: this.pos,
-                        radius: 30
+                        radius: this.encounterRange
                     });
                 }
             }, //end showHideEncounterRange
