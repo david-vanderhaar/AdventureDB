@@ -80,6 +80,7 @@
         methods: {
             storeAdventurer() { //save adventurer to the database
               if (this.newAdventurer.name != ''){
+                if(this.statMax >= 0){ //check for invalid stats
                  axios.post('/api/adventurer', this.newAdventurer)
                 .then((response) => { 
                     console.log(response.data);
@@ -97,6 +98,10 @@
                 .catch((error) => {
                     console.log(error);
                 });
+              } else {
+                Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
+                Materialize.toast('Reallocate a few point please!', 4000) // alert the user to invalid stat allotment
+              }
               } else {
                 Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000) // alert the user to success
               }

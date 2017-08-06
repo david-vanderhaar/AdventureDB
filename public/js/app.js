@@ -15123,20 +15123,26 @@ exports.default = {
 
             //save adventurer to the database
             if (this.newAdventurer.name != '') {
-                axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
-                    console.log(response.data);
-                    _this.created = true;
-                    Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
-                    _this.newAdventurer = { //reset form fields
-                        name: '',
-                        stamina: 1,
-                        defense: 1,
-                        attack: 1,
-                        user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
-                    };
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                if (this.statMax >= 0) {
+                    //check for invalid stats
+                    axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
+                        console.log(response.data);
+                        _this.created = true;
+                        Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
+                        _this.newAdventurer = { //reset form fields
+                            name: '',
+                            stamina: 1,
+                            defense: 1,
+                            attack: 1,
+                            user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
+                        };
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
+                    Materialize.toast('Reallocate a few point please!', 4000); // alert the user to invalid stat allotment
+                }
             } else {
                 Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000); // alert the user to success
             }
