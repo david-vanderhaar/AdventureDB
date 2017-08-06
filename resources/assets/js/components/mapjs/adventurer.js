@@ -118,6 +118,10 @@ export default {
                 });
             }, //end getAdventurers
 
+            openAdventurerDetailModal() {
+                $('#adventurer-modal').modal('open'); //open modal
+            }, //end openAdventurerDetailModal
+
             updateAdventurerPosition () {
                 // Try HTML5 geolocation.
                 if (navigator.geolocation) {

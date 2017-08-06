@@ -15,12 +15,12 @@
                 </a>
                 <ul>
                   <li class="waves-effect waves-light"><router-link to="/"><i class="material-icons white-text">home</i></router-link></li>
-                  <li class="waves-effect waves-light white-text"><a><i class="material-icons">accessibility</i></a></li>
+                  <li class="waves-effect waves-light white-text"><a @click="openAdventurerDetailModal()"><i class="material-icons">accessibility</i></a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- Modal Structure -->
+        <!-- Monster Modal Structure -->
         <div id="monster-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>Look Out!</h4>
@@ -72,6 +72,48 @@
                     <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Run</a>
             </div>
         </div>
+
+        <!-- Monster Modal Structure -->
+        <div id="adventurer-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Look Out!</h4>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="row">
+                            <h5 v-text="adventurerActive.name"></h5>
+                        </div>
+                         <div class="row">
+                            <div class="col s6"><p class="flow-text">Monsters Defeated:</p></div>
+                            <div class="col s6"><p class="center btn" v-text="adventurerActive.monsters_defeated"></p></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Treasure:</p></div>
+                            <div class="col s6"><p class="center btn" v-text="adventurerActive.treasure"></p></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Stamina:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Defense:</p></div>
+                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Attack:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
+                        </div>
+                            <div class="divider"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat">Close!</a>
+            </div>
+        </div>
   </div>
 
 
@@ -118,7 +160,7 @@ import mapMethods from './mapjs/adventurer';
                     active: false,
                     type:[
                         {
-                            name:'none',
+                            name:'No Monster Here',
                             stamina: '0',
                             defense: '0',
                             attack: '0'

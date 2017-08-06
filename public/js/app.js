@@ -15883,6 +15883,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -15920,7 +15962,7 @@ exports.default = {
             monsterActive: { //placeholder for encounter modal initialization
                 active: false,
                 type: [{
-                    name: 'none',
+                    name: 'No Monster Here',
                     stamina: '0',
                     defense: '0',
                     attack: '0'
@@ -16030,7 +16072,7 @@ exports.default = mapIcon;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _mapStyles = __webpack_require__(50);
@@ -16042,247 +16084,252 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //import map styles
 
 exports.default = {
-  getMonsters: function getMonsters() {
-    var _this = this;
+    getMonsters: function getMonsters() {
+        var _this = this;
 
-    axios.get('/api/monster').then(function (response) {
-      _this.monsters = response.data;
-      _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers, _this.monsterIcon);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  },
-  generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
-    var _this2 = this;
+        axios.get('/api/monster').then(function (response) {
+            _this.monsters = response.data;
+            _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers, _this.monsterIcon);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+    generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
+        var _this2 = this;
 
-    // Add Interactable Markers
-    entities.forEach(function (entity) {
-      markers.push(new google.maps.Marker({
-        position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-        map: _this2.map,
-        icon: iconGroup[entity.type[0]['name']],
-        title: 'You found something!'
-      }));
+        // Add Interactable Markers
+        entities.forEach(function (entity) {
+            markers.push(new google.maps.Marker({
+                position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+                map: _this2.map,
+                icon: iconGroup[entity.type[0]['name']],
+                title: 'You found something!'
+            }));
 
-      // Add Interactable Encounter Range Markers
-      encounterRangeMarkers.push(new google.maps.Circle({
-        strokeColor: '#0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: 'red',
-        fillOpacity: 0.35,
-        map: _this2.map,
-        center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-        radius: 30
-      }));
-    });
-  },
-  //end generate markers
+            // Add Interactable Encounter Range Markers
+            encounterRangeMarkers.push(new google.maps.Circle({
+                strokeColor: '#0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: 'red',
+                fillOpacity: 0.35,
+                map: _this2.map,
+                center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+                radius: 30
+            }));
+        });
+    },
+    //end generate markers
 
 
-  initMap: function initMap() {
-    this.map = new google.maps.Map($('#map')[0], {
-      center: { lat: 38.0423268, lng: -84.49276569999999 },
-      zoom: 18,
-      styles: _mapStyles2.default['fantasy'],
-      zoomControl: true,
-      mapTypeControl: false,
-      scaleControl: true,
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: false
-    });
-    this.infoWindow = new google.maps.InfoWindow();
+    initMap: function initMap() {
+        this.map = new google.maps.Map($('#map')[0], {
+            center: { lat: 38.0423268, lng: -84.49276569999999 },
+            zoom: 18,
+            styles: _mapStyles2.default['fantasy'],
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false
+        });
+        this.infoWindow = new google.maps.InfoWindow();
 
-    this.getCurrentLocation();
-    this.updateAdventurerPosition();
-  },
-  getCurrentLocation: function getCurrentLocation() {
-    var _this3 = this;
+        this.getCurrentLocation();
+        this.updateAdventurerPosition();
+    },
+    getCurrentLocation: function getCurrentLocation() {
+        var _this3 = this;
 
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
 
-        _this3.pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+                _this3.pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                _this3.infoWindow.setPosition(_this3.pos);
+                _this3.infoWindow.setContent('Adventurer, you are here');
+                _this3.infoWindow.open(_this3.map);
+
+                _this3.map.setCenter(_this3.pos);
+
+                //Generates Adventurer Marker
+                _this3.generateAdventurer(_this3.pos, _this3.map);
+            }, function () {
+                _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
+        }
+    },
+    //end getCurrentLocation
+
+    handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(this.map);
+    },
+    //end handleLocationError
+
+    generateAdventurer: function generateAdventurer() {
+        this.adventurerMarker = new google.maps.Marker({
+            position: this.pos,
+            map: this.map,
+            icon: this.adventurerIcon,
+            title: 'Adventurer, you are here'
+        });
+
+        this.showHideEncounterRange();
+    },
+    //end generateAdventurer
+
+    getActiveAdventurer: function getActiveAdventurer() {
+        var _this4 = this;
+
+        axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
+            response.data.forEach(function (adventurer) {
+                if (adventurer.active) {
+                    _this4.adventurerActive = adventurer; //capture users active adventurer
+                }
+            });
+        });
+    },
+    //end getAdventurers
+
+    openAdventurerDetailModal: function openAdventurerDetailModal() {
+        $('#adventurer-modal').modal('open'); //open modal
+    },
+    //end openAdventurerDetailModal
+
+    updateAdventurerPosition: function updateAdventurerPosition() {
+        var _this5 = this;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+
+            //Clear old watch first, then create new one
+            navigator.geolocation.clearWatch(this.watchId);
+
+            //Set watch id and watch position
+            this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
+                _this5.handleLocationError(true, _this5.infoWindow, _this5.map.getCenter());
+            }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
+        } else {
+            // Browser doesn't support Geolocation
+            this.handleLocationError(false, this.infoWindow, this.map.getCenter());
+        }
+    },
+    //end updateAdventurerPosition
+
+    pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.clearWatch(this.watchId);
+        }
+    },
+    //end updateAdventurerPositionStop
+
+    updateAdventurerSuccess: function updateAdventurerSuccess(position) {
+        this.pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
         };
 
-        _this3.infoWindow.setPosition(_this3.pos);
-        _this3.infoWindow.setContent('Adventurer, you are here');
-        _this3.infoWindow.open(_this3.map);
-
-        _this3.map.setCenter(_this3.pos);
-
-        //Generates Adventurer Marker
-        _this3.generateAdventurer(_this3.pos, _this3.map);
-      }, function () {
-        _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-    }
-  },
-  //end getCurrentLocation
-
-  handleLocationError: function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(this.map);
-  },
-  //end handleLocationError
-
-  generateAdventurer: function generateAdventurer() {
-    this.adventurerMarker = new google.maps.Marker({
-      position: this.pos,
-      map: this.map,
-      icon: this.adventurerIcon,
-      title: 'Adventurer, you are here'
-    });
-
-    this.showHideEncounterRange();
-  },
-  //end generateAdventurer
-
-  getActiveAdventurer: function getActiveAdventurer() {
-    var _this4 = this;
-
-    axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
-      response.data.forEach(function (adventurer) {
-        if (adventurer.active) {
-          _this4.adventurerActive = adventurer; //capture users active adventurer
+        //Update encounter range to adventurer
+        if (this.adventurerEncounterRangeMarker != null) {
+            this.adventurerEncounterRangeMarker.setCenter(this.pos);
         }
-      });
-    });
-  },
-  //end getAdventurers
 
-  updateAdventurerPosition: function updateAdventurerPosition() {
-    var _this5 = this;
+        //Updates Adventurer Marker
+        this.adventurerMarker.setPosition(this.pos);
 
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-
-      //Clear old watch first, then create new one
-      navigator.geolocation.clearWatch(this.watchId);
-
-      //Set watch id and watch position
-      this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-        _this5.handleLocationError(true, _this5.infoWindow, _this5.map.getCenter());
-      }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
-    } else {
-      // Browser doesn't support Geolocation
-      this.handleLocationError(false, this.infoWindow, this.map.getCenter());
-    }
-  },
-  //end updateAdventurerPosition
-
-  pauseUpdateAdventurerPosition: function pauseUpdateAdventurerPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.clearWatch(this.watchId);
-    }
-  },
-  //end updateAdventurerPositionStop
-
-  updateAdventurerSuccess: function updateAdventurerSuccess(position) {
-    this.pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };
-
-    //Update encounter range to adventurer
-    if (this.adventurerEncounterRangeMarker != null) {
-      this.adventurerEncounterRangeMarker.setCenter(this.pos);
-    }
-
-    //Updates Adventurer Marker
-    this.adventurerMarker.setPosition(this.pos);
-
-    if (this.adventurerActive.active == true) {
-      //first check if user has embarked w/ adventurer
-      //Adventurer checks for monsters
-      this.checkForEntity(this.monsters, 'monster');
-    } else {
-      //notify user
-    }
-  },
-  //end updateAdventurerSuccess
-
-  showHideEncounterRange: function showHideEncounterRange() {
-    //First hide and clear old marker
-    if (this.adventurerEncounterRangeMarker != null) {
-      this.adventurerEncounterRangeMarker.setMap(null);
-      this.adventurerEncounterRangeMarker = null;
-    } else {
-      //Build the Adventurer encounter radius here
-      //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
-      this.adventurerEncounterRangeMarker = new google.maps.Circle({
-        strokeColor: '#0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: 'blue',
-        fillOpacity: 0.35,
-        map: this.map,
-        center: this.pos,
-        radius: 30
-      });
-    }
-  },
-  //end showHideEncounterRange
-
-  checkForEntity: function checkForEntity(entities, entityType) {
-    var _this6 = this;
-
-    if (entities != [] && this.adventurerEncounterRangeMarker != null) {
-      var bounds = this.adventurerEncounterRangeMarker.getBounds();
-
-      entities.forEach(function (entity) {
-        if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
-
-          switch (entityType) {
-            case 'monster':
-              if (_this6.encounter == false) {
-                $('#monster-modal').modal('open'); //open modal
-                _this6.activateMonster(entity); //activate monster
-              }
-
-              // this.pauseUpdateAdventurerPosition();
-              // this.showHideEncounterRange(); //break the forEach after first encounter
-              break;
-            case 'treasure':
-
-              break;
-
-          } //end switch
-
-          _this6.encounter = true; //set status to true to interupt further activations
+        if (this.adventurerActive.active == true) {
+            //first check if user has embarked w/ adventurer
+            //Adventurer checks for monsters
+            this.checkForEntity(this.monsters, 'monster');
+        } else {
+            //notify user
         }
-      });
+    },
+    //end updateAdventurerSuccess
+
+    showHideEncounterRange: function showHideEncounterRange() {
+        //First hide and clear old marker
+        if (this.adventurerEncounterRangeMarker != null) {
+            this.adventurerEncounterRangeMarker.setMap(null);
+            this.adventurerEncounterRangeMarker = null;
+        } else {
+            //Build the Adventurer encounter radius here
+            //This circle is the graphical representation of the range within whci adventurer will encounter monsters etc.
+            this.adventurerEncounterRangeMarker = new google.maps.Circle({
+                strokeColor: '#0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: 'blue',
+                fillOpacity: 0.35,
+                map: this.map,
+                center: this.pos,
+                radius: 30
+            });
+        }
+    },
+    //end showHideEncounterRange
+
+    checkForEntity: function checkForEntity(entities, entityType) {
+        var _this6 = this;
+
+        if (entities != [] && this.adventurerEncounterRangeMarker != null) {
+            var bounds = this.adventurerEncounterRangeMarker.getBounds();
+
+            entities.forEach(function (entity) {
+                if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
+
+                    switch (entityType) {
+                        case 'monster':
+                            if (_this6.encounter == false) {
+                                $('#monster-modal').modal('open'); //open modal
+                                _this6.activateMonster(entity); //activate monster
+                            }
+
+                            // this.pauseUpdateAdventurerPosition();
+                            // this.showHideEncounterRange(); //break the forEach after first encounter
+                            break;
+                        case 'treasure':
+
+                            break;
+
+                    } //end switch
+
+                    _this6.encounter = true; //set status to true to interupt further activations
+                }
+            });
+        }
+    },
+    //end check for entity
+
+    activateMonster: function activateMonster(monster) {
+        var _this7 = this;
+
+        axios.patch('/api/monster/activate/' + monster.id).then(function (response) {
+            console.log('monster activated');
+            console.log(monster);
+            _this7.monsterActive = monster;
+        });
+    },
+    //end activateMonster
+
+    deactivateMonster: function deactivateMonster(monster) {
+        var _this8 = this;
+
+        axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
+            console.log(response.data);
+            _this8.encounter = false; //set status to false to continue further activations
+        });
     }
-  },
-  //end check for entity
-
-  activateMonster: function activateMonster(monster) {
-    var _this7 = this;
-
-    axios.patch('/api/monster/activate/' + monster.id).then(function (response) {
-      console.log('monster activated');
-      console.log(monster);
-      _this7.monsterActive = monster;
-    });
-  },
-  //end activateMonster
-
-  deactivateMonster: function deactivateMonster(monster) {
-    var _this8 = this;
-
-    axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
-      console.log(response.data);
-      _this8.encounter = false; //set status to false to continue further activations
-    });
-  }
 };
 
 /***/ }),
@@ -16755,7 +16802,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons white-text"
-  }, [_vm._v("home")])])], 1), _vm._v(" "), _vm._m(2)])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("home")])])], 1), _vm._v(" "), _c('li', {
+    staticClass: "waves-effect waves-light white-text"
+  }, [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.openAdventurerDetailModal()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("accessibility")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "monster-modal"
@@ -16774,7 +16831,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16785,7 +16842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16796,7 +16853,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -16815,7 +16872,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16826,7 +16883,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16837,7 +16894,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -16862,7 +16919,79 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.deactivateMonster(_vm.monsterActive)
       }
     }
-  }, [_vm._v("Run")])])])])
+  }, [_vm._v("Run")])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal modal-fixed-footer",
+    attrs: {
+      "id": "adventurer-modal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_c('h4', [_vm._v("Look Out!")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 m6"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.name)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.monsters_defeated)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.treasure)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.stamina)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(12), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })])])]), _vm._v(" "), _vm._m(13)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -16879,12 +17008,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "large material-icons"
   }, [_vm._v("menu")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "waves-effect waves-light white-text"
-  }, [_c('a', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("accessibility")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
@@ -16920,6 +17043,42 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Attack:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Monsters Defeated:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Treasure:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+  }, [_vm._v("Close!")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
