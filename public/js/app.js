@@ -15579,7 +15579,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 70vh;\n      width: 100vw;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n", ""]);
 
 // exports
 
@@ -16131,7 +16131,46 @@ exports.default = {
                     scale: .1,
                     strokeColor: 'black',
                     strokeWeight: 1
-                } //end monster icons
+                }
+            }, //end monster icons
+
+            //Treasure Vars
+            treasures: [],
+            treasureMarkers: [],
+            treasureEncounterRangeMarkers: [],
+            treasureIcon: {
+                'copper': {
+                    path: _mapIcons2.default['treasure']['coin'],
+                    fillColor: '#D36112',
+                    fillOpacity: 0.8,
+                    scale: .1,
+                    strokeColor: '#851821',
+                    strokeWeight: 1
+                },
+                'silver': {
+                    path: _mapIcons2.default['treasure']['coin'],
+                    fillColor: 'silver',
+                    fillOpacity: 0.8,
+                    scale: .1,
+                    strokeColor: 'black',
+                    strokeWeight: 1
+                },
+                'gold': {
+                    path: _mapIcons2.default['treasure']['coin'],
+                    fillColor: 'gold',
+                    fillOpacity: 0.8,
+                    scale: .1,
+                    strokeColor: '#7D6608',
+                    strokeWeight: 1
+                },
+                'gem': {
+                    path: _mapIcons2.default['treasure']['gem'],
+                    fillColor: 'violet',
+                    fillOpacity: 0.8,
+                    scale: .1,
+                    strokeColor: 'purple',
+                    strokeWeight: 1
+                } //end treasure icons
             } //end return
         };
     },
@@ -16153,8 +16192,6 @@ exports.default = {
     },
     mounted: function mounted() {
         this.initMap();
-        // console.log(this.pos);
-        // this.getMonstersInRange(.9);
         this.getActiveAdventurer();
     },
     //end mounted
@@ -16220,82 +16257,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //import map styles
 
 exports.default = {
-  getMonsters: function getMonsters() {
-    var _this = this;
 
-    //get all monsters
-    axios.get('/api/monster').then(function (response) {
-      _this.monsters = response.data;
-      _this.generateMarkers(_this.monsters, _this.monsterMarkers, _this.monsterEncounterRangeMarkers, _this.monsterIcon);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  },
-  getMonstersInRange: function getMonstersInRange(range) {
-    var _this2 = this;
-
-    //get monsters in certain range of user (in km)
-    range = this.encounterRange / 1000 * 30;
-    console.log(range);
-    axios.get('/api/monster/' + this.pos.lat + '/' + this.pos.lng + '/' + range).then(function (response) {
-      _this2.monsters = response.data;
-      _this2.generateMarkers(_this2.monsters, _this2.monsterMarkers, _this2.monsterEncounterRangeMarkers, _this2.monsterIcon);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  },
-  generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
-    var _this3 = this;
-
-    if (markers) {
-      //check for existing markers
-      this.clearMarkers(markers, encounterRangeMarkers);
-    }
-
-    // Add Interactable Markers
-    entities.forEach(function (entity) {
-      markers.push(new google.maps.Marker({
-        position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-        map: _this3.map,
-        icon: iconGroup[entity.type[0]['name']],
-        title: 'You found something!'
-      }));
-
-      // Add Interactable Encounter Range Markers
-      encounterRangeMarkers.push(new google.maps.Circle({
-        strokeColor: '#0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: 'red',
-        fillOpacity: 0.35,
-        map: _this3.map,
-        center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
-        radius: 5
-      }));
-    });
-  },
-  //end generate markers
-
-  clearMarkers: function clearMarkers(markers, encounterRangeMarkers) {
-    //Remove Interactable markers from map
-    markers.forEach(function (marker) {
-      marker.setMap(null);
-      marker = null;
-    });
-
-    encounterRangeMarkers.forEach(function (encounterRangeMarker) {
-      encounterRangeMarker.setMap(null);
-      encounterRangeMarker = null;
-    });
-
-    //Clear Encounter markers array
-    encounterRangeMarkers = [];
-
-    //Clear Interactable markers array
-    markers = [];
-  },
-  //end clear markers
-
+  /*
+  -------------------------------
+                Map
+  -------------------------------
+  */
 
   initMap: function initMap() {
     this.map = new google.maps.Map($('#map')[0], {
@@ -16315,29 +16282,31 @@ exports.default = {
     this.updateAdventurerPosition();
   },
   getCurrentLocation: function getCurrentLocation() {
-    var _this4 = this;
+    var _this = this;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
 
-        _this4.pos = {
+        _this.pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
 
-        _this4.infoWindow.setPosition(_this4.pos);
-        _this4.infoWindow.setContent('Adventurer, you are here');
-        _this4.infoWindow.open(_this4.map);
+        _this.infoWindow.setPosition(_this.pos);
+        _this.infoWindow.setContent('Adventurer, you are here');
+        _this.infoWindow.open(_this.map);
 
-        _this4.map.setCenter(_this4.pos);
+        _this.map.setCenter(_this.pos);
 
         //Generates Adventurer Marker
-        _this4.generateAdventurer(_this4.pos, _this4.map);
+        _this.generateAdventurer(_this.pos, _this.map);
         //Gets all monsters in range
-        _this4.getMonstersInRange();
+        _this.getMonstersInRange(_this.encounterRange / 1000 * 10);
+        //Gets all treasures in range
+        _this.getTreasuresInRange(_this.encounterRange / 1000 * 5);
       }, function () {
-        _this4.handleLocationError(true, _this4.infoWindow, _this4.map.getCenter());
+        _this.handleLocationError(true, _this.infoWindow, _this.map.getCenter());
       });
     } else {
       // Browser doesn't support Geolocation
@@ -16353,6 +16322,12 @@ exports.default = {
   },
   //end handleLocationError
 
+  /*
+  -------------------------------
+                Adventurer
+  -------------------------------
+  */
+
   generateAdventurer: function generateAdventurer() {
     this.adventurerMarker = new google.maps.Marker({
       position: this.pos,
@@ -16366,12 +16341,12 @@ exports.default = {
   //end generateAdventurer
 
   getActiveAdventurer: function getActiveAdventurer() {
-    var _this5 = this;
+    var _this2 = this;
 
     axios.get('/api/adventurer/user/' + this.user.id).then(function (response) {
       response.data.forEach(function (adventurer) {
         if (adventurer.active) {
-          _this5.adventurerActive = adventurer; //capture users active adventurer
+          _this2.adventurerActive = adventurer; //capture users active adventurer
         }
       });
     });
@@ -16384,7 +16359,7 @@ exports.default = {
   //end openAdventurerDetailModal
 
   updateAdventurerPosition: function updateAdventurerPosition() {
-    var _this6 = this;
+    var _this3 = this;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -16394,7 +16369,7 @@ exports.default = {
 
       //Set watch id and watch position
       this.watchId = navigator.geolocation.watchPosition(this.updateAdventurerSuccess, function () {
-        _this6.handleLocationError(true, _this6.infoWindow, _this6.map.getCenter());
+        _this3.handleLocationError(true, _this3.infoWindow, _this3.map.getCenter());
       }, { enableHighAccuracy: true, timeout: 10 * 1000 * 1000, maximumAge: 10 * 1000 });
     } else {
       // Browser doesn't support Geolocation
@@ -16456,8 +16431,14 @@ exports.default = {
   },
   //end showHideEncounterRange
 
+  /*
+  -------------------------------
+                Entities
+  -------------------------------
+  */
+
   checkForEntity: function checkForEntity(entities, entityType) {
-    var _this7 = this;
+    var _this4 = this;
 
     if (entities != [] && this.adventurerEncounterRangeMarker != null) {
       var bounds = this.adventurerEncounterRangeMarker.getBounds();
@@ -16467,9 +16448,9 @@ exports.default = {
 
           switch (entityType) {
             case 'monster':
-              if (_this7.encounter == false) {
+              if (_this4.encounter == false) {
                 $('#monster-modal').modal('open'); //open modal
-                _this7.activateMonster(entity); //activate monster
+                _this4.activateMonster(entity); //activate monster
               }
 
               // this.pauseUpdateAdventurerPosition();
@@ -16481,13 +16462,95 @@ exports.default = {
 
           } //end switch
 
-          _this7.encounter = true; //set status to true to interupt further activations
+          _this4.encounter = true; //set status to true to interupt further activations
         }
       });
     }
   },
   //end check for entity
 
+  generateMarkers: function generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
+    var _this5 = this;
+
+    if (markers) {
+      //check for existing markers
+      this.clearMarkers(markers, encounterRangeMarkers);
+    }
+
+    // Add Interactable Markers
+    entities.forEach(function (entity) {
+      markers.push(new google.maps.Marker({
+        position: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        map: _this5.map,
+        icon: iconGroup[entity.type[0]['name']],
+        title: 'You found something!'
+      }));
+
+      // Add Interactable Encounter Range Markers
+      encounterRangeMarkers.push(new google.maps.Circle({
+        strokeColor: '#0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'red',
+        fillOpacity: 0.35,
+        map: _this5.map,
+        center: { lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) },
+        radius: 5
+      }));
+    });
+  },
+  //end generate markers
+
+  clearMarkers: function clearMarkers(markers, encounterRangeMarkers) {
+    //Remove Interactable markers from map
+    markers.forEach(function (marker) {
+      marker.setMap(null);
+      marker = null;
+    });
+
+    encounterRangeMarkers.forEach(function (encounterRangeMarker) {
+      encounterRangeMarker.setMap(null);
+      encounterRangeMarker = null;
+    });
+
+    //Clear Encounter markers array
+    encounterRangeMarkers = [];
+
+    //Clear Interactable markers array
+    markers = [];
+  },
+  //end clear markers
+
+  /*
+  -------------------------------
+                Monsters
+  -------------------------------
+  */
+
+  getMonsters: function getMonsters() {
+    var _this6 = this;
+
+    //get all monsters
+    axios.get('/api/monster').then(function (response) {
+      _this6.monsters = response.data;
+      _this6.generateMarkers(_this6.monsters, _this6.monsterMarkers, _this6.monsterEncounterRangeMarkers, _this6.monsterIcon);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+  getMonstersInRange: function getMonstersInRange(range) {
+    var _this7 = this;
+
+    //get monsters in certain range of user (in km)
+    // range = (this.encounterRange / 1000) * 30;
+    console.log(range);
+    axios.get('/api/monster/' + this.pos.lat + '/' + this.pos.lng + '/' + range).then(function (response) {
+      _this7.monsters = response.data;
+      _this7.generateMarkers(_this7.monsters, _this7.monsterMarkers, _this7.monsterEncounterRangeMarkers, _this7.monsterIcon);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
   activateMonster: function activateMonster(monster) {
     var _this8 = this;
 
@@ -16506,6 +16569,32 @@ exports.default = {
       console.log(response.data);
       _this9.encounter = false; //set status to false to continue further activations
     });
+  },
+  //end deactivateMonster  
+
+  /*
+  -------------------------------
+                Treasures
+  -------------------------------
+  */
+
+  getTreasuresInRange: function getTreasuresInRange(range) {
+    var _this10 = this;
+
+    //get monsters in certain range of user (in km)
+    // range = (this.encounterRange / 1000) * 30;
+    console.log(range);
+    axios.get('/api/treasure/' + this.pos.lat + '/' + this.pos.lng + '/' + range).then(function (response) {
+      _this10.treasures = response.data;
+      _this10.generateMarkers(_this10.treasures, _this10.treasureMarkers, _this10.treasureEncounterRangeMarkers, _this10.treasureIcon);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+  //end getTreasuresInRange
+
+  pickUpTreasure: function pickUpTreasure() {//add value of treasure to adventurer then delete treasure
+
   }
 };
 
@@ -16975,7 +17064,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn",
     on: {
       "click": function($event) {
-        _vm.getMonstersInRange()
+        _vm.getMonstersInRange();
+        _vm.getTreasuresInRange()
       }
     }
   }, [_vm._v("Search")])])]), _vm._v(" "), _c('div', {

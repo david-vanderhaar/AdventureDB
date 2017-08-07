@@ -7,7 +7,7 @@
 
         <div class="row">
             <div class="col s6 center">
-                <a><button class="btn" @click="getMonstersInRange()">Search</button></a>
+                <a><button class="btn" @click="getMonstersInRange(); getTreasuresInRange()">Search</button></a>
             </div>
             <div class="fixed-action-btn toolbar">
                 <a class="btn-floating btn-large">
@@ -194,7 +194,46 @@ import mapMethods from './mapjs/adventurer';
                         strokeColor: 'black',
                         strokeWeight: 1
                     }
-                }//end monster icons
+                },//end monster icons
+
+                //Treasure Vars
+                treasures: [],
+                treasureMarkers: [],
+                treasureEncounterRangeMarkers: [],
+                treasureIcon: { 
+                   'copper': {
+                        path: mapIcon['treasure']['coin'],
+                        fillColor: '#D36112',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: '#851821',
+                        strokeWeight: 1
+                    },
+                    'silver': {
+                        path: mapIcon['treasure']['coin'],
+                        fillColor: 'silver',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: 'black',
+                        strokeWeight: 1
+                    },
+                    'gold': {
+                        path: mapIcon['treasure']['coin'],
+                        fillColor: 'gold',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: '#7D6608',
+                        strokeWeight: 1
+                    },
+                    'gem': {
+                        path: mapIcon['treasure']['gem'],
+                        fillColor: 'violet',
+                        fillOpacity: 0.8,
+                        scale: .1,
+                        strokeColor: 'purple',
+                        strokeWeight: 1
+                    }
+                }//end treasure icons
             }//end return
         }, //end data
 

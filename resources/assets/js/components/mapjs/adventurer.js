@@ -46,7 +46,9 @@ export default {
                   //Generates Adventurer Marker
                   this.generateAdventurer(this.pos, this.map);
                   //Gets all monsters in range
-                  this.getMonstersInRange();
+                  this.getMonstersInRange((this.encounterRange / 1000) * 10);
+                  //Gets all treasures in range
+                  this.getTreasuresInRange((this.encounterRange / 1000) * 5);
 
                 }, () => {
                   this.handleLocationError(true, this.infoWindow, this.map.getCenter());
@@ -277,7 +279,7 @@ export default {
             },
 
             getMonstersInRange(range) { //get monsters in certain range of user (in km)
-              range = (this.encounterRange / 1000) * 30;
+              // range = (this.encounterRange / 1000) * 30;
               console.log(range);
               axios.get('/api/monster/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
                 .then((response) => { 
@@ -312,6 +314,22 @@ export default {
             -------------------------------
             */
 
+            getTreasuresInRange(range) { //get monsters in certain range of user (in km)
+              // range = (this.encounterRange / 1000) * 30;
+              console.log(range);
+              axios.get('/api/treasure/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
+                .then((response) => { 
+                    this.treasures = response.data;
+                    this.generateMarkers(this.treasures, this.treasureMarkers, this.treasureEncounterRangeMarkers, this.treasureIcon);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            },//end getTreasuresInRange
+
+            pickUpTreasure() { //add value of treasure to adventurer then delete treasure
+
+            }, //end pickUpTreasure
           
         } //end methods
 

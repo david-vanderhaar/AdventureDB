@@ -60,3 +60,7 @@ Route::patch('monster/deactivate/{monster}', 'MonsterController@deactivate');
 */
 
 Route::resource('treasure', 'TreasureController');
+
+//Get Treasures By Within Range of Submitted Position of User
+Route::get('treasure/{lat}/{lng}/{distance}', 'TreasureController@treasuresInRange');
+

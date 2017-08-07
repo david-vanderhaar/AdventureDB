@@ -26,6 +26,26 @@ class TreasureController extends Controller
         return $treasures;
     }
 
+    public function treasuresInRange($lat, $lng, $distance) { //returns treasures within distance (km)
+            $treasures = Treasure::all()->filter(function ($treasure) use ($lat, $lng, $distance) {
+                $actual = 6371 * acos(
+                    cos(deg2rad($lat)) * cos(deg2rad($treasure->lat))
+                    * cos(deg2rad($treasure->lng) - deg2rad($lng))
+                    + sin(deg2rad($lat)) * sin(deg2rad($treasure->lat))
+                );
+                return $actual < $distance;
+            });
+
+            $treasures = $treasures->values();
+
+            //Attach relevant treasure type info
+            foreach($treasures as $treasure){
+                $treasureType = $treasure->treasureType()->get();
+                $treasure['type'] = $treasureType;
+            }
+
+            return $treasures;
+        }
     /**
      * Show the form for creating a new resource.
      *
@@ -89,6 +109,8 @@ class TreasureController extends Controller
      */
     public function destroy(Treasure $treasure)
     {
-        //
+        $treasure = Treasure::find($id);
+        $treasure->delete();
+        return ($treasure);
     }
 }

@@ -71,7 +71,7 @@
     <!-- Enable Marker Clustering -->
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <!-- Enable Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhWgHy0QFctBl4j-SJlMDMEOy0wr--HE4">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD28LoewQ7rLMESfl6K0_y9ZyVkf0Rq8L0">
     </script>
     <!-- JQuery -->
     <script
