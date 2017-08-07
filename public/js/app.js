@@ -16059,6 +16059,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -16072,7 +16096,7 @@ exports.default = {
             pos: null,
 
             encounter: false,
-            encounterRange: 30, //Range within which adventure encounters entity
+            encounterRange: 78, //Range within which adventure encounters entity
 
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
@@ -16135,6 +16159,13 @@ exports.default = {
             }, //end monster icons
 
             //Treasure Vars
+            treasureActive: {
+                id: null,
+                type: [{
+                    name: '',
+                    value: 0
+                }]
+            },
             treasures: [],
             treasureMarkers: [],
             treasureEncounterRangeMarkers: [],
@@ -16302,9 +16333,9 @@ exports.default = {
         //Generates Adventurer Marker
         _this.generateAdventurer(_this.pos, _this.map);
         //Gets all monsters in range
-        _this.getMonstersInRange(_this.encounterRange / 1000 * 10);
+        _this.getMonstersInRange();
         //Gets all treasures in range
-        _this.getTreasuresInRange(_this.encounterRange / 1000 * 5);
+        _this.getTreasuresInRange();
       }, function () {
         _this.handleLocationError(true, _this.infoWindow, _this.map.getCenter());
       });
@@ -16401,8 +16432,9 @@ exports.default = {
 
     if (this.adventurerActive.active == true) {
       //first check if user has embarked w/ adventurer
-      //Adventurer checks for monsters
+      //Adventurer checks for map entities
       this.checkForEntity(this.monsters, 'monster');
+      this.checkForEntity(this.treasures, 'treasure');
     } else {
       //notify user
     }
@@ -16442,7 +16474,6 @@ exports.default = {
 
     if (entities != [] && this.adventurerEncounterRangeMarker != null) {
       var bounds = this.adventurerEncounterRangeMarker.getBounds();
-
       entities.forEach(function (entity) {
         if (bounds.contains({ lat: parseFloat(entity.lat), lng: parseFloat(entity.lng) })) {
 
@@ -16457,7 +16488,10 @@ exports.default = {
               // this.showHideEncounterRange(); //break the forEach after first encounter
               break;
             case 'treasure':
-
+              if (_this4.encounter == false) {
+                $('#treasure-modal').modal('open'); //open modal
+                _this4.treasureActive = entity;
+              }
               break;
 
           } //end switch
@@ -16521,6 +16555,13 @@ exports.default = {
   },
   //end clear markers
 
+  searchForEntities: function searchForEntities() {
+    //regenerate markers and entities within user range
+    this.getMonstersInRange();
+    this.getTreasuresInRange();
+  },
+  //end search for entities
+
   /*
   -------------------------------
                 Monsters
@@ -16542,7 +16583,7 @@ exports.default = {
     var _this7 = this;
 
     //get monsters in certain range of user (in km)
-    // range = (this.encounterRange / 1000) * 30;
+    range = this.encounterRange / 1000 * 10;
     console.log(range);
     axios.get('/api/monster/' + this.pos.lat + '/' + this.pos.lng + '/' + range).then(function (response) {
       _this7.monsters = response.data;
@@ -16582,7 +16623,7 @@ exports.default = {
     var _this10 = this;
 
     //get monsters in certain range of user (in km)
-    // range = (this.encounterRange / 1000) * 30;
+    range = this.encounterRange / 1000 * 5;
     console.log(range);
     axios.get('/api/treasure/' + this.pos.lat + '/' + this.pos.lng + '/' + range).then(function (response) {
       _this10.treasures = response.data;
@@ -16593,8 +16634,22 @@ exports.default = {
   },
   //end getTreasuresInRange
 
-  pickUpTreasure: function pickUpTreasure() {//add value of treasure to adventurer then delete treasure
+  pickUpTreasure: function pickUpTreasure() {
+    var _this11 = this;
 
+    //add value of treasure to adventurer then delete treasure
+    axios.patch('api/add/treasure', this.adventurerActive).then(function (response) {
+      console.log(response.data);
+      _this11.encounter = false;
+    }).catch(function (error) {
+      console.log(error);
+      _this11.encounter = false;
+    });
+  },
+  //end pickUpTreasure
+
+  leaveTreasure: function leaveTreasure() {
+    this.encounter = false;
   }
 };
 
@@ -17064,8 +17119,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn",
     on: {
       "click": function($event) {
-        _vm.getMonstersInRange();
-        _vm.getTreasuresInRange()
+        _vm.searchForEntities()
       }
     }
   }, [_vm._v("Search")])])]), _vm._v(" "), _c('div', {
@@ -17265,7 +17319,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })])])]), _vm._v(" "), _vm._m(13)])])
+  })])])]), _vm._v(" "), _vm._m(13)]), _vm._v(" "), _c('div', {
+    staticClass: "modal modal-fixed-footer",
+    attrs: {
+      "id": "treasure-modal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_c('h4', [_vm._v(_vm._s(_vm.adventurerActive.name) + " found " + _vm._s(_vm.treasureActive.type[0].value) + " " + _vm._s(_vm.treasureActive.type[0].name) + "!")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 m6"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_vm._m(14), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.monsters_defeated)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(15), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.treasure)
+    }
+  })])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
+    on: {
+      "click": function($event) {
+        _vm.pickUpTreasure()
+      }
+    }
+  }, [_vm._v("Take It!")]), _vm._v(" "), _c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat",
+    on: {
+      "click": function($event) {
+        _vm.leaveTreasure()
+      }
+    }
+  }, [_vm._v("Leave It!")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -17353,6 +17454,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('a', {
     staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
   }, [_vm._v("Close!")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Monsters Defeated:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Treasure:")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

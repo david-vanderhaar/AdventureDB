@@ -89,6 +89,10 @@ class AdventurerController extends Controller
         //
     }
 
+    public function addTreasureValueToAdventurer(Adventurer $adventurer) {
+        return $adventurer;
+    }
+
     /**
      * Update the specified resource in storage.
      *

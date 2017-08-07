@@ -46,9 +46,9 @@ export default {
                   //Generates Adventurer Marker
                   this.generateAdventurer(this.pos, this.map);
                   //Gets all monsters in range
-                  this.getMonstersInRange((this.encounterRange / 1000) * 10);
+                  this.getMonstersInRange();
                   //Gets all treasures in range
-                  this.getTreasuresInRange((this.encounterRange / 1000) * 5);
+                  this.getTreasuresInRange();
 
                 }, () => {
                   this.handleLocationError(true, this.infoWindow, this.map.getCenter());
@@ -142,8 +142,9 @@ export default {
                 this.adventurerMarker.setPosition(this.pos);
 
                 if (this.adventurerActive.active == true) { //first check if user has embarked w/ adventurer
-                  //Adventurer checks for monsters
+                  //Adventurer checks for map entities
                   this.checkForEntity(this.monsters, 'monster');
+                  this.checkForEntity(this.treasures, 'treasure');
                 } else {
                   //notify user
                 }
@@ -180,7 +181,6 @@ export default {
             checkForEntity (entities, entityType) {
               if (entities != [] && this.adventurerEncounterRangeMarker != null) { 
                 let bounds = this.adventurerEncounterRangeMarker.getBounds();
-
                 entities.forEach((entity) => {
                   if (bounds.contains({lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)})) {                    
 
@@ -196,7 +196,10 @@ export default {
                              // this.showHideEncounterRange(); //break the forEach after first encounter
                             break;
                         case 'treasure':
-                            
+                             if (this.encounter == false) {
+                               $('#treasure-modal').modal('open'); //open modal
+                               this.treasureActive = entity;
+                           }
                             break;
 
 
@@ -261,6 +264,11 @@ export default {
             markers = [];
           }, //end clear markers
 
+          searchForEntities() {//regenerate markers and entities within user range
+            this.getMonstersInRange();
+            this.getTreasuresInRange();
+          },//end search for entities
+
             /*
             -------------------------------
                           Monsters
@@ -279,7 +287,7 @@ export default {
             },
 
             getMonstersInRange(range) { //get monsters in certain range of user (in km)
-              // range = (this.encounterRange / 1000) * 30;
+              range = (this.encounterRange / 1000) * 10;
               console.log(range);
               axios.get('/api/monster/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
                 .then((response) => { 
@@ -315,7 +323,7 @@ export default {
             */
 
             getTreasuresInRange(range) { //get monsters in certain range of user (in km)
-              // range = (this.encounterRange / 1000) * 30;
+              range = (this.encounterRange / 1000) * 5;
               console.log(range);
               axios.get('/api/treasure/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
                 .then((response) => { 
@@ -328,8 +336,20 @@ export default {
             },//end getTreasuresInRange
 
             pickUpTreasure() { //add value of treasure to adventurer then delete treasure
-
+              axios.patch('api/add/treasure', this.adventurerActive)
+                .then((response) => {
+                  console.log(response.data);
+                  this.encounter = false;
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.encounter = false;
+                });
             }, //end pickUpTreasure
+
+            leaveTreasure() {
+              this.encounter = false;
+            }, //end leave treasure
           
         } //end methods
 

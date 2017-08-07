@@ -33,6 +33,9 @@ Route::get('adventurer/user/{user}', 'AdventurerController@userIndex');
 Route::patch('adventurer/activate/{adventurer}', 'AdventurerController@activate');
 Route::patch('adventurer/deactivate/{adventurer}', 'AdventurerController@deactivate');
 
+//Add Treasure
+Route::patch('adventurer/add/treasure', 'AdventurerController@addTreasureValueToAdventurer');
+
 /*
 |--------------------------------------------------------------------------
 | Monster Routes

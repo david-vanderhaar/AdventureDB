@@ -7,7 +7,7 @@
 
         <div class="row">
             <div class="col s6 center">
-                <a><button class="btn" @click="getMonstersInRange(); getTreasuresInRange()">Search</button></a>
+                <a><button class="btn" @click="searchForEntities()">Search</button></a>
             </div>
             <div class="fixed-action-btn toolbar">
                 <a class="btn-floating btn-large">
@@ -111,6 +111,30 @@
                     <a class="modal-action modal-close waves-effect waves-green btn-flat">Close!</a>
             </div>
         </div>
+
+        <!-- Treasure Detail Modal Structure -->
+        <div id="treasure-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>{{adventurerActive.name}} found {{treasureActive.type[0].value}} {{treasureActive.type[0].name}}!</h4>                
+                <div class="row">
+                    <div class="col s12 m6">
+                         <div class="row">
+                            <div class="col s6"><p class="flow-text">Monsters Defeated:</p></div>
+                            <div class="col s6"><p class="center btn" v-text="adventurerActive.monsters_defeated"></p></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Treasure:</p></div>
+                            <div class="col s6"><p class="center btn" v-text="adventurerActive.treasure"></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="pickUpTreasure()">Take It!</a>
+                <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="leaveTreasure()">Leave It!</a>
+            </div>
+        </div>
   </div>
 
 
@@ -132,7 +156,7 @@ import mapMethods from './mapjs/adventurer';
                 pos: null,
 
                 encounter: false,
-                encounterRange: 30, //Range within which adventure encounters entity
+                encounterRange: 78, //Range within which adventure encounters entity
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization
@@ -197,6 +221,15 @@ import mapMethods from './mapjs/adventurer';
                 },//end monster icons
 
                 //Treasure Vars
+                treasureActive: {
+                    id: null,
+                    type: [
+                        {
+                            name: '',
+                            value: 0
+                        }
+                    ]
+                },
                 treasures: [],
                 treasureMarkers: [],
                 treasureEncounterRangeMarkers: [],
