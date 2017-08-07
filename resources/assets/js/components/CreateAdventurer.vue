@@ -13,7 +13,7 @@
                   <input v-model="newAdventurer.name" id="name" type="text" class="validate " required>
                   <label  class="" for="name">Name</label>
                 </div>
-                <div class="input-field col s4">
+<!--                 <div class="input-field col s4">
                   <i class="material-icons prefix red-text text-darken-4">directions_run</i>
                   <input v-model="newAdventurer.stamina" @change="updateStatMax()" min="1" v-bind:max="updateInputMax(newAdventurer.stamina)" id="stamina" type="number" class="validate ">
                   <label  class="" for="stamina">Stamina</label>
@@ -27,6 +27,59 @@
                   <i class="material-icons prefix red-text text-darken-4">gavel</i>
                   <input v-model="newAdventurer.attack" @change="updateStatMax()" min="1" v-bind:max="updateInputMax(newAdventurer.attack)" id="attack" type="number" class="validate ">
                   <label  class="" for="attack">Attack</label>
+                </div> -->
+              </div>
+              <div class="row" v-if="created != true">
+                <div class="col s4">
+                  <div class="row center">
+                    <i class="material-icons prefix red-text text-darken-4">directions_run</i>
+                    <p class="flow-text">Stamina</p>
+                  </div>
+                  <div class="row center">
+                    <button class="btn red" @click="increaseStat('stamina')">
+                      <i class="material-icons white-text">expand_less</i>
+                    </button>
+                  </div>
+                  <div class="row center"><button class="btn red" v-text="newAdventurer.stamina"></button></div>
+                  <div class="row center">
+                    <button class="btn red" @click="decreaseStat('stamina')">
+                      <i class="material-icons white-text">expand_more</i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col s4">
+                  <div class="row center">
+                    <i class="material-icons prefix red-text text-darken-4">brightness_5</i>
+                    <p class="flow-text">Defense</p>
+                  </div>
+                  <div class="row center">
+                    <button class="btn red"  @click="increaseStat('defense')">
+                      <i class="material-icons white-text">expand_less</i>
+                    </button>
+                  </div>
+                  <div class="row center"><button class="btn red" v-text="newAdventurer.defense"></button></div>
+                  <div class="row center">
+                    <button class="btn red" @click="decreaseStat('defense')">
+                      <i class="material-icons white-text">expand_more</i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col s4">
+                  <div class="row center"> 
+                    <i class="material-icons prefix red-text text-darken-4">gavel</i>
+                    <p class="flow-text">Attack</p>
+                  </div>
+                  <div class="row center">
+                    <button class="btn red" @click="increaseStat('attack')">
+                      <i class="material-icons white-text">expand_less</i>
+                    </button>
+                  </div>
+                  <div class="row center"><button class="btn red" v-text="newAdventurer.attack"></button></div>
+                  <div class="row center">
+                    <button class="btn red" @click="decreaseStat('attack')">
+                      <i class="material-icons white-text">expand_more</i>
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="row" v-if="created != true">
@@ -116,8 +169,69 @@
             },
 
             updateInputMax(stat) { //update max on stat inputs to prevent exceeding statMax
-                return (parseInt(stat) + this.statMax);
+                if (this.statMax >= 0) {
+                  return (parseInt(stat) + this.statMax);
+                }
             },
+
+            increaseStat(stat) {
+              
+              switch(stat) {
+                case 'stamina':
+                  if ((this.newAdventurer.stamina + 1) <= (this.newAdventurer.stamina + this.statMax)) {
+                    this.newAdventurer.stamina += 1;
+                    this.updateStatMax();
+                  } else {
+                      Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+                  }
+                  break;
+                case 'defense':
+                  if ((this.newAdventurer.defense + 1) <= (this.newAdventurer.defense + this.statMax)) {
+                    this.newAdventurer.defense += 1;
+                    this.updateStatMax();
+                  } else {
+                    Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+                  }
+                  break;
+                case 'attack':
+                  if ((this.newAdventurer.attack + 1) <= (this.newAdventurer.attack + this.statMax)) {
+                    this.newAdventurer.attack += 1;
+                    this.updateStatMax();
+                  } else {
+                    Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+                  }
+                  break;
+              }
+            },//end increaseStat
+
+            decreaseStat(stat) {
+              switch(stat) {
+                case 'stamina':
+                  if ((this.newAdventurer.stamina - 1) >= (1)) {
+                    this.newAdventurer.stamina -= 1;
+                    this.updateStatMax();
+                  } else {
+                      Materialize.toast('Everybody has some skill!', 4000);
+                  }
+                  break;
+                case 'defense':
+                  if ((this.newAdventurer.defense - 1) >= (1)) {
+                    this.newAdventurer.defense -= 1;
+                    this.updateStatMax();
+                  } else {
+                    Materialize.toast('Everybody has some skill!', 4000);
+                  }
+                  break;
+                case 'attack':
+                  if ((this.newAdventurer.attack - 1) >= (1)) {
+                    this.newAdventurer.attack -= 1;
+                    this.updateStatMax();
+                  } else {
+                    Materialize.toast('Everybody has some skill!', 4000);
+                  }
+                  break;
+              }
+            }, //end decreaseStat
         },
 
         created() {

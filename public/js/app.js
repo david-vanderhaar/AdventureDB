@@ -15035,8 +15035,61 @@ module.exports = Component.exports
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15097,71 +15150,132 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = {
-    data: function data() {
-        return {
+  data: function data() {
+    return {
 
-            user: JSON.parse($("meta[name=auth-user]").attr('content')),
+      user: JSON.parse($("meta[name=auth-user]").attr('content')),
 
-            newAdventurer: { //store adventure here, then pass to storeAdventurer call
-                name: '',
-                stamina: 1,
-                defense: 1,
-                attack: 1,
-                user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
-            },
+      newAdventurer: { //store adventure here, then pass to storeAdventurer call
+        name: '',
+        stamina: 1,
+        defense: 1,
+        attack: 1,
+        user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
+      },
 
-            statMax: 12, //maximum alottment of stats to be allocated
-            created: false //control visibility of elements
+      statMax: 12, //maximum alottment of stats to be allocated
+      created: false //control visibility of elements
 
-        };
-    },
+    };
+  },
 
 
-    methods: {
-        storeAdventurer: function storeAdventurer() {
-            var _this = this;
+  methods: {
+    storeAdventurer: function storeAdventurer() {
+      var _this = this;
 
-            //save adventurer to the database
-            if (this.newAdventurer.name != '') {
-                if (this.statMax >= 0) {
-                    //check for invalid stats
-                    axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
-                        console.log(response.data);
-                        _this.created = true;
-                        Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
-                        _this.newAdventurer = { //reset form fields
-                            name: '',
-                            stamina: 1,
-                            defense: 1,
-                            attack: 1,
-                            user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
-                        };
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else {
-                    Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
-                    Materialize.toast('Reallocate a few point please!', 4000); // alert the user to invalid stat allotment
-                }
-            } else {
-                Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000); // alert the user to success
-            }
-        },
-        updateStatMax: function updateStatMax() {
-            //update the statMax display input
-            if (this.statMax >= 0) {
-                this.statMax = 15 - this.newAdventurer.stamina - this.newAdventurer.defense - this.newAdventurer.attack;
-            } else {
-                alert('You have reached this adventurer\'s limit.');
-            }
-        },
-        updateInputMax: function updateInputMax(stat) {
-            //update max on stat inputs to prevent exceeding statMax
-            return parseInt(stat) + this.statMax;
+      //save adventurer to the database
+      if (this.newAdventurer.name != '') {
+        if (this.statMax >= 0) {
+          //check for invalid stats
+          axios.post('/api/adventurer', this.newAdventurer).then(function (response) {
+            console.log(response.data);
+            _this.created = true;
+            Materialize.toast(_this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
+            _this.newAdventurer = { //reset form fields
+              name: '',
+              stamina: 1,
+              defense: 1,
+              attack: 1,
+              user_id: JSON.parse($("meta[name=auth-user]").attr('content')).id
+            };
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else {
+          Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
+          Materialize.toast('Reallocate a few point please!', 4000); // alert the user to invalid stat allotment
         }
+      } else {
+        Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000); // alert the user to success
+      }
     },
+    updateStatMax: function updateStatMax() {
+      //update the statMax display input
+      if (this.statMax >= 0) {
+        this.statMax = 15 - this.newAdventurer.stamina - this.newAdventurer.defense - this.newAdventurer.attack;
+      } else {
+        alert('You have reached this adventurer\'s limit.');
+      }
+    },
+    updateInputMax: function updateInputMax(stat) {
+      //update max on stat inputs to prevent exceeding statMax
+      if (this.statMax >= 0) {
+        return parseInt(stat) + this.statMax;
+      }
+    },
+    increaseStat: function increaseStat(stat) {
 
-    created: function created() {}
+      switch (stat) {
+        case 'stamina':
+          if (this.newAdventurer.stamina + 1 <= this.newAdventurer.stamina + this.statMax) {
+            this.newAdventurer.stamina += 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+          }
+          break;
+        case 'defense':
+          if (this.newAdventurer.defense + 1 <= this.newAdventurer.defense + this.statMax) {
+            this.newAdventurer.defense += 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+          }
+          break;
+        case 'attack':
+          if (this.newAdventurer.attack + 1 <= this.newAdventurer.attack + this.statMax) {
+            this.newAdventurer.attack += 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('You have reached this adventurer\'s limit.', 4000);
+          }
+          break;
+      }
+    },
+    //end increaseStat
+
+    decreaseStat: function decreaseStat(stat) {
+      switch (stat) {
+        case 'stamina':
+          if (this.newAdventurer.stamina - 1 >= 1) {
+            this.newAdventurer.stamina -= 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('Everybody has some skill!', 4000);
+          }
+          break;
+        case 'defense':
+          if (this.newAdventurer.defense - 1 >= 1) {
+            this.newAdventurer.defense -= 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('Everybody has some skill!', 4000);
+          }
+          break;
+        case 'attack':
+          if (this.newAdventurer.attack - 1 >= 1) {
+            this.newAdventurer.attack -= 1;
+            this.updateStatMax();
+          } else {
+            Materialize.toast('Everybody has some skill!', 4000);
+          }
+          break;
+      }
+    }
+  },
+
+  created: function created() {}
 };
 
 /***/ }),
@@ -15207,109 +15321,102 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "name"
     }
-  }, [_vm._v("Name")])]), _vm._v(" "), _c('div', {
-    staticClass: "input-field col s4"
-  }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
-  }, [_vm._v("directions_run")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newAdventurer.stamina),
-      expression: "newAdventurer.stamina"
-    }],
-    staticClass: "validate ",
-    attrs: {
-      "min": "1",
-      "max": _vm.updateInputMax(_vm.newAdventurer.stamina),
-      "id": "stamina",
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.newAdventurer.stamina)
-    },
+  }, [_vm._v("Name")])])]) : _vm._e(), _vm._v(" "), (_vm.created != true) ? _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
     on: {
-      "change": function($event) {
-        _vm.updateStatMax()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newAdventurer.stamina = $event.target.value
+      "click": function($event) {
+        _vm.increaseStat('stamina')
       }
     }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "stamina"
-    }
-  }, [_vm._v("Stamina")])]), _vm._v(" "), _c('div', {
-    staticClass: "input-field col s4"
   }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
-  }, [_vm._v("brightness_5")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newAdventurer.defense),
-      expression: "newAdventurer.defense"
-    }],
-    staticClass: "validate ",
-    attrs: {
-      "min": "1",
-      "max": _vm.updateInputMax(_vm.newAdventurer.defense),
-      "id": "defense",
-      "type": "number"
-    },
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
     domProps: {
-      "value": (_vm.newAdventurer.defense)
-    },
+      "textContent": _vm._s(_vm.newAdventurer.stamina)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
     on: {
-      "change": function($event) {
-        _vm.updateStatMax()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newAdventurer.defense = $event.target.value
+      "click": function($event) {
+        _vm.decreaseStat('stamina')
       }
     }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "defense"
-    }
-  }, [_vm._v("Defense")])]), _vm._v(" "), _c('div', {
-    staticClass: "input-field col s4"
   }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
-  }, [_vm._v("gavel")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newAdventurer.attack),
-      expression: "newAdventurer.attack"
-    }],
-    staticClass: "validate ",
-    attrs: {
-      "min": "1",
-      "max": _vm.updateInputMax(_vm.newAdventurer.attack),
-      "id": "attack",
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.newAdventurer.attack)
-    },
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_more")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
     on: {
-      "change": function($event) {
-        _vm.updateStatMax()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newAdventurer.attack = $event.target.value
+      "click": function($event) {
+        _vm.increaseStat('defense')
       }
     }
-  }), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "attack"
+  }, [_c('i', {
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.newAdventurer.defense)
     }
-  }, [_vm._v("Attack")])])]) : _vm._e(), _vm._v(" "), (_vm.created != true) ? _c('div', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    on: {
+      "click": function($event) {
+        _vm.decreaseStat('defense')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_more")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    on: {
+      "click": function($event) {
+        _vm.increaseStat('attack')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.newAdventurer.attack)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "btn red",
+    on: {
+      "click": function($event) {
+        _vm.decreaseStat('attack')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons white-text"
+  }, [_vm._v("expand_more")])])])])]) : _vm._e(), _vm._v(" "), (_vm.created != true) ? _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
@@ -15360,6 +15467,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h2', {
     staticClass: "center white-text text-darken-4"
   }, [_vm._v("A New Adventurer")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("directions_run")]), _vm._v(" "), _c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Stamina")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("brightness_5")]), _vm._v(" "), _c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Defense")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix red-text text-darken-4"
+  }, [_vm._v("gavel")]), _vm._v(" "), _c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Attack")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
