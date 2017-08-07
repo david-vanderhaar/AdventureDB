@@ -89,7 +89,11 @@ class AdventurerController extends Controller
         //
     }
 
-    public function addTreasureValueToAdventurer(Adventurer $adventurer) {
+    public function addTreasureValueToAdventurer(Request $request) {
+        $adventurer = Adventurer::find($request->id);
+        $adventurer->treasure = $request->treasure;
+
+        $adventurer->save();
         return $adventurer;
     }
 

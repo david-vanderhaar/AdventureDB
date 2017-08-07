@@ -16638,11 +16638,14 @@ exports.default = {
     var _this11 = this;
 
     //add value of treasure to adventurer then delete treasure
-    axios.patch('api/add/treasure', this.adventurerActive).then(function (response) {
-      console.log(response.data);
+    this.adventurerActive.treasure += this.treasureActive.type[0].value;
+    axios.patch('api/adventurer/add/treasure', this.adventurerActive).then(function (response) {
+      _this11.deleteTreasure(_this11.treasureActive.id); //remove treasure once it is picked up
+      Materialize.toast(_this11.adventurerActive.name + ' picked up some treasure', 4000);
       _this11.encounter = false;
     }).catch(function (error) {
       console.log(error);
+      Materialize.toast('Unable to pick it up,' + _this11.adventurerActive.name + ' feels this treasure should be left alone.', 4000);
       _this11.encounter = false;
     });
   },
@@ -16650,6 +16653,18 @@ exports.default = {
 
   leaveTreasure: function leaveTreasure() {
     this.encounter = false;
+  },
+  //end leave treasure
+
+  deleteTreasure: function deleteTreasure(treasureId) {
+    var _this12 = this;
+
+    axios.delete('/api/treasure/' + treasureId).then(function (response) {
+
+      _this12.getTreasuresInRange(); //on succesfull delete, refresh adventurers
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 };
 
@@ -17326,7 +17341,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_c('h4', [_vm._v(_vm._s(_vm.adventurerActive.name) + " found " + _vm._s(_vm.treasureActive.type[0].value) + " " + _vm._s(_vm.treasureActive.type[0].name) + "!")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v(_vm._s(_vm.adventurerActive.name) + " found a " + _vm._s(_vm.treasureActive.type[0].value) + " piece " + _vm._s(_vm.treasureActive.type[0].name) + " treasure!")]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 m6"

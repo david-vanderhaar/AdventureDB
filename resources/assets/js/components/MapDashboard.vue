@@ -115,7 +115,7 @@
         <!-- Treasure Detail Modal Structure -->
         <div id="treasure-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>{{adventurerActive.name}} found {{treasureActive.type[0].value}} {{treasureActive.type[0].name}}!</h4>                
+                <h4>{{adventurerActive.name}} found a {{treasureActive.type[0].value}} piece {{treasureActive.type[0].name}} treasure!</h4>                
                 <div class="row">
                     <div class="col s12 m6">
                          <div class="row">

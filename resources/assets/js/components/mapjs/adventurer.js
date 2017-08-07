@@ -336,13 +336,16 @@ export default {
             },//end getTreasuresInRange
 
             pickUpTreasure() { //add value of treasure to adventurer then delete treasure
-              axios.patch('api/add/treasure', this.adventurerActive)
+              this.adventurerActive.treasure += this.treasureActive.type[0].value;
+              axios.patch('api/adventurer/add/treasure', this.adventurerActive)
                 .then((response) => {
-                  console.log(response.data);
+                  this.deleteTreasure(this.treasureActive.id); //remove treasure once it is picked up
+                  Materialize.toast(this.adventurerActive.name + ' picked up some treasure', 4000);
                   this.encounter = false;
                 })
                 .catch((error) => {
                   console.log(error);
+                  Materialize.toast('Unable to pick it up,' + this.adventurerActive.name + ' feels this treasure should be left alone.', 4000);
                   this.encounter = false;
                 });
             }, //end pickUpTreasure
@@ -350,6 +353,18 @@ export default {
             leaveTreasure() {
               this.encounter = false;
             }, //end leave treasure
+
+            deleteTreasure(treasureId) {
+                axios.delete('/api/treasure/'+treasureId)
+                .then((response) => { 
+                    
+                    this.getTreasuresInRange(); //on succesfull delete, refresh adventurers
+                    
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }, //end deleteAdventurers
           
         } //end methods
 

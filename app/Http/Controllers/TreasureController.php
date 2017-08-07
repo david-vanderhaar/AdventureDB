@@ -107,7 +107,7 @@ class TreasureController extends Controller
      * @param  \App\Treasure  $treasure
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Treasure $treasure)
+    public function destroy($id)
     {
         $treasure = Treasure::find($id);
         $treasure->delete();
