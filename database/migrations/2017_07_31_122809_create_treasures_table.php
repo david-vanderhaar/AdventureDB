@@ -21,6 +21,7 @@ class CreateTreasuresTable extends Migration
             $table->integer('treasure_type_id')->unsigned();
             $table->foreign('treasure_type_id')->references('id')->on('treasure__types');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -25,6 +25,7 @@ class CreateMonstersTable extends Migration
             $table->integer('monster_type_id')->unsigned();
             $table->foreign('monster_type_id')->references('id')->on('monster__types');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

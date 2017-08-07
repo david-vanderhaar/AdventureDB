@@ -17,6 +17,7 @@ class CreateTreasureTypesTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->integer('value');
+            $table->softDeletes();
         });
     }
 

@@ -20,6 +20,7 @@ class CreateMonsterTypesTable extends Migration
             $table->integer('defense');
             $table->integer('attack');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
