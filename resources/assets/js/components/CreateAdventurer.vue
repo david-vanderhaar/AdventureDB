@@ -13,70 +13,55 @@
                   <input v-model="newAdventurer.name" id="name" type="text" class="validate " required>
                   <label  class="" for="name">Name</label>
                 </div>
-<!--                 <div class="input-field col s4">
-                  <i class="material-icons prefix red-text text-darken-4">directions_run</i>
-                  <input v-model="newAdventurer.stamina" @change="updateStatMax()" min="1" v-bind:max="updateInputMax(newAdventurer.stamina)" id="stamina" type="number" class="validate ">
-                  <label  class="" for="stamina">Stamina</label>
-                </div>
-                <div class="input-field col s4">
-                  <i class="material-icons prefix red-text text-darken-4">brightness_5</i>
-                  <input v-model="newAdventurer.defense" @change="updateStatMax()" min="1" v-bind:max="updateInputMax(newAdventurer.defense)" id="defense" type="number" class="validate ">
-                  <label  class="" for="defense">Defense</label>
-                </div>
-                <div class="input-field col s4">
-                  <i class="material-icons prefix red-text text-darken-4">gavel</i>
-                  <input v-model="newAdventurer.attack" @change="updateStatMax()" min="1" v-bind:max="updateInputMax(newAdventurer.attack)" id="attack" type="number" class="validate ">
-                  <label  class="" for="attack">Attack</label>
-                </div> -->
               </div>
               <div class="row" v-if="created != true">
                 <div class="col s4">
                   <div class="row center">
-                    <i class="material-icons prefix red-text text-darken-4">directions_run</i>
+                    <i class="material-icons prefix green-text text-darken-4">directions_run</i>
                     <p class="flow-text">Stamina</p>
                   </div>
                   <div class="row center">
-                    <button class="btn red" @click="increaseStat('stamina')">
+                    <button class="btn green darken-4 waves-effect" @click="increaseStat('stamina')">
                       <i class="material-icons white-text">expand_less</i>
                     </button>
                   </div>
-                  <div class="row center"><button class="btn red" v-text="newAdventurer.stamina"></button></div>
+                  <div class="row center"><button class="btn green" v-text="newAdventurer.stamina"></button></div>
                   <div class="row center">
-                    <button class="btn red" @click="decreaseStat('stamina')">
+                    <button class="btn green darken-4 waves-effect" @click="decreaseStat('stamina')">
                       <i class="material-icons white-text">expand_more</i>
                     </button>
                   </div>
                 </div>
                 <div class="col s4">
                   <div class="row center">
-                    <i class="material-icons prefix red-text text-darken-4">brightness_5</i>
+                    <i class="material-icons prefix blue-text text-darken-4">brightness_5</i>
                     <p class="flow-text">Defense</p>
                   </div>
                   <div class="row center">
-                    <button class="btn red"  @click="increaseStat('defense')">
+                    <button class="btn blue darken-4 waves-effect"  @click="increaseStat('defense')">
                       <i class="material-icons white-text">expand_less</i>
                     </button>
                   </div>
-                  <div class="row center"><button class="btn red" v-text="newAdventurer.defense"></button></div>
+                  <div class="row center"><button class="btn blue" v-text="newAdventurer.defense"></button></div>
                   <div class="row center">
-                    <button class="btn red" @click="decreaseStat('defense')">
+                    <button class="btn blue darken-4 waves-effect" @click="decreaseStat('defense')">
                       <i class="material-icons white-text">expand_more</i>
                     </button>
                   </div>
                 </div>
                 <div class="col s4">
                   <div class="row center"> 
-                    <i class="material-icons prefix red-text text-darken-4">gavel</i>
+                    <i class="material-icons prefix orange-text text-darken-4">gavel</i>
                     <p class="flow-text">Attack</p>
                   </div>
                   <div class="row center">
-                    <button class="btn red" @click="increaseStat('attack')">
+                    <button class="btn orange darken-4 waves-effect" @click="increaseStat('attack')">
                       <i class="material-icons white-text">expand_less</i>
                     </button>
                   </div>
-                  <div class="row center"><button class="btn red" v-text="newAdventurer.attack"></button></div>
+                  <div class="row center"><button class="btn orange" v-text="newAdventurer.attack"></button></div>
                   <div class="row center">
-                    <button class="btn red" @click="decreaseStat('attack')">
+                    <button class="btn orange darken-4 waves-effect" @click="decreaseStat('attack')">
                       <i class="material-icons white-text">expand_more</i>
                     </button>
                   </div>
@@ -90,20 +75,22 @@
               
             </div>
             <div class="col s12 red">
-              <div class="row">
+              <div class="row center">
                   <br>
-                      <button class="btn green" v-if="created != true" @click="storeAdventurer()">Create</button>
+                    <button class="btn" v-if="created == false" @click="storeAdventurer()">Create</button>
                   
-                  
-                    <router-link to="/" v-if="created == true"><button class="btn">Back to the Tavern</button></router-link>
-                  
-                  
-                    <router-link to="/" v-if="created == false"><button class="btn">Back to the Tavern</button></router-link>
-                  
-                  
-                    <button class="btn green" v-if="created == true" @click="created = false;">Hire Another Adventurer</button>
-                  
+                    <button class="btn" v-if="created == true" @click="created = false;">Hire Another Adventurer</button>
               </div>
+              <div class="row center">
+                <br>
+                  <router-link to="/" v-if="created == true"><button class="btn">Back to the Tavern</button></router-link>
+                  
+                  <router-link to="/" v-if="created == false"><button class="btn">Back to the Tavern</button></router-link>
+              </div>
+                    
+                  
+                  
+                  
             </div>
         </div>
     </div>

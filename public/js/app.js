@@ -15135,19 +15135,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
   data: function data() {
@@ -15328,7 +15315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn green darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.increaseStat('stamina')
@@ -15339,14 +15326,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn green",
     domProps: {
       "textContent": _vm._s(_vm.newAdventurer.stamina)
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn green darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.decreaseStat('stamina')
@@ -15359,7 +15346,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn blue darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.increaseStat('defense')
@@ -15370,14 +15357,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn blue",
     domProps: {
       "textContent": _vm._s(_vm.newAdventurer.defense)
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn blue darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.decreaseStat('defense')
@@ -15390,7 +15377,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn orange darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.increaseStat('attack')
@@ -15401,14 +15388,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("expand_less")])])]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn orange",
     domProps: {
       "textContent": _vm._s(_vm.newAdventurer.attack)
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
-    staticClass: "btn red",
+    staticClass: "btn orange darken-4 waves-effect",
     on: {
       "click": function($event) {
         _vm.decreaseStat('attack')
@@ -15431,15 +15418,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "col s12 red"
   }, [_c('div', {
-    staticClass: "row"
-  }, [_c('br'), _vm._v(" "), (_vm.created != true) ? _c('button', {
-    staticClass: "btn green",
+    staticClass: "row center"
+  }, [_c('br'), _vm._v(" "), (_vm.created == false) ? _c('button', {
+    staticClass: "btn",
     on: {
       "click": function($event) {
         _vm.storeAdventurer()
       }
     }
-  }, [_vm._v("Create")]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('router-link', {
+  }, [_vm._v("Create")]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('button', {
+    staticClass: "btn green",
+    on: {
+      "click": function($event) {
+        _vm.created = false;
+      }
+    }
+  }, [_vm._v("Hire Another Adventurer")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('br'), _vm._v(" "), (_vm.created == true) ? _c('router-link', {
     attrs: {
       "to": "/"
     }
@@ -15451,14 +15447,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn"
-  }, [_vm._v("Back to the Tavern")])]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('button', {
-    staticClass: "btn green",
-    on: {
-      "click": function($event) {
-        _vm.created = false;
-      }
-    }
-  }, [_vm._v("Hire Another Adventurer")]) : _vm._e()], 1)])])])
+  }, [_vm._v("Back to the Tavern")])]) : _vm._e()], 1)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -15471,7 +15460,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row center"
   }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
+    staticClass: "material-icons prefix green-text text-darken-4"
   }, [_vm._v("directions_run")]), _vm._v(" "), _c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Stamina")])])
@@ -15479,7 +15468,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row center"
   }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
+    staticClass: "material-icons prefix blue-text text-darken-4"
   }, [_vm._v("brightness_5")]), _vm._v(" "), _c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Defense")])])
@@ -15487,7 +15476,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row center"
   }, [_c('i', {
-    staticClass: "material-icons prefix red-text text-darken-4"
+    staticClass: "material-icons prefix orange-text text-darken-4"
   }, [_vm._v("gavel")]), _vm._v(" "), _c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Attack")])])
