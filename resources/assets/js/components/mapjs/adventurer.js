@@ -2,79 +2,11 @@ import mapStyles from './map-styles'; //import map styles
 
 export default {
 
-            getMonsters() { //get all monsters
-              axios.get('/api/monster')
-                .then((response) => { 
-                    this.monsters = response.data;
-                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            },
-
-            getMonstersInRange(range) { //get monsters in certain range of user (in km)
-              range = (this.encounterRange / 1000) * 30;
-              console.log(range);
-              axios.get('/api/monster/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
-                .then((response) => { 
-                    this.monsters = response.data;
-                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            },
-
-            generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
-
-              if(markers) { //check for existing markers
-                this.clearMarkers(markers, encounterRangeMarkers);
-              }
-
-              // Add Interactable Markers
-              (entities).forEach((entity) => {
-                markers.push(new google.maps.Marker({
-                  position: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
-                  map: this.map,
-                  icon: iconGroup[entity.type[0]['name']],
-                  title: 'You found something!'
-                }));
-
-                // Add Interactable Encounter Range Markers
-                encounterRangeMarkers.push(new google.maps.Circle({
-                  strokeColor: '#0000',
-                  strokeOpacity: 0.8,
-                  strokeWeight: 2,
-                  fillColor: 'red',
-                  fillOpacity: 0.35,
-                  map: this.map,
-                  center: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
-                  radius: 5
-                }));
-              });
-
-          }, //end generate markers
-
-          clearMarkers(markers, encounterRangeMarkers) {
-            //Remove Interactable markers from map
-            markers.forEach((marker) => {
-              marker.setMap(null);
-              marker = null; 
-            });
-
-            encounterRangeMarkers.forEach((encounterRangeMarker) => {
-              encounterRangeMarker.setMap(null);
-              encounterRangeMarker = null;
-            });
-
-            //Clear Encounter markers array
-            encounterRangeMarkers = [];
-
-            //Clear Interactable markers array
-            markers = [];
-          }, //end clear markers
-
+            /*
+            -------------------------------
+                          Map
+            -------------------------------
+            */
 
             initMap() {
                 this.map = new google.maps.Map($('#map')[0], {
@@ -132,6 +64,12 @@ export default {
                               'Error: Your browser doesn\'t support geolocation.');
                 infoWindow.open(this.map);
             }, //end handleLocationError
+
+            /*
+            -------------------------------
+                          Adventurer
+            -------------------------------
+            */
 
             generateAdventurer () {
                 this.adventurerMarker = new google.maps.Marker({
@@ -231,6 +169,12 @@ export default {
                 }
             }, //end showHideEncounterRange
 
+            /*
+            -------------------------------
+                          Entities
+            -------------------------------
+            */
+
             checkForEntity (entities, entityType) {
               if (entities != [] && this.adventurerEncounterRangeMarker != null) { 
                 let bounds = this.adventurerEncounterRangeMarker.getBounds();
@@ -266,7 +210,86 @@ export default {
               }
           }, //end check for entity
 
-          activateMonster(monster) {
+          generateMarkers(entities, markers, encounterRangeMarkers, iconGroup) {
+
+              if(markers) { //check for existing markers
+                this.clearMarkers(markers, encounterRangeMarkers);
+              }
+
+              // Add Interactable Markers
+              (entities).forEach((entity) => {
+                markers.push(new google.maps.Marker({
+                  position: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
+                  map: this.map,
+                  icon: iconGroup[entity.type[0]['name']],
+                  title: 'You found something!'
+                }));
+
+                // Add Interactable Encounter Range Markers
+                encounterRangeMarkers.push(new google.maps.Circle({
+                  strokeColor: '#0000',
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
+                  fillColor: 'red',
+                  fillOpacity: 0.35,
+                  map: this.map,
+                  center: {lat: parseFloat(entity.lat), lng: parseFloat(entity.lng)},
+                  radius: 5
+                }));
+              });
+
+          }, //end generate markers
+
+          clearMarkers(markers, encounterRangeMarkers) {
+            //Remove Interactable markers from map
+            markers.forEach((marker) => {
+              marker.setMap(null);
+              marker = null; 
+            });
+
+            encounterRangeMarkers.forEach((encounterRangeMarker) => {
+              encounterRangeMarker.setMap(null);
+              encounterRangeMarker = null;
+            });
+
+            //Clear Encounter markers array
+            encounterRangeMarkers = [];
+
+            //Clear Interactable markers array
+            markers = [];
+          }, //end clear markers
+
+            /*
+            -------------------------------
+                          Monsters
+            -------------------------------
+            */
+
+            getMonsters() { //get all monsters
+              axios.get('/api/monster')
+                .then((response) => { 
+                    this.monsters = response.data;
+                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            },
+
+            getMonstersInRange(range) { //get monsters in certain range of user (in km)
+              range = (this.encounterRange / 1000) * 30;
+              console.log(range);
+              axios.get('/api/monster/'+this.pos.lat+'/'+this.pos.lng+'/'+range)
+                .then((response) => { 
+                    this.monsters = response.data;
+                    this.generateMarkers(this.monsters, this.monsterMarkers, this.monsterEncounterRangeMarkers, this.monsterIcon);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }, 
+
+            activateMonster(monster) {
                 axios.patch('/api/monster/activate/'+monster.id)
                 .then((response) => { 
                     console.log('monster activated');
@@ -281,6 +304,14 @@ export default {
                           console.log(response.data);
                           this.encounter = false; //set status to false to continue further activations
                         });
-            }, //end deactivateMonster
+            }, //end deactivateMonster  
+
+            /*
+            -------------------------------
+                          Treasures
+            -------------------------------
+            */
+
+          
         } //end methods
 

@@ -15579,7 +15579,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 70vh;\n      width: 100vw;\n}\n", ""]);
 
 // exports
 
@@ -15941,9 +15941,6 @@ var _adventurer2 = _interopRequireDefault(_adventurer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
-//
 //
 //
 //
@@ -17115,17 +17112,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_c('h4', [_vm._v("Look Out!")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', {
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.name)
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 m6"
   }, [_c('div', {
-    staticClass: "row"
-  }, [_c('h5', {
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.name)
-    }
-  })]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "col s6"

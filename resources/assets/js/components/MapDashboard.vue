@@ -73,15 +73,12 @@
             </div>
         </div>
 
-        <!-- Monster Modal Structure -->
+        <!-- Adventurer Detail Modal Structure -->
         <div id="adventurer-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>Look Out!</h4>
+                <h4 v-text="adventurerActive.name"></h4>
                 <div class="row">
                     <div class="col s12 m6">
-                        <div class="row">
-                            <h5 v-text="adventurerActive.name"></h5>
-                        </div>
                          <div class="row">
                             <div class="col s6"><p class="flow-text">Monsters Defeated:</p></div>
                             <div class="col s6"><p class="center btn" v-text="adventurerActive.monsters_defeated"></p></div>
@@ -219,8 +216,6 @@ import mapMethods from './mapjs/adventurer';
 
         mounted() {
             this.initMap();
-            // console.log(this.pos);
-            // this.getMonstersInRange(.9);
             this.getActiveAdventurer();
 
         }, //end mounted
