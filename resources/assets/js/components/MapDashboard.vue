@@ -156,7 +156,7 @@ import mapMethods from './mapjs/adventurer';
                 pos: null,
 
                 encounter: false,
-                encounterRange: 78, //Range within which adventure encounters entity
+                encounterRange: 30, //Range within which adventure encounters entity
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization

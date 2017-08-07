@@ -92,8 +92,9 @@ export default {
                         this.adventurerActive = adventurer; //capture users active adventurer
                       }
                     });
-                    
-
+                })
+                .catch((error) => {
+                  Materialize.toast('We couldn\'t retrieve your adventure, please go check back at the tavern', 4000);
                 });
             }, //end getAdventurers
 
@@ -283,6 +284,7 @@ export default {
                 })
                 .catch((error) => {
                   console.log(error);
+                  Materialize.toast('The monsters have vanished. Check back later', 4000);
                 });
             },
 
@@ -296,6 +298,7 @@ export default {
                 })
                 .catch((error) => {
                   console.log(error);
+                  Materialize.toast('The monsters have vanished. Check back later', 4000);
                 });
             }, 
 
@@ -305,6 +308,10 @@ export default {
                     console.log('monster activated');
                     console.log(monster);
                     this.monsterActive = monster;
+                })
+                .catch((error) => {
+                  console.log(error);
+                  Materialize.toast('This monster must be hiding. Check back later', 4000);
                 });
             }, //end activateMonster
 
@@ -314,7 +321,16 @@ export default {
                           console.log(response.data);
                           setTimeout(() => { //set status to false to continue further activations
                               this.encounter = false;
+                              Materialize.toast('You are once again ready for an encounter', 4000);
                           }, 20000); 
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          setTimeout(() => { //set status to false to continue further activations
+                              this.encounter = false;
+                              Materialize.toast('You are once again ready for an encounter', 4000);
+                          }, 20000);
+                          Materialize.toast('This one may come back for you...', 4000);
                         });
             }, //end deactivateMonster  
 
@@ -334,6 +350,7 @@ export default {
                 })
                 .catch((error) => {
                   console.log(error);
+                  Materialize.toast('We may have trouble finding treasure today. Check back later', 4000);
                 });
             },//end getTreasuresInRange
 
@@ -355,6 +372,7 @@ export default {
             leaveTreasure() {
               setTimeout(() => {
                   this.encounter = false;
+                  Materialize.toast('You are once again ready for an encounter', 4000);
               }, 20000);
             }, //end leave treasure
 

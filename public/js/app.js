@@ -16085,7 +16085,7 @@ exports.default = {
             pos: null,
 
             encounter: false,
-            encounterRange: 78, //Range within which adventure encounters entity
+            encounterRange: 30, //Range within which adventure encounters entity
 
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
@@ -16369,6 +16369,8 @@ exports.default = {
           _this2.adventurerActive = adventurer; //capture users active adventurer
         }
       });
+    }).catch(function (error) {
+      Materialize.toast('We couldn\'t retrieve your adventure, please go check back at the tavern', 4000);
     });
   },
   //end getAdventurers
@@ -16566,6 +16568,7 @@ exports.default = {
       _this6.generateMarkers(_this6.monsters, _this6.monsterMarkers, _this6.monsterEncounterRangeMarkers, _this6.monsterIcon);
     }).catch(function (error) {
       console.log(error);
+      Materialize.toast('The monsters have vanished. Check back later', 4000);
     });
   },
   getMonstersInRange: function getMonstersInRange(range) {
@@ -16579,6 +16582,7 @@ exports.default = {
       _this7.generateMarkers(_this7.monsters, _this7.monsterMarkers, _this7.monsterEncounterRangeMarkers, _this7.monsterIcon);
     }).catch(function (error) {
       console.log(error);
+      Materialize.toast('The monsters have vanished. Check back later', 4000);
     });
   },
   activateMonster: function activateMonster(monster) {
@@ -16588,6 +16592,9 @@ exports.default = {
       console.log('monster activated');
       console.log(monster);
       _this8.monsterActive = monster;
+    }).catch(function (error) {
+      console.log(error);
+      Materialize.toast('This monster must be hiding. Check back later', 4000);
     });
   },
   //end activateMonster
@@ -16600,7 +16607,16 @@ exports.default = {
       setTimeout(function () {
         //set status to false to continue further activations
         _this9.encounter = false;
+        Materialize.toast('You are once again ready for an encounter', 4000);
       }, 20000);
+    }).catch(function (error) {
+      console.log(error);
+      setTimeout(function () {
+        //set status to false to continue further activations
+        _this9.encounter = false;
+        Materialize.toast('You are once again ready for an encounter', 4000);
+      }, 20000);
+      Materialize.toast('This one may come back for you...', 4000);
     });
   },
   //end deactivateMonster  
@@ -16622,6 +16638,7 @@ exports.default = {
       _this10.generateMarkers(_this10.treasures, _this10.treasureMarkers, _this10.treasureEncounterRangeMarkers, _this10.treasureIcon);
     }).catch(function (error) {
       console.log(error);
+      Materialize.toast('We may have trouble finding treasure today. Check back later', 4000);
     });
   },
   //end getTreasuresInRange
@@ -16648,6 +16665,7 @@ exports.default = {
 
     setTimeout(function () {
       _this12.encounter = false;
+      Materialize.toast('You are once again ready for an encounter', 4000);
     }, 20000);
   },
   //end leave treasure
