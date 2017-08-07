@@ -125,7 +125,7 @@
                 .then((response) => { 
                     console.log(response.data);
                     this.created = true;
-                    Materialize.toast(this.newAdventurer.name + ' is ready for adventure!', 4000) // alert the user to success
+                    Materialize.toast(this.newAdventurer.name + ' is ready for adventure!', 4000); // alert the user to success
                     this.newAdventurer = { //reset form fields
                       name:'',
                       stamina: 1,
@@ -137,13 +137,14 @@
                 })
                 .catch((error) => {
                     console.log(error);
+                    Materialize.toast(this.newAdventurer.name + 'didn\'t make it back to the tavern! Try again later.', 4000); // alert the user to invalid stat allotment
                 });
               } else {
                 Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
                 Materialize.toast('Reallocate a few point please!', 4000) // alert the user to invalid stat allotment
               }
               } else {
-                Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000) // alert the user to success
+                Materialize.toast('Don\'t hire a nameless adventurer, that\'s dangerous!', 4000); // alert the user to success
               }
             },
 

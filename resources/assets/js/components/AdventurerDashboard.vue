@@ -93,6 +93,9 @@
                 .then((response) => { 
 
                     this.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
+                })
+                .catch((error) => {
+                    Materialize.toast('Your adventurer was left at the tavern, go back and get them.', 4000);
                 });
             }, //end embarkAdventurer
 
