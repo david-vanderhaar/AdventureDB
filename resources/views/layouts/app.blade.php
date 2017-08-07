@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="./css/app.css" rel="stylesheet">
 </head>
-<body class="red">
+<body class="red" style="margin-bottom: 70px;">
         <nav class="red darken-4">
             <div class="nav-wrapper">
               <a href="{{ url('/') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
