@@ -15427,7 +15427,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("Create")]) : _vm._e(), _vm._v(" "), (_vm.created == true) ? _c('button', {
-    staticClass: "btn green",
+    staticClass: "btn",
     on: {
       "click": function($event) {
         _vm.created = false;
@@ -16597,7 +16597,10 @@ exports.default = {
 
     axios.patch('/api/monster/deactivate/' + monster.id).then(function (response) {
       console.log(response.data);
-      _this9.encounter = false; //set status to false to continue further activations
+      setTimeout(function () {
+        //set status to false to continue further activations
+        _this9.encounter = false;
+      }, 20000);
     });
   },
   //end deactivateMonster  
@@ -16641,16 +16644,20 @@ exports.default = {
   //end pickUpTreasure
 
   leaveTreasure: function leaveTreasure() {
-    this.encounter = false;
+    var _this12 = this;
+
+    setTimeout(function () {
+      _this12.encounter = false;
+    }, 20000);
   },
   //end leave treasure
 
   deleteTreasure: function deleteTreasure(treasureId) {
-    var _this12 = this;
+    var _this13 = this;
 
     axios.delete('/api/treasure/' + treasureId).then(function (response) {
 
-      _this12.getTreasuresInRange(); //on succesfull delete, refresh adventurers
+      _this13.getTreasuresInRange(); //on succesfull delete, refresh adventurers
     }).catch(function (error) {
       console.log(error);
     });
@@ -17168,7 +17175,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn blue",
+    staticClass: "center btn green",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
     }
@@ -17190,7 +17197,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn blue",
+    staticClass: "center btn orange",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
     }
@@ -17209,7 +17216,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn green",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.stamina)
     }
@@ -17220,7 +17227,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn blue",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.defense)
     }
@@ -17231,7 +17238,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn orange",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.attack)
     }
@@ -17295,7 +17302,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn green",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.stamina)
     }
@@ -17306,7 +17313,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn blue",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.defense)
     }
@@ -17317,7 +17324,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(12), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn red",
+    staticClass: "center btn orange",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.attack)
     }

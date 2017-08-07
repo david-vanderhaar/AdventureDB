@@ -31,7 +31,7 @@
                         </div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Stamina:</p></div>
-                            <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].stamina"></p></div>
+                            <div class="col s6"><p class="center btn green" v-text="monsterActive.type['0'].stamina"></p></div>
                         </div>
                             <div class="divider"></div>
                         <div class="row">
@@ -41,7 +41,7 @@
                             <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Attack:</p></div>
-                            <div class="col s6"><p class="center btn blue" v-text="monsterActive.type['0'].attack"></p></div>
+                            <div class="col s6"><p class="center btn orange" v-text="monsterActive.type['0'].attack"></p></div>
                         </div>
                             <div class="divider"></div>
                     </div>
@@ -51,17 +51,17 @@
                         </div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Stamina:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
+                            <div class="col s6"><p class="center btn green" v-text="adventurerActive.stamina"></p></div>
                         </div>
                             <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Defense:</p></div>
-                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
+                           <div class="col s6"> <p class="center btn blue" v-text="adventurerActive.defense"></p></div>
                         </div>
                             <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Attack:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
+                            <div class="col s6"><p class="center btn orange" v-text="adventurerActive.attack"></p></div>
                         </div>
                             <div class="divider"></div>
                     </div>
@@ -91,17 +91,17 @@
                         <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Stamina:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.stamina"></p></div>
+                            <div class="col s6"><p class="center btn green" v-text="adventurerActive.stamina"></p></div>
                         </div>
                             <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Defense:</p></div>
-                           <div class="col s6"> <p class="center btn red" v-text="adventurerActive.defense"></p></div>
+                           <div class="col s6"> <p class="center btn blue" v-text="adventurerActive.defense"></p></div>
                         </div>
                             <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Attack:</p></div>
-                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.attack"></p></div>
+                            <div class="col s6"><p class="center btn orange" v-text="adventurerActive.attack"></p></div>
                         </div>
                             <div class="divider"></div>
                     </div>

@@ -312,7 +312,9 @@ export default {
                     axios.patch('/api/monster/deactivate/'+monster.id)
                         .then((response) => { 
                           console.log(response.data);
-                          this.encounter = false; //set status to false to continue further activations
+                          setTimeout(() => { //set status to false to continue further activations
+                              this.encounter = false;
+                          }, 20000); 
                         });
             }, //end deactivateMonster  
 
@@ -351,7 +353,9 @@ export default {
             }, //end pickUpTreasure
 
             leaveTreasure() {
-              this.encounter = false;
+              setTimeout(() => {
+                  this.encounter = false;
+              }, 20000);
             }, //end leave treasure
 
             deleteTreasure(treasureId) {
