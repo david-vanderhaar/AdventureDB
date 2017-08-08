@@ -16131,6 +16131,9 @@ exports.default = {
             encounter: false,
             encounterRange: 30, //Range within which adventure encounters entity
 
+            //Battle Vars
+            victory: 0,
+
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
                 active: false,
@@ -16733,6 +16736,31 @@ exports.default = {
   -------------------------------
   */
 
+  battle: function battle(adventurer, monster) {
+    /*if victory is 0, neither entity has won
+    if victory is -1, adventurer is defeated
+    if victory is 1, adventurer wins*/
+
+    this.victory = 0; //set victory to 0 at start
+
+    var monsterAction = 0;
+    var adventurerAction = 0;
+
+    while (this.victory == 0) {
+      var state = 'selectStat';
+
+      switch (state) {
+        case 'selectStat':
+          this.battleMsg = 'Select a stat action!';
+
+          //monster selects random stat
+
+          break;
+        default:
+          console.log('battle default');
+      }
+    }
+  },
   battleModal: function battleModal() {
     $('#battle-modal').modal('open'); //open modal
   }
@@ -17207,14 +17235,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.searchForEntities()
       }
     }
-  }, [_vm._v("Search")]), _vm._v(" "), _c('button', {
-    staticClass: "btn",
-    on: {
-      "click": function($event) {
-        _vm.battleModal()
-      }
-    }
-  }, [_vm._v("Battle")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Search")])]), _vm._v(" "), _c('div', {
     staticClass: "fixed-action-btn toolbar"
   }, [_vm._m(1), _vm._v(" "), _c('ul', [_c('li', {
     staticClass: "waves-effect waves-light"
