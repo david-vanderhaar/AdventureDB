@@ -17382,7 +17382,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn",
+    staticClass: "center btn red",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.monsters_defeated)
     }
@@ -17393,7 +17393,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
-    staticClass: "center btn",
+    staticClass: "center btn red",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.treasure)
     }

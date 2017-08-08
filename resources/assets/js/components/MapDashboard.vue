@@ -83,12 +83,12 @@
                     <div class="col s12 m6">
                          <div class="row">
                             <div class="col s6"><p class="flow-text">Monsters Defeated:</p></div>
-                            <div class="col s6"><p class="center btn" v-text="adventurerActive.monsters_defeated"></p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.monsters_defeated"></p></div>
                         </div>
                         <div class="divider"></div>
                         <div class="row">
                             <div class="col s6"><p class="flow-text">Treasure:</p></div>
-                            <div class="col s6"><p class="center btn" v-text="adventurerActive.treasure"></p></div>
+                            <div class="col s6"><p class="center btn red" v-text="adventurerActive.treasure"></p></div>
                         </div>
                         <div class="divider"></div>
                         <div class="row">
