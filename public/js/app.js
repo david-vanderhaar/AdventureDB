@@ -14819,6 +14819,8 @@ exports.default = {
             axios.patch('/api/adventurer/activate/' + id).then(function (response) {
 
                 _this3.$router.push('/map-dashboard'); //after successful activation, route changes to map dash
+            }).catch(function (error) {
+                Materialize.toast('Your adventurer was left at the tavern, go back and get them.', 4000);
             });
         },
         //end embarkAdventurer
@@ -15178,6 +15180,7 @@ exports.default = {
             };
           }).catch(function (error) {
             console.log(error);
+            Materialize.toast(_this.newAdventurer.name + 'didn\'t make it back to the tavern! Try again later.', 4000); // alert the user to invalid stat allotment
           });
         } else {
           Materialize.toast(this.newAdventurer.name + ' has used too many stat points!', 4000);
@@ -15568,7 +15571,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n#battle-modal {\n    height: 100vh;\n    width: 100vw;\n}\n", ""]);
 
 // exports
 
@@ -15930,6 +15933,42 @@ var _adventurer2 = _interopRequireDefault(_adventurer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16454,6 +16493,7 @@ exports.default = {
   },
   //end showHideEncounterRange
 
+
   /*
   -------------------------------
                 Entities
@@ -16675,10 +16715,21 @@ exports.default = {
 
     axios.delete('/api/treasure/' + treasureId).then(function (response) {
 
-      _this13.getTreasuresInRange(); //on succesfull delete, refresh adventurers
+      _this13.getTreasuresInRange(); //on succesfull delete, refresh treasures
     }).catch(function (error) {
       console.log(error);
     });
+  },
+  //end deleteTreasures
+
+  /*
+  -------------------------------
+                Battle Logic
+  -------------------------------
+  */
+
+  battleModal: function battleModal() {
+    $('#battle-modal').modal('open'); //open modal
   }
 };
 
@@ -17144,14 +17195,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s6 center"
-  }, [_c('a', [_c('button', {
+  }, [_c('button', {
     staticClass: "btn",
     on: {
       "click": function($event) {
         _vm.searchForEntities()
       }
     }
-  }, [_vm._v("Search")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Search")]), _vm._v(" "), _c('button', {
+    staticClass: "btn",
+    on: {
+      "click": function($event) {
+        _vm.battleModal()
+      }
+    }
+  }, [_vm._v("Battle")])]), _vm._v(" "), _c('div', {
     staticClass: "fixed-action-btn toolbar"
   }, [_vm._m(1), _vm._v(" "), _c('ul', [_c('li', {
     staticClass: "waves-effect waves-light"
@@ -17395,7 +17453,81 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.leaveTreasure()
       }
     }
-  }, [_vm._v("Leave It!")])])])])
+  }, [_vm._v("Leave It!")])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal modal-fixed-footer",
+    attrs: {
+      "id": "battle-modal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4",
+    attrs: {
+      "id": "battle-adventurer"
+    }
+  }, [_c('div', {
+    staticClass: "row center"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v(_vm._s(_vm.adventurerActive.name))])]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn green waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.stamina)
+    }
+  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn blue waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.defense)
+    }
+  })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn orange waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.adventurerActive.attack)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4",
+    attrs: {
+      "id": "battle-center"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "col s4",
+    attrs: {
+      "id": "battle-monster"
+    }
+  }, [_c('div', {
+    staticClass: "row center"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v(_vm._s(_vm.monsterActive.type['0'].name))])]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn green waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
+    }
+  })]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn blue waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.type['0'].defense)
+    }
+  })]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn orange waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
+    }
+  })])])])]), _vm._v(" "), _vm._m(22)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
@@ -17495,6 +17627,52 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Treasure:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix green-text text-darken-4"
+  }, [_vm._v("directions_run")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix blue-text text-darken-4"
+  }, [_vm._v("brightness_5")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix orange-text text-darken-4"
+  }, [_vm._v("gavel")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix green-text text-darken-4"
+  }, [_vm._v("directions_run")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix blue-text text-darken-4"
+  }, [_vm._v("brightness_5")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('i', {
+    staticClass: "material-icons prefix orange-text text-darken-4"
+  }, [_vm._v("gavel")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('h4', {
+    staticClass: "left"
+  }, [_vm._v("Battle")]), _vm._v(" "), _c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+  }, [_vm._v("Take It!")]), _vm._v(" "), _c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+  }, [_vm._v("Leave It!")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

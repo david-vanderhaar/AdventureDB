@@ -8,7 +8,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
-                        <div class="input-field{{ $errors->has('email') ? ' red lighten-1' : '' }}">
+                        <div class="input-field{{ $errors->has('email') ? ' teal lighten-2' : '' }}">
                             <label for="email" class="white-text">E-Mail Address</label>
 
                                 <input id="email" type="email" class="form-control white-text" name="email" value="{{ old('email') }}" required autofocus>
@@ -20,13 +20,13 @@
                                 @endif
                         </div>
 
-                        <div class="input-field{{ $errors->has('password') ? ' red lighten-1' : '' }}">
+                        <div class="input-field{{ $errors->has('password') ? ' teal lighten-2' : '' }}">
                             <label for="password" class="white-text control-label">Password</label>
 
                                 <input id="password" type="password" class=" white-text form-control" name="password" required>
 
                                 @if ($errors->has('password'))
-                                    <span class="red lighten-1 white-text">
+                                    <span class="teal lighten-2 white-text">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif

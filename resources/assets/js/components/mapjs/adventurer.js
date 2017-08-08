@@ -173,6 +173,7 @@ export default {
                 }
             }, //end showHideEncounterRange
 
+
             /*
             -------------------------------
                           Entities
@@ -380,13 +381,23 @@ export default {
                 axios.delete('/api/treasure/'+treasureId)
                 .then((response) => { 
                     
-                    this.getTreasuresInRange(); //on succesfull delete, refresh adventurers
+                    this.getTreasuresInRange(); //on succesfull delete, refresh treasures
                     
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            }, //end deleteAdventurers
+            }, //end deleteTreasures
+
+            /*
+            -------------------------------
+                          Battle Logic
+            -------------------------------
+            */
           
+            battleModal() {
+              $('#battle-modal').modal('open'); //open modal
+            },//end battle modal
+            
         } //end methods
 
