@@ -401,11 +401,11 @@ export default {
 
               this.victory = 0;
 
-              console.log('Adventurer Action' + adventurerAction);
+              console.log('Adventurer Action ' + adventurerAction);
 
               //monster selects random stat
               let monsterAction = this.getRandomAction(0,2);
-              console.log('Monster Action' + monsterAction);
+              console.log('Monster Action ' + monsterAction);
 
               this.compareActions(adventurerAction, monsterAction);
 
@@ -420,11 +420,13 @@ export default {
                      && this.monsterActive.type[0].defense == 0
                       && this.monsterActive.type[0].attack == 0) {
                       this.battleMsg = 'You win!';
+                      this.victory = 1;
                       console.log('You win');
                     } else if (this.adventurerActive.stamina == 0
                      && this.adventurerActive.defense == 0
                       && this.adventurerActive.attack == 0) {
                       this.battleMsg = 'You have been defeated!';
+                      this.victory = -1;
                       console.log('You have been defeated');
                     } else {
                       this.battleMsg = 'The battle rages on...';
@@ -474,32 +476,41 @@ export default {
               if (adA == 0 && monA == 0) {
                 this.adventurerActive.stamina -= 1;
                 this.monsterActive.type[0].stamina -= 1;
+                this.lastAction = 0;
 
               } else if (adA == 1 && monA == 1) {
                 this.adventurerActive.defense -= 1;
                 this.monsterActive.type[0].defense -= 1;
+                this.lastAction = 0;
 
               } else if (adA == 2 && monA == 2) {
                 this.adventurerActive.attack -= 1;
                 this.monsterActive.type[0].attack -= 1;
+                this.lastAction = 0;
 
               } else if (adA == 0 && monA == 1) {
                 this.monsterActive.type[0].defense -= 1;
+                this.lastAction = 1;
 
               } else if (adA == 0 && monA == 2) {
                 this.adventurerActive.stamina -= 1;
+                this.lastAction = 2;
 
               } else if (adA == 1 && monA == 0) {
                 this.adventurerActive.defense -= 1;
+                this.lastAction = 2;
 
               } else if (adA == 1 && monA == 2) {
                 this.monsterActive.type[0].attack -= 1;
+                this.lastAction = 1;
 
               } else if (adA == 2 && monA == 0) {
                 this.monsterActive.type[0].stamina -= 1;
+                this.lastAction = 1;
 
               } else if (adA == 2 && monA == 1) {
                 this.adventurerActive.attack -= 1;
+                this.lastAction = 2;
 
               } else {
                 console.log('comparison error');

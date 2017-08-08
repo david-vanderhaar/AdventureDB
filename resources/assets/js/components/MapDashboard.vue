@@ -143,7 +143,7 @@
             <div class="modal-content">
               <div class="row">
                   <div id="battle-adventurer" class="col s4">
-                      <div class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
+                      <div style="height: 40px;" class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
                       <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
                       <div class="row center"><button @click="battle(0)" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
                       <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
@@ -153,14 +153,20 @@
                   </div>
                   <div id="battle-center" class="col s4">
                       <div class="row center">
-                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
-                      </div>
-                      <div class="row center">
-                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 0"><i class="material-icons white-text">call_split</i></button>
+                        </transition>
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 1"><i class="material-icons white-text">call_received</i></button>
+                        </transition>
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 2"><i class="material-icons white-text">call_made</i></button>
+                        </transition>
+                        
                       </div>
                   </div>
                   <div id="battle-monster" class="col s4">
-                      <div class="row center"><p class="flow-text">{{monsterActive.type['0'].name}}</p></div>
+                      <div style="height: 40px;" class="row center"><p class="flow-text">{{monsterActive.type['0'].name}}</p></div>
                       <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
                       <div class="row center"><button class="center btn green waves-effect" v-text="monsterActive.type['0'].stamina"></button></div>
                       <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
@@ -173,8 +179,8 @@
             <div class="modal-footer">
                 <h4 class="left" @click="battle()">Battle</h4>
                 <span class="flow-text" v-text="battleMsg"></span>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">Take It!</a>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">Leave It!</a>
+                <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat">Claim Victory!</a>
+                <a v-if="victory == -1" class="modal-action modal-close waves-effect waves-green btn-flat">Retreat!</a>
             </div>
         </div>
   </div>
@@ -203,7 +209,7 @@ import mapMethods from './mapjs/adventurer';
                 //Battle Vars
                 victory: 0,
                 battleMsg: '',
-                battleState: '',
+                lastAction: 0,
                 
 
                 //Adventurer Vars
@@ -358,6 +364,13 @@ import mapMethods from './mapjs/adventurer';
 
     #battle-center {
         margin-top: 60%;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
     }
 </style>
 
