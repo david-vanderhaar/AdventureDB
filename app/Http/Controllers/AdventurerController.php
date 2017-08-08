@@ -97,9 +97,10 @@ class AdventurerController extends Controller
         return $adventurer;
     }
 
-    public function adventurerVictory(Request $request) {
-        $adventurer = Adventurer::find($request->id);
-        $adventurer->treasure = $request->treasure;
+    public function adventurerVictory($id, $treasure) {
+
+        $adventurer = Adventurer::find($id);
+        $adventurer->treasure = $treasure;
         $adventurer->monsters_defeated += 1;
 
         $adventurer->save();

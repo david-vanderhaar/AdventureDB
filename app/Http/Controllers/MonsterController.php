@@ -128,7 +128,7 @@ class MonsterController extends Controller
      * @param  \App\Monster  $monster
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Monster $monster)
+    public function destroy($id)
     {
         $monster = Monster::find($id);
         $monster->delete();

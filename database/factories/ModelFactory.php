@@ -66,8 +66,8 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) {
     $monsterTypeIds = App\Monster_Type::all()->pluck('id')->all();
 
     return [
-        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
-        'lng' => $faker->longitude($min = -84.489183, $max = -84.503093), 
+        'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
+        'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
         'treasure' => $faker->numberBetween($min = 0, $max = 50),
         'adventurers_defeated' => 0,
         'active' => false,
@@ -99,13 +99,21 @@ $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
           'E': -84.453474,
           'W': -84.515582
         };
+
+        ['AwesomeInc'] = {
+          'N': 38.0422392886,
+          'S': 38.0416787663,
+          'E': -84.4922482109,
+          'W': -84.4929573798
+        };
+ 
 */
 
     $treasureTypeIds = App\Treasure_Type::all()->pluck('id')->all();
 
     return [
-        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
-        'lng' => $faker->longitude($min = -84.489183, $max = -84.503093), 
+        'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
+        'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
         'treasure_type_id' => $faker->randomElement($treasureTypeIds),
 
     ];

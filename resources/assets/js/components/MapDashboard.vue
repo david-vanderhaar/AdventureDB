@@ -203,7 +203,7 @@ import mapMethods from './mapjs/adventurer';
                 pos: null,
 
                 encounter: false,
-                encounterRange: 30, //Range within which adventure encounters entity
+                encounterRange: 50, //Range within which adventure encounters entity
 
                 //Battle Vars
                 victory: 0,

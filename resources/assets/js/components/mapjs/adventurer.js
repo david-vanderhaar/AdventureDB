@@ -373,12 +373,18 @@ export default {
                 .then((response) => {
                   this.deleteTreasure(this.treasureActive.id); //remove treasure once it is picked up
                   Materialize.toast(this.adventurerActive.name + ' picked up some treasure', 4000);
-                  this.encounter = false;
+                  setTimeout(() => {
+                      this.encounter = false;
+                      Materialize.toast('You are once again ready for an encounter', 4000);
+                  }, 20000);
                 })
                 .catch((error) => {
                   console.log(error);
                   Materialize.toast('Unable to pick it up,' + this.adventurerActive.name + ' feels this treasure should be left alone.', 4000);
-                  this.encounter = false;
+                  setTimeout(() => {
+                      this.encounter = false;
+                      Materialize.toast('You are once again ready for an encounter', 4000);
+                  }, 20000);
                 });
             }, //end pickUpTreasure
 
@@ -435,8 +441,7 @@ export default {
                       this.victory = 1;
 
                       this.victoryAdd();
-                      this.getActiveAdventurer(); //reset active adventurer stats
-                      this.deactivateMonster(monster); //deactivate monster
+                      
                       console.log('You win');
                     } else if (this.adventurerActive.stamina == 0
                      && this.adventurerActive.defense == 0
@@ -455,14 +460,16 @@ export default {
             
             victoryAdd() {//add value of treasure to adventurer. Bump up monsters defeated counter
               this.adventurerActive.treasure += this.monsterActive.treasure;
-              axios.patch('api/adventurer/victory', this.adventurerActive)
+              axios.patch('api/adventurer/victory/'+this.adventurerActive.id+'/'+this.adventurerActive.treasure)
                 .then((response) => {
                   this.deleteMonster(this.monsterActive.id); //remove monster once it is defeated
+                  this.getActiveAdventurer(); //reset active adventurer stats
                   Materialize.toast(this.adventurerActive.name + ' defeated a ' + this.monsterActive.type[0].name + '.', 4000);
                   Materialize.toast(this.adventurerActive.name + ' gained ' + this.monsterActive.treasure + ' peices of treasure.', 4000);
                 })
                 .catch((error) => {
                   console.log(error);
+                  this.getMonstersInRange();
                   Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
                 });
             }, //end victory add

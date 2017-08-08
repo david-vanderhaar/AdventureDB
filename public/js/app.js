@@ -16135,7 +16135,7 @@ exports.default = {
             pos: null,
 
             encounter: false,
-            encounterRange: 30, //Range within which adventure encounters entity
+            encounterRange: 50, //Range within which adventure encounters entity
 
             //Battle Vars
             victory: 0,
@@ -16719,11 +16719,17 @@ exports.default = {
     axios.patch('api/adventurer/add/treasure', this.adventurerActive).then(function (response) {
       _this12.deleteTreasure(_this12.treasureActive.id); //remove treasure once it is picked up
       Materialize.toast(_this12.adventurerActive.name + ' picked up some treasure', 4000);
-      _this12.encounter = false;
+      setTimeout(function () {
+        _this12.encounter = false;
+        Materialize.toast('You are once again ready for an encounter', 4000);
+      }, 20000);
     }).catch(function (error) {
       console.log(error);
       Materialize.toast('Unable to pick it up,' + _this12.adventurerActive.name + ' feels this treasure should be left alone.', 4000);
-      _this12.encounter = false;
+      setTimeout(function () {
+        _this12.encounter = false;
+        Materialize.toast('You are once again ready for an encounter', 4000);
+      }, 20000);
     });
   },
   //end pickUpTreasure
@@ -16780,8 +16786,7 @@ exports.default = {
       this.victory = 1;
 
       this.victoryAdd();
-      this.getActiveAdventurer(); //reset active adventurer stats
-      this.deactivateMonster(monster); //deactivate monster
+
       console.log('You win');
     } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
       this.battleMsg = 'You have been defeated!';
@@ -16802,12 +16807,14 @@ exports.default = {
 
     //add value of treasure to adventurer. Bump up monsters defeated counter
     this.adventurerActive.treasure += this.monsterActive.treasure;
-    axios.patch('api/adventurer/victory', this.adventurerActive).then(function (response) {
+    axios.patch('api/adventurer/victory/' + this.adventurerActive.id + '/' + this.adventurerActive.treasure).then(function (response) {
       _this15.deleteMonster(_this15.monsterActive.id); //remove monster once it is defeated
+      _this15.getActiveAdventurer(); //reset active adventurer stats
       Materialize.toast(_this15.adventurerActive.name + ' defeated a ' + _this15.monsterActive.type[0].name + '.', 4000);
       Materialize.toast(_this15.adventurerActive.name + ' gained ' + _this15.monsterActive.treasure + ' peices of treasure.', 4000);
     }).catch(function (error) {
       console.log(error);
+      _this15.getMonstersInRange();
       Materialize.toast(_this15.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
     });
   },

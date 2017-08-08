@@ -37,7 +37,7 @@ Route::patch('adventurer/deactivate/{adventurer}', 'AdventurerController@deactiv
 Route::patch('adventurer/add/treasure', 'AdventurerController@addTreasureValueToAdventurer');
 
 //Handle Adventurer Victory/Defeat
-Route::patch('adventurer/victory', 'AdventurerController@adventurerVictory');
+Route::patch('adventurer/victory/{adventurer}/{treasure}', 'AdventurerController@adventurerVictory');
 
 
 /*
