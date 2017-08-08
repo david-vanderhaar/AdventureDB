@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col s6 center">
                 <button class="btn" @click="searchForEntities()">Search</button>
-                <button class="btn" @click="battleModal()">Battle</button>
+                <!-- <button class="btn" @click="battleModal()">Battle</button> -->
 
             </div>
             <div class="fixed-action-btn toolbar">
@@ -198,6 +198,9 @@ import mapMethods from './mapjs/adventurer';
 
                 encounter: false,
                 encounterRange: 30, //Range within which adventure encounters entity
+
+                //Battle Vars
+                victory: 0,
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization

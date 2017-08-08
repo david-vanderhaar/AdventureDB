@@ -394,10 +394,36 @@ export default {
                           Battle Logic
             -------------------------------
             */
-          
+            
+            battle(adventurer, monster) {
+              /*if victory is 0, neither entity has won
+              if victory is -1, adventurer is defeated
+              if victory is 1, adventurer wins*/
+
+              this.victory = 0; //set victory to 0 at start
+
+              let monsterAction = 0;
+              let adventurerAction = 0;
+
+              while (this.victory == 0) {
+                let state = 'selectStat';
+
+                switch(state) {
+                  case 'selectStat':
+                    this.battleMsg = 'Select a stat action!';
+
+                    //monster selects random stat
+                    
+                  break;
+                  default:
+                    console.log('battle default');
+                }
+              }
+            },
+
             battleModal() {
               $('#battle-modal').modal('open'); //open modal
             },//end battle modal
-            
+
         } //end methods
 
