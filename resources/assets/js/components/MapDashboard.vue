@@ -145,11 +145,11 @@
                   <div id="battle-adventurer" class="col s4">
                       <div class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
                       <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
-                      <div class="row center"><button @click="selectStamina()" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
+                      <div class="row center"><button @click="battle(0)" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
                       <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
-                      <div class="row center"><button class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
+                      <div class="row center"><button @click="battle(1)" class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
                       <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
-                      <div class="row center"><button class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
+                      <div class="row center"><button @click="battle(2)" class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
                   </div>
                   <div id="battle-center" class="col s4">
                       <div class="row center">
@@ -171,7 +171,7 @@
               </div>                
             </div>
             <div class="modal-footer">
-                <h4 class="left">Battle</h4>
+                <h4 class="left" @click="battle()">Battle</h4>
                 <span class="flow-text" v-text="battleMsg"></span>
                 <a class="modal-action modal-close waves-effect waves-green btn-flat">Take It!</a>
                 <a class="modal-action modal-close waves-effect waves-green btn-flat">Leave It!</a>
@@ -210,9 +210,9 @@ import mapMethods from './mapjs/adventurer';
                 adventurerActive: { //placeholder for encounter modal initialization
                     active: false,
                     name: 'none',
-                    stamina: '0',
-                    defense: '0',
-                    attack: '0'
+                    stamina: 0,
+                    defense: 0,
+                    attack: 0
                 },
                 adventurerMarker: null,
                 adventurerIcon: {
@@ -230,10 +230,10 @@ import mapMethods from './mapjs/adventurer';
                     active: false,
                     type:[
                         {
-                            name:'No Monster Here',
-                            stamina: '2',
-                            defense: '2',
-                            attack: '2'
+                            name:'No Monster',
+                            stamina: 2,
+                            defense: 2,
+                            attack: 0
 
                         }
                     ],

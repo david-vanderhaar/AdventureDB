@@ -394,58 +394,43 @@ export default {
                           Battle Logic
             -------------------------------
             */
-            
-            battle() {
-
+            battle(adventurerAction) {
               /*if victory is 0, neither entity has won
               if victory is -1, adventurer is defeated
               if victory is 1, adventurer wins*/
 
-              this.victory = 0; //set victory to 0 at start
+              this.victory = 0;
 
-              this.monsterAction = 0;
-              this.adventurerAction = 0;
+              console.log('Adventurer Action' + adventurerAction);
 
-              this.battleState = 'selectStat';
+              //monster selects random stat
+              let monsterAction = this.getRandomAction(0,2);
+              console.log('Monster Action' + monsterAction);
 
-              while (this.victory == 0) {
-                
+              this.compareActions(adventurerAction, monsterAction);
 
-                switch(this.battleState) {
-                  case 'selectStat':
-                    this.battleMsg = 'Select a stat action!';
+              this.victoryCheck();
 
-                    //monster selects random stat
-                    this.monsterAction = this.getRandomAction(0,2);
-                  break;
 
-                  case 'compare':
-                    this.battleMsg = 'Comparing';
-                    this.compareActions(this.adventurerAction,this.monsterAction);
-                  break;
 
-                  case 'victoryCheck':
-                    this.battleMsg = 'Resolving';
-                    if (this.monsterActive.type[0].stamina == 0
+            },//end battle
+
+            victoryCheck(adventurer, monster) {
+              if (this.monsterActive.type[0].stamina == 0
                      && this.monsterActive.type[0].defense == 0
                       && this.monsterActive.type[0].attack == 0) {
-                      this.victory = 1;
                       this.battleMsg = 'You win!';
+                      console.log('You win');
                     } else if (this.adventurerActive.stamina == 0
                      && this.adventurerActive.defense == 0
                       && this.adventurerActive.attack == 0) {
-                      this.victory = -1;
                       this.battleMsg = 'You have been defeated!';
+                      console.log('You have been defeated');
                     } else {
-                      this.battleState = 'selectStat';
+                      this.battleMsg = 'The battle rages on...';
+                      console.log('The battle rages on...');
                     }
-                  break;
-
-                  default:
-                    console.log('battle default');
-                }
-              }
-            },
+            }, //end victory check
 
             getRandomAction(min, max) {
                 min = Math.ceil(min);
@@ -458,7 +443,7 @@ export default {
                       // this.monsterAction = 0;
                       return 0;
                     } else {
-                      this.getRandomAction(0,2);
+                      return this.getRandomAction(0,2);
                     }
 
                     break;
@@ -468,7 +453,7 @@ export default {
                       // this.monsterAction = 1;
                       return 1;
                     } else {
-                      this.getRandomAction(0,2);
+                      return this.getRandomAction(0,2);
                     }
 
                     break;
@@ -478,7 +463,7 @@ export default {
                       // this.monsterAction = 2;
                       return 2;
                     } else {
-                      this.getRandomAction(0,2);
+                      return this.getRandomAction(0,2);
                     }
 
                     break;
@@ -489,59 +474,41 @@ export default {
               if (adA == 0 && monA == 0) {
                 this.adventurerActive.stamina -= 1;
                 this.monsterActive.type[0].stamina -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 1 && monA == 1) {
                 this.adventurerActive.defense -= 1;
                 this.monsterActive.type[0].defense -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 2 && monA == 2) {
                 this.adventurerActive.attack -= 1;
                 this.monsterActive.type[0].attack -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 0 && monA == 1) {
                 this.monsterActive.type[0].defense -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 0 && monA == 2) {
                 this.adventurerActive.stamina -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 1 && monA == 0) {
                 this.adventurerActive.defense -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 1 && monA == 2) {
                 this.monsterActive.type[0].attack -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 2 && monA == 0) {
                 this.monsterActive.type[0].stamina -= 1;
-                this.battleState = 'victoryCheck';
 
               } else if (adA == 2 && monA == 1) {
                 this.adventurerActive.attack -= 1;
-                this.battleState = 'victoryCheck';
 
               } else {
                 console.log('comparison error');
               }
-            }, //end compare actions
 
-            selectStamina() {
-              if ((this.adventurerActive.stamina > 0) && this.battleState == 'selectStat') {
-                this.adventurerAction = 0;
-                this.battleState = 'compare';
-              } else {
-                console.log('You can no longer perform this action');
-              }
-            },
+            }, //end compare actions
 
             battleModal() {
               $('#battle-modal').modal('open'); //open modal
-              this.battle();
             },//end battle modal
 
         } //end methods

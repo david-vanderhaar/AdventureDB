@@ -16141,9 +16141,9 @@ exports.default = {
             adventurerActive: { //placeholder for encounter modal initialization
                 active: false,
                 name: 'none',
-                stamina: '0',
-                defense: '0',
-                attack: '0'
+                stamina: 0,
+                defense: 0,
+                attack: 0
             },
             adventurerMarker: null,
             adventurerIcon: {
@@ -16160,10 +16160,10 @@ exports.default = {
             monsterActive: { //placeholder for encounter modal initialization
                 active: false,
                 type: [{
-                    name: 'No Monster Here',
-                    stamina: '2',
-                    defense: '2',
-                    attack: '2'
+                    name: 'No Monster',
+                    stamina: 2,
+                    defense: 2,
+                    attack: 0
 
                 }]
             },
@@ -16738,8 +16738,36 @@ exports.default = {
                 Battle Logic
   -------------------------------
   */
+  battle: function battle(adventurerAction) {
+    console.log('Adventurer Action' + adventurerAction);
 
-  battle: function battle() {
+    //monster selects random stat
+    var monsterAction = this.getRandomAction(0, 2);
+    console.log('Monster Action' + monsterAction);
+
+    this.compareActions(adventurerAction, monsterAction);
+
+    this.victoryCheck();
+  },
+  //end battle
+
+  victoryCheck: function victoryCheck(adventurer, monster) {
+    if (this.monsterActive.type[0].stamina == 0 && this.monsterActive.type[0].defense == 0 && this.monsterActive.type[0].attack == 0) {
+      this.victory = 1;
+      this.battleMsg = 'You win!';
+      console.log('You win');
+    } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
+      this.victory = -1;
+      this.battleMsg = 'You have been defeated!';
+      console.log('You have been defeated');
+    } else {
+      this.battleState = 'selectStat';
+      console.log('The battle rages on...');
+    }
+  },
+  //end victory check
+
+  battleX: function battleX(adventurerAction) {
 
     /*if victory is 0, neither entity has won
     if victory is -1, adventurer is defeated
@@ -16752,37 +16780,34 @@ exports.default = {
 
     this.battleState = 'selectStat';
 
-    while (this.victory == 0) {
+    switch (this.battleState) {
+      case 'selectStat':
+        this.battleMsg = 'Select a stat action!';
 
-      switch (this.battleState) {
-        case 'selectStat':
-          this.battleMsg = 'Select a stat action!';
+        //monster selects random stat
+        this.monsterAction = this.getRandomAction(0, 2);
+        break;
 
-          //monster selects random stat
-          this.monsterAction = this.getRandomAction(0, 2);
-          break;
+      case 'compare':
+        this.battleMsg = 'Comparing';
+        this.compareActions(this.adventurerAction, this.monsterAction);
+        break;
 
-        case 'compare':
-          this.battleMsg = 'Comparing';
-          this.compareActions(this.adventurerAction, this.monsterAction);
-          break;
+      case 'victoryCheck':
+        this.battleMsg = 'Resolving';
+        if (this.monsterActive.type[0].stamina == 0 && this.monsterActive.type[0].defense == 0 && this.monsterActive.type[0].attack == 0) {
+          this.victory = 1;
+          this.battleMsg = 'You win!';
+        } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
+          this.victory = -1;
+          this.battleMsg = 'You have been defeated!';
+        } else {
+          this.battleState = 'selectStat';
+        }
+        break;
 
-        case 'victoryCheck':
-          this.battleMsg = 'Resolving';
-          if (this.monsterActive.type[0].stamina == 0 && this.monsterActive.type[0].defense == 0 && this.monsterActive.type[0].attack == 0) {
-            this.victory = 1;
-            this.battleMsg = 'You win!';
-          } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
-            this.victory = -1;
-            this.battleMsg = 'You have been defeated!';
-          } else {
-            this.battleState = 'selectStat';
-          }
-          break;
-
-        default:
-          console.log('battle default');
-      }
+      default:
+        console.log('battle default');
     }
   },
   getRandomAction: function getRandomAction(min, max) {
@@ -16796,7 +16821,7 @@ exports.default = {
           // this.monsterAction = 0;
           return 0;
         } else {
-          this.getRandomAction(0, 2);
+          return this.getRandomAction(0, 2);
         }
 
         break;
@@ -16806,7 +16831,7 @@ exports.default = {
           // this.monsterAction = 1;
           return 1;
         } else {
-          this.getRandomAction(0, 2);
+          return this.getRandomAction(0, 2);
         }
 
         break;
@@ -16816,7 +16841,7 @@ exports.default = {
           // this.monsterAction = 2;
           return 2;
         } else {
-          this.getRandomAction(0, 2);
+          return this.getRandomAction(0, 2);
         }
 
         break;
@@ -16828,33 +16853,24 @@ exports.default = {
     if (adA == 0 && monA == 0) {
       this.adventurerActive.stamina -= 1;
       this.monsterActive.type[0].stamina -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 1 && monA == 1) {
       this.adventurerActive.defense -= 1;
       this.monsterActive.type[0].defense -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 2 && monA == 2) {
       this.adventurerActive.attack -= 1;
       this.monsterActive.type[0].attack -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 0 && monA == 1) {
       this.monsterActive.type[0].defense -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 0 && monA == 2) {
       this.adventurerActive.stamina -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 1 && monA == 0) {
       this.adventurerActive.defense -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 1 && monA == 2) {
       this.monsterActive.type[0].attack -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 2 && monA == 0) {
       this.monsterActive.type[0].stamina -= 1;
-      this.battleState = 'victoryCheck';
     } else if (adA == 2 && monA == 1) {
       this.adventurerActive.attack -= 1;
-      this.battleState = 'victoryCheck';
     } else {
       console.log('comparison error');
     }
@@ -17622,7 +17638,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.selectStamina()
+        _vm.battle(0)
       }
     }
   })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
@@ -17631,6 +17647,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "center btn blue waves-effect",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.defense)
+    },
+    on: {
+      "click": function($event) {
+        _vm.battle(1)
+      }
     }
   })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
     staticClass: "row center"
@@ -17638,6 +17659,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "center btn orange waves-effect",
     domProps: {
       "textContent": _vm._s(_vm.adventurerActive.attack)
+    },
+    on: {
+      "click": function($event) {
+        _vm.battle(2)
+      }
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "col s4",
@@ -17691,7 +17717,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('h4', {
-    staticClass: "left"
+    staticClass: "left",
+    on: {
+      "click": function($event) {
+        _vm.battle()
+      }
+    }
   }, [_vm._v("Battle")]), _vm._v(" "), _c('span', {
     staticClass: "flow-text",
     domProps: {
