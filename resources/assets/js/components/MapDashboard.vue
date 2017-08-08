@@ -8,7 +8,6 @@
         <div class="row">
             <div class="col s6 center">
                 <button class="btn" @click="searchForEntities()">Search</button>
-                <button class="btn" @click="battleModal()">Battle</button>
 
             </div>
             <div class="fixed-action-btn toolbar">
@@ -137,46 +136,6 @@
                 <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="leaveTreasure()">Leave It!</a>
             </div>
         </div>
-
-        <!-- Battle Modal -->
-        <div id="battle-modal" class="modal modal-fixed-footer">
-            <div class="modal-content">
-              <div class="row">
-                  <div id="battle-adventurer" class="col s4">
-                      <div class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
-                      <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
-                      <div class="row center"><button @click="selectStamina()" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
-                      <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
-                      <div class="row center"><button class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
-                      <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
-                      <div class="row center"><button class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
-                  </div>
-                  <div id="battle-center" class="col s4">
-                      <div class="row center">
-                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
-                      </div>
-                      <div class="row center">
-                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
-                      </div>
-                  </div>
-                  <div id="battle-monster" class="col s4">
-                      <div class="row center"><p class="flow-text">{{monsterActive.type['0'].name}}</p></div>
-                      <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
-                      <div class="row center"><button class="center btn green waves-effect" v-text="monsterActive.type['0'].stamina"></button></div>
-                      <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
-                      <div class="row center"><button class="center btn blue waves-effect" v-text="monsterActive.type['0'].defense"></button></div>
-                      <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
-                      <div class="row center"><button class="center btn orange waves-effect" v-text="monsterActive.type['0'].attack"></button></div>
-                  </div>
-              </div>                
-            </div>
-            <div class="modal-footer">
-                <h4 class="left">Battle</h4>
-                <span class="flow-text" v-text="battleMsg"></span>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">Take It!</a>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat">Leave It!</a>
-            </div>
-        </div>
   </div>
 
 
@@ -199,12 +158,6 @@ import mapMethods from './mapjs/adventurer';
 
                 encounter: false,
                 encounterRange: 30, //Range within which adventure encounters entity
-
-                //Battle Vars
-                victory: 0,
-                battleMsg: '',
-                battleState: '',
-                
 
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TreasureTableSeeder extends Seeder
+class AwesomeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,5 @@ class TreasureTableSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Treasure::class, 5)->create();
     }
 }
