@@ -16076,47 +16076,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
     data: function data() {
@@ -16130,12 +16089,7 @@ exports.default = {
             pos: null,
 
             encounter: false,
-            encounterRange: 30, //Range within which adventure encounters entity
-
-            //Battle Vars
-            victory: 0,
-            battleMsg: '',
-            battleState: '',
+            encounterRange: 500, //Range within which adventure encounters entity
 
             //Adventurer Vars
             adventurerActive: { //placeholder for encounter modal initialization
@@ -16730,148 +16684,6 @@ exports.default = {
     }).catch(function (error) {
       console.log(error);
     });
-  },
-  //end deleteTreasures
-
-  /*
-  -------------------------------
-                Battle Logic
-  -------------------------------
-  */
-
-  battle: function battle() {
-
-    /*if victory is 0, neither entity has won
-    if victory is -1, adventurer is defeated
-    if victory is 1, adventurer wins*/
-
-    this.victory = 0; //set victory to 0 at start
-
-    this.monsterAction = 0;
-    this.adventurerAction = 0;
-
-    this.battleState = 'selectStat';
-
-    while (this.victory == 0) {
-
-      switch (this.battleState) {
-        case 'selectStat':
-          this.battleMsg = 'Select a stat action!';
-
-          //monster selects random stat
-          this.monsterAction = this.getRandomAction(0, 2);
-          break;
-
-        case 'compare':
-          this.battleMsg = 'Comparing';
-          this.compareActions(this.adventurerAction, this.monsterAction);
-          break;
-
-        case 'victoryCheck':
-          this.battleMsg = 'Resolving';
-          if (this.monsterActive.type[0].stamina == 0 && this.monsterActive.type[0].defense == 0 && this.monsterActive.type[0].attack == 0) {
-            this.victory = 1;
-            this.battleMsg = 'You win!';
-          } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
-            this.victory = -1;
-            this.battleMsg = 'You have been defeated!';
-          } else {
-            this.battleState = 'selectStat';
-          }
-          break;
-
-        default:
-          console.log('battle default');
-      }
-    }
-  },
-  getRandomAction: function getRandomAction(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    var random = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    switch (random) {
-      case 0:
-        if (this.monsterActive.type[0].stamina > 0) {
-          // this.monsterAction = 0;
-          return 0;
-        } else {
-          this.getRandomAction(0, 2);
-        }
-
-        break;
-
-      case 1:
-        if (this.monsterActive.type[0].defense > 0) {
-          // this.monsterAction = 1;
-          return 1;
-        } else {
-          this.getRandomAction(0, 2);
-        }
-
-        break;
-
-      case 2:
-        if (this.monsterActive.type[0].attack > 0) {
-          // this.monsterAction = 2;
-          return 2;
-        } else {
-          this.getRandomAction(0, 2);
-        }
-
-        break;
-    }
-  },
-  //end getRandom action
-
-  compareActions: function compareActions(adA, monA) {
-    if (adA == 0 && monA == 0) {
-      this.adventurerActive.stamina -= 1;
-      this.monsterActive.type[0].stamina -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 1 && monA == 1) {
-      this.adventurerActive.defense -= 1;
-      this.monsterActive.type[0].defense -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 2 && monA == 2) {
-      this.adventurerActive.attack -= 1;
-      this.monsterActive.type[0].attack -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 0 && monA == 1) {
-      this.monsterActive.type[0].defense -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 0 && monA == 2) {
-      this.adventurerActive.stamina -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 1 && monA == 0) {
-      this.adventurerActive.defense -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 1 && monA == 2) {
-      this.monsterActive.type[0].attack -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 2 && monA == 0) {
-      this.monsterActive.type[0].stamina -= 1;
-      this.battleState = 'victoryCheck';
-    } else if (adA == 2 && monA == 1) {
-      this.adventurerActive.attack -= 1;
-      this.battleState = 'victoryCheck';
-    } else {
-      console.log('comparison error');
-    }
-  },
-  //end compare actions
-
-  selectStamina: function selectStamina() {
-    if (this.adventurerActive.stamina > 0 && this.battleState == 'selectStat') {
-      this.adventurerAction = 0;
-      this.battleState = 'compare';
-    } else {
-      console.log('You can no longer perform this action');
-    }
-  },
-  battleModal: function battleModal() {
-    $('#battle-modal').modal('open'); //open modal
-    this.battle();
   }
 };
 
@@ -17344,14 +17156,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.searchForEntities()
       }
     }
-  }, [_vm._v("Search")]), _vm._v(" "), _c('button', {
-    staticClass: "btn",
-    on: {
-      "click": function($event) {
-        _vm.battleModal()
-      }
-    }
-  }, [_vm._v("Battle")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Search")])]), _vm._v(" "), _c('div', {
     staticClass: "fixed-action-btn toolbar"
   }, [_vm._m(1), _vm._v(" "), _c('ul', [_c('li', {
     staticClass: "waves-effect waves-light"
@@ -17595,112 +17400,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.leaveTreasure()
       }
     }
-  }, [_vm._v("Leave It!")])])]), _vm._v(" "), _c('div', {
-    staticClass: "modal modal-fixed-footer",
-    attrs: {
-      "id": "battle-modal"
-    }
-  }, [_c('div', {
-    staticClass: "modal-content"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col s4",
-    attrs: {
-      "id": "battle-adventurer"
-    }
-  }, [_c('div', {
-    staticClass: "row center"
-  }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v(_vm._s(_vm.adventurerActive.name))])]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn green waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.stamina)
-    },
-    on: {
-      "click": function($event) {
-        _vm.selectStamina()
-      }
-    }
-  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn blue waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.defense)
-    }
-  })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn orange waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.adventurerActive.attack)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4",
-    attrs: {
-      "id": "battle-center"
-    }
-  }, [_c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn-large grey waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn-large grey waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4",
-    attrs: {
-      "id": "battle-monster"
-    }
-  }, [_c('div', {
-    staticClass: "row center"
-  }, [_c('p', {
-    staticClass: "flow-text"
-  }, [_vm._v(_vm._s(_vm.monsterActive.type['0'].name))])]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn green waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
-    }
-  })]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn blue waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.monsterActive.type['0'].defense)
-    }
-  })]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
-    staticClass: "row center"
-  }, [_c('button', {
-    staticClass: "center btn orange waves-effect",
-    domProps: {
-      "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
-    }
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('h4', {
-    staticClass: "left"
-  }, [_vm._v("Battle")]), _vm._v(" "), _c('span', {
-    staticClass: "flow-text",
-    domProps: {
-      "textContent": _vm._s(_vm.battleMsg)
-    }
-  }), _vm._v(" "), _c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
-  }, [_vm._v("Take It!")]), _vm._v(" "), _c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
   }, [_vm._v("Leave It!")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -17801,42 +17500,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('p', {
     staticClass: "flow-text"
   }, [_vm._v("Treasure:")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix green-text text-darken-4"
-  }, [_vm._v("directions_run")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix blue-text text-darken-4"
-  }, [_vm._v("brightness_5")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix orange-text text-darken-4"
-  }, [_vm._v("gavel")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix green-text text-darken-4"
-  }, [_vm._v("directions_run")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix blue-text text-darken-4"
-  }, [_vm._v("brightness_5")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('i', {
-    staticClass: "material-icons prefix orange-text text-darken-4"
-  }, [_vm._v("gavel")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
