@@ -15571,7 +15571,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n#battle-modal {\n    height: 100vh;\n    width: 100vw;\n}\n", ""]);
+exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n#battle-modal {\n    height: 100vh;\n    width: 100vw;\n}\n#battle-center {\n    margin-top: 60%;\n}\n", ""]);
 
 // exports
 
@@ -15933,6 +15933,11 @@ var _adventurer2 = _interopRequireDefault(_adventurer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -17497,7 +17502,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "battle-center"
     }
-  }), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn-large grey waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('button', {
+    staticClass: "center btn-large grey waves-effect",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "col s4",
     attrs: {
       "id": "battle-monster"

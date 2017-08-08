@@ -152,7 +152,12 @@
                       <div class="row center"><button class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
                   </div>
                   <div id="battle-center" class="col s4">
-                      
+                      <div class="row center">
+                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
+                      </div>
+                      <div class="row center">
+                          <button class="center btn-large grey waves-effect" v-text="monsterActive.type['0'].stamina"></button>
+                      </div>
                   </div>
                   <div id="battle-monster" class="col s4">
                       <div class="row center"><p class="flow-text">{{monsterActive.type['0'].name}}</p></div>
@@ -342,6 +347,10 @@ import mapMethods from './mapjs/adventurer';
     #battle-modal {
         height: 100vh;
         width: 100vw;
+    }
+
+    #battle-center {
+        margin-top: 60%;
     }
 </style>
 
