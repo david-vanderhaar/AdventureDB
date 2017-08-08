@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col s6 center">
                 <button class="btn" @click="searchForEntities()">Search</button>
-                <button class="btn" @click="battleModal()">Battle</button>
+                <!-- <button class="btn" @click="battleModal()">Battle</button> -->
 
             </div>
             <div class="fixed-action-btn toolbar">
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Fight!</a>
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="battleModal()">Fight!</a>
                     <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Run</a>
             </div>
         </div>
@@ -177,8 +177,7 @@
               </div>                
             </div>
             <div class="modal-footer">
-                <h4 class="left" @click="battle()">Battle</h4>
-                <span class="flow-text" v-text="battleMsg"></span>
+                <h5 class="left" v-text="battleMsg">Battle</h5>
                 <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat">Claim Victory!</a>
                 <a v-if="victory == -1" class="modal-action modal-close waves-effect waves-green btn-flat">Retreat!</a>
             </div>
@@ -208,7 +207,7 @@ import mapMethods from './mapjs/adventurer';
 
                 //Battle Vars
                 victory: 0,
-                battleMsg: '',
+                battleMsg: 'Battle',
                 lastAction: 0,
                 
 

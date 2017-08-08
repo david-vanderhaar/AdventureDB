@@ -333,7 +333,19 @@ export default {
                           }, 20000);
                           Materialize.toast('This one may come back for you...', 4000);
                         });
-            }, //end deactivateMonster  
+            }, //end deactivateMonster
+
+            deleteMonster(id) {
+                axios.delete('/api/monster/'+id)
+                .then((response) => { 
+                    
+                    this.getMonstersInRange(); //on succesfull delete, refresh monsters
+                    
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }, //end deleteTreasures  
 
             /*
             -------------------------------
@@ -409,7 +421,7 @@ export default {
 
               this.compareActions(adventurerAction, monsterAction);
 
-              this.victoryCheck();
+              this.victoryCheck(this.adventurerActive, this.monsterActive);
 
 
 
@@ -421,18 +433,39 @@ export default {
                       && this.monsterActive.type[0].attack == 0) {
                       this.battleMsg = 'You win!';
                       this.victory = 1;
+
+                      this.victoryAdd();
+                      this.getActiveAdventurer(); //reset active adventurer stats
+                      this.deactivateMonster(monster); //deactivate monster
                       console.log('You win');
                     } else if (this.adventurerActive.stamina == 0
                      && this.adventurerActive.defense == 0
                       && this.adventurerActive.attack == 0) {
                       this.battleMsg = 'You have been defeated!';
                       this.victory = -1;
+
+                      this.deactivateMonster(monster); //deactivate monster
                       console.log('You have been defeated');
                     } else {
                       this.battleMsg = 'The battle rages on...';
                       console.log('The battle rages on...');
                     }
             }, //end victory check
+
+            
+            victoryAdd() {//add value of treasure to adventurer. Bump up monsters defeated counter
+              this.adventurerActive.treasure += this.monsterActive.treasure;
+              axios.patch('api/adventurer/victory', this.adventurerActive)
+                .then((response) => {
+                  this.deleteMonster(this.monsterActive.id); //remove monster once it is defeated
+                  Materialize.toast(this.adventurerActive.name + ' defeated a ' + this.monsterActive.type[0].name + '.', 4000);
+                  Materialize.toast(this.adventurerActive.name + ' gained ' + this.monsterActive.treasure + ' peices of treasure.', 4000);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
+                });
+            }, //end victory add
 
             getRandomAction(min, max) {
                 min = Math.ceil(min);

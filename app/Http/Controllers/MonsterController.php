@@ -130,6 +130,8 @@ class MonsterController extends Controller
      */
     public function destroy(Monster $monster)
     {
-        //
+        $monster = Monster::find($id);
+        $monster->delete();
+        return ($monster);
     }
 }

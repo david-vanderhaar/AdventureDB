@@ -36,6 +36,10 @@ Route::patch('adventurer/deactivate/{adventurer}', 'AdventurerController@deactiv
 //Add Treasure
 Route::patch('adventurer/add/treasure', 'AdventurerController@addTreasureValueToAdventurer');
 
+//Handle Adventurer Victory/Defeat
+Route::patch('adventurer/victory', 'AdventurerController@adventurerVictory');
+
+
 /*
 |--------------------------------------------------------------------------
 | Monster Routes
