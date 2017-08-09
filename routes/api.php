@@ -57,6 +57,9 @@ Route::get('monster/{lat}/{lng}/{distance}', 'MonsterController@monstersInRange'
 Route::patch('monster/activate/{monster}', 'MonsterController@activate');
 Route::patch('monster/deactivate/{monster}', 'MonsterController@deactivate');
 
+//Handle Adventurer Victory/Defeat
+Route::patch('monster/victory/{monster}/{treasure}', 'MonsterController@monsterVictory');
+
 
 
 /*

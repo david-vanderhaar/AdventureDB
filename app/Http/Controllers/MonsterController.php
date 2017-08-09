@@ -104,6 +104,16 @@ class MonsterController extends Controller
         //
     }
 
+    public function monsterVictory($id, $treasure) {
+        
+        $monster = Monster::find($id);
+        $monster->treasure = $treasure;
+        $monster->adventurers_defeated += 1;
+
+        $monster->save();
+        return $monster;
+    }
+
     public function activate($id) {
         $monster = Monster::find($id);
         $monster['active'] = true;

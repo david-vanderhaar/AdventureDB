@@ -16122,6 +16122,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -16340,6 +16345,8 @@ exports.default = {
   */
 
   initMap: function initMap() {
+
+    console.log('init map');
     this.map = new google.maps.Map($('#map')[0], {
       center: { lat: 38.0423268, lng: -84.49276569999999 },
       zoom: 18,
@@ -16402,6 +16409,17 @@ exports.default = {
                 Adventurer
   -------------------------------
   */
+
+  deleteAdventurerOnDefeat: function deleteAdventurerOnDefeat(adventurerId) {
+    axios.delete('/api/adventurer/' + adventurerId).then(function (response) {
+
+      Materialize.toast(response.data.name + ' has retired, off to start the final journey', 4000);
+    }).catch(function (error) {
+      Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
+      Materialize.toast('We are having server issues, try again soon!', 4000);
+    });
+  },
+  //end deleteAdventurers
 
   generateAdventurer: function generateAdventurer() {
     this.adventurerMarker = new google.maps.Marker({
@@ -16761,22 +16779,29 @@ exports.default = {
                 Battle Logic
   -------------------------------
   */
-  battle: function battle(adventurerAction) {
-    /*if victory is 0, neither entity has won
-    if victory is -1, adventurer is defeated
-    if victory is 1, adventurer wins*/
+  battle: function battle(adventurerAction, actionType) {
 
-    this.victory = 0;
+    if (this.adventurerActive[actionType] > 0) {
+      //check that adventurer is not out of this acton
 
-    console.log('Adventurer Action ' + adventurerAction);
+      /*if victory is 0, neither entity has won
+      if victory is -1, adventurer is defeated
+      if victory is 1, adventurer wins*/
 
-    //monster selects random stat
-    var monsterAction = this.getRandomAction(0, 2);
-    console.log('Monster Action ' + monsterAction);
+      this.victory = 0;
 
-    this.compareActions(adventurerAction, monsterAction);
+      console.log('Adventurer Action ' + adventurerAction);
 
-    this.victoryCheck(this.adventurerActive, this.monsterActive);
+      //monster selects random stat
+      var monsterAction = this.getRandomAction(0, 2);
+      console.log('Monster Action ' + monsterAction);
+
+      this.compareActions(adventurerAction, monsterAction);
+
+      this.victoryCheck(this.adventurerActive, this.monsterActive);
+    } else {
+      this.battleMsg = 'Cannot perform this action.';
+    }
   },
   //end battle
 
@@ -16791,8 +16816,8 @@ exports.default = {
     } else if (this.adventurerActive.stamina == 0 && this.adventurerActive.defense == 0 && this.adventurerActive.attack == 0) {
       this.battleMsg = 'You have been defeated!';
       this.victory = -1;
-
-      this.deactivateMonster(monster); //deactivate monster
+      this.defeatAdd();
+      this.deactivateMonster(this.monsterActive); //deactivate monster
       console.log('You have been defeated');
     } else {
       this.battleMsg = 'The battle rages on...';
@@ -16819,6 +16844,25 @@ exports.default = {
     });
   },
   //end victory add
+
+  defeatAdd: function defeatAdd() {
+    var _this16 = this;
+
+    this.monsterActive.treasure += this.adventurerActive.treasure;
+    axios.patch('api/monster/victory/' + this.monsterActive.id + '/' + this.monsterActive.treasure).then(function (response) {
+      _this16.deleteAdventurerOnDefeat(_this16.adventurerActive.id);
+    }).catch(function (error) {
+      console.log(error);
+      _this16.getMonstersInRange();
+      Materialize.toast(_this16.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
+    });
+  },
+  //end defeat add
+
+  goToDashAfterDefeat: function goToDashAfterDefeat() {
+    this.$router.push('/');
+  },
+  //end goToDash
 
   getRandomAction: function getRandomAction(min, max) {
     min = Math.ceil(min);
@@ -17644,7 +17688,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.battle(0)
+        _vm.battle(0, 'stamina')
       }
     }
   })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
@@ -17656,7 +17700,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.battle(1)
+        _vm.battle(1, 'defense')
       }
     }
   })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
@@ -17668,7 +17712,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.battle(2)
+        _vm.battle(2, 'attack')
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -17676,7 +17720,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "battle-center"
     }
-  }, [_c('div', {
+  }, [(_vm.victory == -1) ? _c('div', {
+    staticClass: "row center"
+  }, [_c('transition', {
+    attrs: {
+      "name": "fade"
+    }
+  }, [_c('a', {
+    staticClass: "btn red white-text modal-action modal-close waves-effect waves-green btn-flat",
+    on: {
+      "click": function($event) {
+        _vm.goToDashAfterDefeat()
+      }
+    }
+  }, [_vm._v("Defeat!")])])], 1) : _vm._e(), _vm._v(" "), (_vm.victory == 0) ? _c('div', {
     staticClass: "row center"
   }, [_c('transition', {
     attrs: {
@@ -17702,7 +17759,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "center btn-large grey waves-effect"
   }, [_c('i', {
     staticClass: "material-icons white-text"
-  }, [_vm._v("call_made")])]) : _vm._e()])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("call_made")])]) : _vm._e()])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "col s4",
     attrs: {
       "id": "battle-monster"
@@ -17744,9 +17801,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Battle")]), _vm._v(" "), (_vm.victory == 1) ? _c('a', {
     staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
-  }, [_vm._v("Claim Victory!")]) : _vm._e(), _vm._v(" "), (_vm.victory == -1) ? _c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
-  }, [_vm._v("Retreat!")]) : _vm._e()])])])
+  }, [_vm._v("Claim Victory!")]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"

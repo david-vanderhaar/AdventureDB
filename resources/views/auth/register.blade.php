@@ -8,7 +8,7 @@
                     <form method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
-                        <div class="input-field{{ $errors->has('name') ? ' teal lighten-2' : '' }}">
+                        <div class="input-field{{ $errors->has('name') ? ' red darken-4' : '' }}">
                             <label for="name" class="col-md-4 control-label white-text">Name</label>
 
                                 <input id="name" type="text" class="form-control white-text" name="name" value="{{ old('name') }}" required autofocus>
@@ -20,7 +20,7 @@
                                 @endif
                         </div>
 
-                        <div class="input-field{{ $errors->has('email') ? ' teal lighten-2' : '' }}">
+                        <div class="input-field{{ $errors->has('email') ? ' red darken-4' : '' }}">
                             <label for="email" class="col-md-4 control-label white-text">E-Mail Address</label>
 
                                 <input id="email" type="email" class="form-control white-text" name="email" value="{{ old('email') }}" required>
@@ -32,7 +32,7 @@
                                 @endif
                         </div>
 
-                        <div class="input-field{{ $errors->has('password') ? ' teal lighten-2' : '' }}">
+                        <div class="input-field{{ $errors->has('password') ? ' red darken-4' : '' }}">
                             <label for="password" class="col-md-4 control-label white-text">Password</label>
 
                                 <input id="password" type="password" class="form-control white-text" name="password" required>

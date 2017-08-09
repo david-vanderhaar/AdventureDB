@@ -145,14 +145,19 @@
                   <div id="battle-adventurer" class="col s4">
                       <div style="height: 40px;" class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
                       <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
-                      <div class="row center"><button @click="battle(0)" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
+                      <div class="row center"><button @click="battle(0, 'stamina')" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
                       <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
-                      <div class="row center"><button @click="battle(1)" class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
+                      <div class="row center"><button @click="battle(1, 'defense')" class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
                       <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
-                      <div class="row center"><button @click="battle(2)" class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
+                      <div class="row center"><button @click="battle(2, 'attack')" class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
                   </div>
                   <div id="battle-center" class="col s4">
-                      <div class="row center">
+                    <div class="row center" v-if="victory == -1">
+                        <transition name="fade">
+                            <a @click="goToDashAfterDefeat()" class="btn red white-text modal-action modal-close waves-effect waves-green btn-flat">Defeat!</a>
+                        </transition>
+                    </div>
+                      <div class="row center" v-if="victory == 0">
                         <transition name="fade">
                           <button class="center btn-large grey waves-effect" v-if="lastAction == 0"><i class="material-icons white-text">call_split</i></button>
                         </transition>
@@ -162,7 +167,7 @@
                         <transition name="fade">
                           <button class="center btn-large grey waves-effect" v-if="lastAction == 2"><i class="material-icons white-text">call_made</i></button>
                         </transition>
-                        
+
                       </div>
                   </div>
                   <div id="battle-monster" class="col s4">
@@ -179,7 +184,7 @@
             <div class="modal-footer">
                 <h5 class="left" v-text="battleMsg">Battle</h5>
                 <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat">Claim Victory!</a>
-                <a v-if="victory == -1" class="modal-action modal-close waves-effect waves-green btn-flat">Retreat!</a>
+                <!-- <a @click="goToDashAfterDefeat()" v-if="victory == -1" class="modal-action modal-close waves-effect waves-green btn-flat">Defeat!</a> -->
             </div>
         </div>
   </div>

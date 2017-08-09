@@ -61,6 +61,13 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) {
           'E': -84.453474,
           'W': -84.515582
         };
+
+        ['AwesomeInc'] = {
+          'N': 38.0422392886,
+          'S': 38.0416787663,
+          'E': -84.4922482109,
+          'W': -84.4929573798
+        };
 */
 
     $monsterTypeIds = App\Monster_Type::all()->pluck('id')->all();

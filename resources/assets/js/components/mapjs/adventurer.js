@@ -9,6 +9,8 @@ export default {
             */
 
             initMap() {
+
+              console.log('init map');
                 this.map = new google.maps.Map($('#map')[0], {
                   center: {lat: 38.0423268, lng: -84.49276569999999},
                   zoom: 18,
@@ -72,6 +74,18 @@ export default {
                           Adventurer
             -------------------------------
             */
+
+            deleteAdventurerOnDefeat(adventurerId) {
+                axios.delete('/api/adventurer/'+adventurerId)
+                .then((response) => { 
+                    
+                    Materialize.toast(response.data.name + ' has retired, off to start the final journey', 4000);
+                })
+                .catch((error) => {
+                    Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
+                    Materialize.toast('We are having server issues, try again soon!', 4000);
+                });
+            }, //end deleteAdventurers
 
             generateAdventurer () {
                 this.adventurerMarker = new google.maps.Marker({
@@ -412,7 +426,10 @@ export default {
                           Battle Logic
             -------------------------------
             */
-            battle(adventurerAction) {
+            battle(adventurerAction, actionType) {
+             
+             if (this.adventurerActive[actionType] > 0) { //check that adventurer is not out of this acton
+
               /*if victory is 0, neither entity has won
               if victory is -1, adventurer is defeated
               if victory is 1, adventurer wins*/
@@ -428,6 +445,10 @@ export default {
               this.compareActions(adventurerAction, monsterAction);
 
               this.victoryCheck(this.adventurerActive, this.monsterActive);
+
+            } else {
+              this.battleMsg = 'Cannot perform this action.';
+            }
 
 
 
@@ -448,8 +469,8 @@ export default {
                       && this.adventurerActive.attack == 0) {
                       this.battleMsg = 'You have been defeated!';
                       this.victory = -1;
-
-                      this.deactivateMonster(monster); //deactivate monster
+                      this.defeatAdd();
+                      this.deactivateMonster(this.monsterActive); //deactivate monster
                       console.log('You have been defeated');
                     } else {
                       this.battleMsg = 'The battle rages on...';
@@ -473,6 +494,24 @@ export default {
                   Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
                 });
             }, //end victory add
+
+            defeatAdd() {
+              this.monsterActive.treasure += this.adventurerActive.treasure;
+              axios.patch('api/monster/victory/'+this.monsterActive.id+'/'+this.monsterActive.treasure)
+                .then((response) => {
+                  this.deleteAdventurerOnDefeat(this.adventurerActive.id);
+
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.getMonstersInRange();
+                  Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
+                });
+            },//end defeat add
+
+            goToDashAfterDefeat() {
+              this.$router.push('/');
+            }, //end goToDash
 
             getRandomAction(min, max) {
                 min = Math.ceil(min);
