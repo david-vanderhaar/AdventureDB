@@ -9,6 +9,8 @@ export default {
             */
 
             initMap() {
+
+              console.log('init map');
                 this.map = new google.maps.Map($('#map')[0], {
                   center: {lat: 38.0423268, lng: -84.49276569999999},
                   zoom: 18,
@@ -72,6 +74,18 @@ export default {
                           Adventurer
             -------------------------------
             */
+
+            deleteAdventurerOnDefeat(adventurerId) {
+                axios.delete('/api/adventurer/'+adventurerId)
+                .then((response) => { 
+                    
+                    Materialize.toast(response.data.name + ' has retired, off to start the final journey', 4000);
+                })
+                .catch((error) => {
+                    Materialize.toast(response.data.name + ' is not yet ready to lay down the spirt of adventure!', 4000);
+                    Materialize.toast('We are having server issues, try again soon!', 4000);
+                });
+            }, //end deleteAdventurers
 
             generateAdventurer () {
                 this.adventurerMarker = new google.maps.Marker({
@@ -333,7 +347,19 @@ export default {
                           }, 20000);
                           Materialize.toast('This one may come back for you...', 4000);
                         });
-            }, //end deactivateMonster  
+            }, //end deactivateMonster
+
+            deleteMonster(id) {
+                axios.delete('/api/monster/'+id)
+                .then((response) => { 
+                    
+                    this.getMonstersInRange(); //on succesfull delete, refresh monsters
+                    
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }, //end deleteTreasures  
 
             /*
             -------------------------------
@@ -361,12 +387,18 @@ export default {
                 .then((response) => {
                   this.deleteTreasure(this.treasureActive.id); //remove treasure once it is picked up
                   Materialize.toast(this.adventurerActive.name + ' picked up some treasure', 4000);
-                  this.encounter = false;
+                  setTimeout(() => {
+                      this.encounter = false;
+                      Materialize.toast('You are once again ready for an encounter', 4000);
+                  }, 20000);
                 })
                 .catch((error) => {
                   console.log(error);
                   Materialize.toast('Unable to pick it up,' + this.adventurerActive.name + ' feels this treasure should be left alone.', 4000);
-                  this.encounter = false;
+                  setTimeout(() => {
+                      this.encounter = false;
+                      Materialize.toast('You are once again ready for an encounter', 4000);
+                  }, 20000);
                 });
             }, //end pickUpTreasure
 
@@ -388,6 +420,195 @@ export default {
                     console.log(error);
                 });
             }, //end deleteTreasures
+
+            /*
+            -------------------------------
+                          Battle Logic
+            -------------------------------
+            */
+            battle(adventurerAction, actionType) {
+             
+             if (this.adventurerActive[actionType] > 0) { //check that adventurer is not out of this acton
+
+              /*if victory is 0, neither entity has won
+              if victory is -1, adventurer is defeated
+              if victory is 1, adventurer wins*/
+
+              this.victory = 0;
+
+              console.log('Adventurer Action ' + adventurerAction);
+
+              //monster selects random stat
+              let monsterAction = this.getRandomAction(0,2);
+              console.log('Monster Action ' + monsterAction);
+
+              this.compareActions(adventurerAction, monsterAction);
+
+              this.victoryCheck(this.adventurerActive, this.monsterActive);
+
+            } else {
+              this.battleMsg = 'Cannot perform this action.';
+            }
+
+
+
+            },//end battle
+
+            victoryCheck(adventurer, monster) {
+              if (this.monsterActive.type[0].stamina == 0
+                     && this.monsterActive.type[0].defense == 0
+                      && this.monsterActive.type[0].attack == 0) {
+                      this.battleMsg = 'You win!';
+                      this.victory = 1;
+
+                      this.victoryAdd();
+                      
+                      console.log('You win');
+                    } else if (this.adventurerActive.stamina == 0
+                     && this.adventurerActive.defense == 0
+                      && this.adventurerActive.attack == 0) {
+                      this.battleMsg = 'You have been defeated!';
+                      this.victory = -1;
+                      this.defeatAdd();
+                      this.deactivateMonster(this.monsterActive); //deactivate monster
+                      console.log('You have been defeated');
+                    } else {
+                      // this.battleMsg = 'The battle rages on...';
+                      console.log('The battle rages on...');
+                    }
+            }, //end victory check
+
+            
+            victoryAdd() {//add value of treasure to adventurer. Bump up monsters defeated counter
+              this.adventurerActive.treasure += this.monsterActive.treasure;
+              axios.patch('api/adventurer/victory/'+this.adventurerActive.id+'/'+this.adventurerActive.treasure)
+                .then((response) => {
+                  this.deleteMonster(this.monsterActive.id); //remove monster once it is defeated
+                  this.getActiveAdventurer(); //reset active adventurer stats
+                  Materialize.toast(this.adventurerActive.name + ' defeated a ' + this.monsterActive.type[0].name + '.', 4000);
+                  Materialize.toast(this.adventurerActive.name + ' gained ' + this.monsterActive.treasure + ' peices of treasure.', 4000);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.getMonstersInRange();
+                  Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
+                });
+            }, //end victory add
+
+            defeatAdd() {
+              this.monsterActive.treasure += this.adventurerActive.treasure;
+              axios.patch('api/monster/victory/'+this.monsterActive.id+'/'+this.monsterActive.treasure)
+                .then((response) => {
+                  this.deleteAdventurerOnDefeat(this.adventurerActive.id);
+
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.getMonstersInRange();
+                  Materialize.toast(this.adventurerActive.name + ' just woke up in cold sweat. Perhaps that battle was only a dream', 4000);
+                });
+            },//end defeat add
+
+            goToDashAfterDefeat() {
+              this.$router.push('/');
+            }, //end goToDash
+
+            getRandomAction(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                let random = Math.floor(Math.random() * (max - min + 1)) + min;
+
+                switch (random) {
+                  case 0:
+                    if (this.monsterActive.type[0].stamina > 0) {
+                      // this.monsterAction = 0;
+                      return 0;
+                    } else {
+                      return this.getRandomAction(0,2);
+                    }
+
+                    break;
+
+                  case 1:
+                    if (this.monsterActive.type[0].defense > 0) {
+                      // this.monsterAction = 1;
+                      return 1;
+                    } else {
+                      return this.getRandomAction(0,2);
+                    }
+
+                    break;
+
+                  case 2:
+                    if (this.monsterActive.type[0].attack > 0) {
+                      // this.monsterAction = 2;
+                      return 2;
+                    } else {
+                      return this.getRandomAction(0,2);
+                    }
+
+                    break;
+                }
+              }, //end getRandom action
+
+            compareActions(adA, monA) {
+              if (adA == 0 && monA == 0) {
+                this.adventurerActive.stamina -= 1;
+                this.monsterActive.type[0].stamina -= 1;
+                this.lastAction = 0;
+                this.battleMsg = 'A clash of stamina!';
+
+              } else if (adA == 1 && monA == 1) {
+                this.adventurerActive.defense -= 1;
+                this.monsterActive.type[0].defense -= 1;
+                this.lastAction = 0;
+                this.battleMsg = 'A clash of defense!';
+
+              } else if (adA == 2 && monA == 2) {
+                this.adventurerActive.attack -= 1;
+                this.monsterActive.type[0].attack -= 1;
+                this.lastAction = 0;
+                this.battleMsg = 'A clash of attack!';
+
+              } else if (adA == 0 && monA == 1) {
+                this.monsterActive.type[0].defense -= 1;
+                this.lastAction = 1;
+                this.battleMsg = this.adventurerActive.name +' outlasted the '+ this.monsterActive.type[0].name+'\'s defense.';
+
+              } else if (adA == 0 && monA == 2) {
+                this.adventurerActive.stamina -= 1;
+                this.lastAction = 2;
+                this.battleMsg = 'The ' + this.monsterActive.type[0].name +'\'s attack struck true.';
+
+              } else if (adA == 1 && monA == 0) {
+                this.adventurerActive.defense -= 1;
+                this.lastAction = 2;
+                this.battleMsg = 'The ' + this.monsterActive.type[0].name +' outlasted '+ this.adventurerActive.name+'\'s defense.';
+
+              } else if (adA == 1 && monA == 2) {
+                this.monsterActive.type[0].attack -= 1;
+                this.lastAction = 1;
+                this.battleMsg = this.adventurerActive.name +' held fast against the '+ this.monsterActive.type[0].name+'\'s attack.';
+
+              } else if (adA == 2 && monA == 0) {
+                this.monsterActive.type[0].stamina -= 1;
+                this.lastAction = 1;
+                this.battleMsg = this.adventurerActive.name +'\'s attack struck true.';
+
+              } else if (adA == 2 && monA == 1) {
+                this.adventurerActive.attack -= 1;
+                this.lastAction = 2;
+                this.battleMsg = 'The ' + this.monsterActive.type[0].name +' held fast against '+ this.adventurerActive.name+'\'s attack.';
+
+              } else {
+                console.log('comparison error');
+              }
+
+            }, //end compare actions
+
+            battleModal() {
+              $('#battle-modal').modal('open'); //open modal
+            },//end battle modal
 
         } //end methods
 

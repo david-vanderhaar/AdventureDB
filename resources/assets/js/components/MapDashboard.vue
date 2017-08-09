@@ -8,7 +8,6 @@
         <div class="row">
             <div class="col s6 center">
                 <button class="btn" @click="searchForEntities()">Search</button>
-
             </div>
             <div class="fixed-action-btn toolbar">
                 <a class="btn-floating btn-large">
@@ -69,7 +68,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Fight!</a>
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="battleModal()">Fight!</a>
                     <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="deactivateMonster(monsterActive)">Run</a>
             </div>
         </div>
@@ -136,6 +135,55 @@
                 <a class="modal-action modal-close waves-effect waves-green btn-flat" @click="leaveTreasure()">Leave It!</a>
             </div>
         </div>
+
+        <!-- Battle Modal -->
+        <div id="battle-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <div class="row">
+                  <div id="battle-adventurer" class="col s4">
+                      <div style="height: 40px;" class="row center"><p class="flow-text">{{adventurerActive.name}}</p></div>
+                      <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
+                      <div class="row center"><button @click="battle(0, 'stamina')" class="center btn green waves-effect" v-text="adventurerActive.stamina"></button></div>
+                      <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
+                      <div class="row center"><button @click="battle(1, 'defense')" class="center btn blue waves-effect" v-text="adventurerActive.defense"></button></div>
+                      <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
+                      <div class="row center"><button @click="battle(2, 'attack')" class="center btn orange waves-effect" v-text="adventurerActive.attack"></button></div>
+                  </div>
+                  <div id="battle-center" class="col s4">
+                    <div class="row center" v-if="victory == -1">
+                        <transition name="fade">
+                            <a @click="goToDashAfterDefeat()" class="btn red white-text modal-action modal-close waves-effect waves-green btn-flat">Defeat!</a>
+                        </transition>
+                    </div>
+                      <div class="row center" v-if="victory == 0">
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 0"><i class="material-icons white-text">call_split</i></button>
+                        </transition>
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 1"><i class="material-icons white-text">call_received</i></button>
+                        </transition>
+                        <transition name="fade">
+                          <button class="center btn-large grey waves-effect" v-if="lastAction == 2"><i class="material-icons white-text">call_made</i></button>
+                        </transition>
+
+                      </div>
+                  </div>
+                  <div id="battle-monster" class="col s4">
+                      <div style="height: 40px;" class="row center"><p class="flow-text">{{monsterActive.type['0'].name}}</p></div>
+                      <div class="row center"><i class="material-icons prefix green-text text-darken-4">directions_run</i></div>
+                      <div class="row center"><button class="center btn green waves-effect" v-text="monsterActive.type['0'].stamina"></button></div>
+                      <div class="row center"><i class="material-icons prefix blue-text text-darken-4">brightness_5</i></div>
+                      <div class="row center"><button class="center btn blue waves-effect" v-text="monsterActive.type['0'].defense"></button></div>
+                      <div class="row center"><i class="material-icons prefix orange-text text-darken-4">gavel</i></div>
+                      <div class="row center"><button class="center btn orange waves-effect" v-text="monsterActive.type['0'].attack"></button></div>
+                  </div>
+              </div>                
+            </div>
+            <div class="modal-footer red">
+                <p class="left white-text" v-text="battleMsg" v-if="victory == 0">Battle</p>
+                <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Claim Victory!</a>
+            </div>
+        </div>
   </div>
 
 
@@ -159,13 +207,18 @@ import mapMethods from './mapjs/adventurer';
                 encounter: false,
                 encounterRange: 30, //Range within which adventure encounters entity
 
+                //Battle Vars
+                victory: 0,
+                battleMsg: 'Battle',
+                lastAction: 0,
+                
                 //Adventurer Vars
                 adventurerActive: { //placeholder for encounter modal initialization
                     active: false,
                     name: 'none',
-                    stamina: '0',
-                    defense: '0',
-                    attack: '0'
+                    stamina: 0,
+                    defense: 0,
+                    attack: 0
                 },
                 adventurerMarker: null,
                 adventurerIcon: {
@@ -183,10 +236,10 @@ import mapMethods from './mapjs/adventurer';
                     active: false,
                     type:[
                         {
-                            name:'No Monster Here',
-                            stamina: '2',
-                            defense: '2',
-                            attack: '2'
+                            name:'No Monster',
+                            stamina: 2,
+                            defense: 2,
+                            attack: 0
 
                         }
                     ],
@@ -311,6 +364,13 @@ import mapMethods from './mapjs/adventurer';
 
     #battle-center {
         margin-top: 60%;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0
     }
 </style>
 

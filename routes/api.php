@@ -36,6 +36,10 @@ Route::patch('adventurer/deactivate/{adventurer}', 'AdventurerController@deactiv
 //Add Treasure
 Route::patch('adventurer/add/treasure', 'AdventurerController@addTreasureValueToAdventurer');
 
+//Handle Adventurer Victory/Defeat
+Route::patch('adventurer/victory/{adventurer}/{treasure}', 'AdventurerController@adventurerVictory');
+
+
 /*
 |--------------------------------------------------------------------------
 | Monster Routes
@@ -52,6 +56,9 @@ Route::get('monster/{lat}/{lng}/{distance}', 'MonsterController@monstersInRange'
 //Control adventure activation (active on embark)
 Route::patch('monster/activate/{monster}', 'MonsterController@activate');
 Route::patch('monster/deactivate/{monster}', 'MonsterController@deactivate');
+
+//Handle Adventurer Victory/Defeat
+Route::patch('monster/victory/{monster}/{treasure}', 'MonsterController@monsterVictory');
 
 
 

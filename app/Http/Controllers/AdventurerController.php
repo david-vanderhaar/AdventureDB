@@ -97,6 +97,16 @@ class AdventurerController extends Controller
         return $adventurer;
     }
 
+    public function adventurerVictory($id, $treasure) {
+
+        $adventurer = Adventurer::find($id);
+        $adventurer->treasure = $treasure;
+        $adventurer->monsters_defeated += 1;
+
+        $adventurer->save();
+        return $adventurer;
+    }
+
     /**
      * Update the specified resource in storage.
      *
