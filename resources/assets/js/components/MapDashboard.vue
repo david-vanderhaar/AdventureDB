@@ -30,6 +30,16 @@
                             <h5 v-text="monsterActive.type['0'].name"></h5>
                         </div>
                         <div class="row">
+                            <div class="col s6"><p class="flow-text">Adventurers Defeated:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="monsterActive.adventurers_defeated"></p></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <div class="col s6"><p class="flow-text">Treasure:</p></div>
+                            <div class="col s6"><p class="center btn red" v-text="monsterActive.treasure"></p></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
                             <div class="col s6"><p class="flow-text">Stamina:</p></div>
                             <div class="col s6"><p class="center btn green" v-text="monsterActive.type['0'].stamina"></p></div>
                         </div>
@@ -234,6 +244,8 @@ import mapMethods from './mapjs/adventurer';
                 //Monster Vars
                 monsterActive: { //placeholder for encounter modal initialization
                     active: false,
+                    treasure: 0,
+                    adventurers_defeated: 0,
                     type:[
                         {
                             name:'No Monster',

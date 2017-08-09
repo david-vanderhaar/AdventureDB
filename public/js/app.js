@@ -16124,6 +16124,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -16166,6 +16176,8 @@ exports.default = {
             //Monster Vars
             monsterActive: { //placeholder for encounter modal initialization
                 active: false,
+                treasure: 0,
+                adventurers_defeated: 0,
                 type: [{
                     name: 'No Monster',
                     stamina: 2,
@@ -17462,6 +17474,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.adventurers_defeated)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "center btn red",
+    domProps: {
+      "textContent": _vm._s(_vm.monsterActive.treasure)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
     staticClass: "center btn green",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
@@ -17470,7 +17504,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -17481,7 +17515,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn orange",
@@ -17500,7 +17534,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn green",
@@ -17511,7 +17545,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -17522,7 +17556,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn orange",
@@ -17564,7 +17598,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s12 m6"
   }, [_c('div', {
     staticClass: "row"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -17575,7 +17609,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(9), _vm._v(" "), _c('div', {
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn red",
@@ -17586,7 +17620,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(10), _vm._v(" "), _c('div', {
+  }, [_vm._m(12), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn green",
@@ -17597,7 +17631,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(13), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn blue",
@@ -17608,7 +17642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(12), _vm._v(" "), _c('div', {
+  }, [_vm._m(14), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn orange",
@@ -17617,7 +17651,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "divider"
-  })])])]), _vm._v(" "), _vm._m(13)]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _vm._m(15)]), _vm._v(" "), _c('div', {
     staticClass: "modal modal-fixed-footer",
     attrs: {
       "id": "treasure-modal"
@@ -17630,7 +17664,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s12 m6"
   }, [_c('div', {
     staticClass: "row"
-  }, [_vm._m(14), _vm._v(" "), _c('div', {
+  }, [_vm._m(16), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn",
@@ -17641,7 +17675,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "divider"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(15), _vm._v(" "), _c('div', {
+  }, [_vm._m(17), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('p', {
     staticClass: "center btn",
@@ -17685,7 +17719,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('p', {
     staticClass: "flow-text"
-  }, [_vm._v(_vm._s(_vm.adventurerActive.name))])]), _vm._v(" "), _vm._m(16), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.adventurerActive.name))])]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn green waves-effect",
@@ -17697,7 +17731,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.battle(0, 'stamina')
       }
     }
-  })]), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn blue waves-effect",
@@ -17709,7 +17743,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.battle(1, 'defense')
       }
     }
-  })]), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn orange waves-effect",
@@ -17777,21 +17811,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('p', {
     staticClass: "flow-text"
-  }, [_vm._v(_vm._s(_vm.monsterActive.type['0'].name))])]), _vm._v(" "), _vm._m(19), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.monsterActive.type['0'].name))])]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn green waves-effect",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].stamina)
     }
-  })]), _vm._v(" "), _vm._m(20), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(22), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn blue waves-effect",
     domProps: {
       "textContent": _vm._s(_vm.monsterActive.type['0'].defense)
     }
-  })]), _vm._v(" "), _vm._m(21), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _vm._m(23), _vm._v(" "), _c('div', {
     staticClass: "row center"
   }, [_c('button', {
     staticClass: "center btn orange waves-effect",
@@ -17823,6 +17857,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "large material-icons"
   }, [_vm._v("menu")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Adventurers Defeated:")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s6"
+  }, [_c('p', {
+    staticClass: "flow-text"
+  }, [_vm._v("Treasure:")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col s6"
