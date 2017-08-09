@@ -181,10 +181,9 @@
                   </div>
               </div>                
             </div>
-            <div class="modal-footer">
-                <h5 class="left" v-text="battleMsg">Battle</h5>
-                <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat">Claim Victory!</a>
-                <!-- <a @click="goToDashAfterDefeat()" v-if="victory == -1" class="modal-action modal-close waves-effect waves-green btn-flat">Defeat!</a> -->
+            <div class="modal-footer red">
+                <p class="left white-text" v-text="battleMsg" v-if="victory == 0">Battle</p>
+                <a v-if="victory == 1" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Claim Victory!</a>
             </div>
         </div>
   </div>

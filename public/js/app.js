@@ -16126,7 +16126,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 
 exports.default = {
     data: function data() {
@@ -16820,7 +16819,7 @@ exports.default = {
       this.deactivateMonster(this.monsterActive); //deactivate monster
       console.log('You have been defeated');
     } else {
-      this.battleMsg = 'The battle rages on...';
+      // this.battleMsg = 'The battle rages on...';
       console.log('The battle rages on...');
     }
   },
@@ -16908,32 +16907,41 @@ exports.default = {
       this.adventurerActive.stamina -= 1;
       this.monsterActive.type[0].stamina -= 1;
       this.lastAction = 0;
+      this.battleMsg = 'A clash of stamina!';
     } else if (adA == 1 && monA == 1) {
       this.adventurerActive.defense -= 1;
       this.monsterActive.type[0].defense -= 1;
       this.lastAction = 0;
+      this.battleMsg = 'A clash of defense!';
     } else if (adA == 2 && monA == 2) {
       this.adventurerActive.attack -= 1;
       this.monsterActive.type[0].attack -= 1;
       this.lastAction = 0;
+      this.battleMsg = 'A clash of attack!';
     } else if (adA == 0 && monA == 1) {
       this.monsterActive.type[0].defense -= 1;
       this.lastAction = 1;
+      this.battleMsg = this.adventurerActive.name + ' outlasted the ' + this.monsterActive.type[0].name + '\'s defense.';
     } else if (adA == 0 && monA == 2) {
       this.adventurerActive.stamina -= 1;
       this.lastAction = 2;
+      this.battleMsg = 'The ' + this.monsterActive.type[0].name + '\'s attack struck true.';
     } else if (adA == 1 && monA == 0) {
       this.adventurerActive.defense -= 1;
       this.lastAction = 2;
+      this.battleMsg = 'The ' + this.monsterActive.type[0].name + ' outlasted ' + this.adventurerActive.name + '\'s defense.';
     } else if (adA == 1 && monA == 2) {
       this.monsterActive.type[0].attack -= 1;
       this.lastAction = 1;
+      this.battleMsg = this.adventurerActive.name + ' held fast against the ' + this.monsterActive.type[0].name + '\'s attack.';
     } else if (adA == 2 && monA == 0) {
       this.monsterActive.type[0].stamina -= 1;
       this.lastAction = 1;
+      this.battleMsg = this.adventurerActive.name + '\'s attack struck true.';
     } else if (adA == 2 && monA == 1) {
       this.adventurerActive.attack -= 1;
       this.lastAction = 2;
+      this.battleMsg = 'The ' + this.monsterActive.type[0].name + ' held fast against ' + this.adventurerActive.name + '\'s attack.';
     } else {
       console.log('comparison error');
     }
@@ -17793,14 +17801,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "textContent": _vm._s(_vm.monsterActive.type['0'].attack)
     }
   })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('h5', {
-    staticClass: "left",
+    staticClass: "modal-footer red"
+  }, [(_vm.victory == 0) ? _c('p', {
+    staticClass: "left white-text",
     domProps: {
       "textContent": _vm._s(_vm.battleMsg)
     }
-  }, [_vm._v("Battle")]), _vm._v(" "), (_vm.victory == 1) ? _c('a', {
-    staticClass: "modal-action modal-close waves-effect waves-green btn-flat"
+  }, [_vm._v("Battle")]) : _vm._e(), _vm._v(" "), (_vm.victory == 1) ? _c('a', {
+    staticClass: "modal-action modal-close waves-effect waves-green btn-flat white-text"
   }, [_vm._v("Claim Victory!")]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
