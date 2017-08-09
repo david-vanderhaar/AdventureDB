@@ -38,15 +38,10 @@ $factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
     ];
 });
 
-// Monsters
-$factory->define(App\Monster::class, function (Faker\Generator $faker) {
+// Monster Factories
+
+$factory->define(App\Monster::class, function (Faker\Generator $faker) { //default seed is downtown lexington
 /* Bounding Boxes
-        ['Lexington'] = {
-         'N': 38.211404,
-         'S': 37.845256,
-         'E': -84.282715,
-         'W': -84.660415
-        };
 
         ['LexingtonDowntown'] = {
           'N': 38.054707,
@@ -55,26 +50,13 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) {
           'W': -84.503093
         };
 
-        ['ChevyChase'] = {
-          'N': 38.041314,
-          'S': 37.990589,
-          'E': -84.453474,
-          'W': -84.515582
-        };
-
-        ['AwesomeInc'] = {
-          'N': 38.0422392886,
-          'S': 38.0416787663,
-          'E': -84.4922482109,
-          'W': -84.4929573798
-        };
 */
 
     $monsterTypeIds = App\Monster_Type::all()->pluck('id')->all();
 
     return [
-        'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
-        'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
+        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
+        'lng' => $faker->longitude($min = -84.503093, $max = -84.489183),
         'treasure' => $faker->numberBetween($min = 0, $max = 50),
         'adventurers_defeated' => 0,
         'active' => false,
@@ -83,8 +65,61 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) {
     ];
 });
 
-// Treasures
-$factory->define(App\Treasure::class, function (Faker\Generator $faker) {
+//Monster Type States
+$factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Monster Types
+        Bear = 1,
+        Slime = 2,
+        Bandit = 3
+
+*/
+
+    return [
+
+        'monster_type_id' => 1
+
+    ];
+});
+
+$factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Monster Types
+        Bear = 1,
+        Slime = 2,
+        Bandit = 3
+
+*/
+
+    return [
+
+        'monster_type_id' => 2
+
+    ];
+});
+
+$factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Monster Types
+        Bear = 1,
+        Slime = 2,
+        Bandit = 3
+
+*/
+
+    return [
+
+        'monster_type_id' => 3
+
+    ];
+});
+
+//Location States
+
+$factory->state(App\Monster::class, 'lexington', function (Faker\Generator $faker) {
 /* Bounding Boxes
         ['Lexington'] = {
          'N': 38.211404,
@@ -92,6 +127,67 @@ $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
          'E': -84.282715,
          'W': -84.660415
         };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 37.845256, $max = 38.211404),
+        'lng' => $faker->longitude($min = -84.660415, $max = -84.282715)
+
+    ];
+});
+
+$factory->state(App\Monster::class, 'lexingtonDowntown', function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['LexingtonDowntown'] = {
+          'N': 38.054707,
+          'S': 38.036752,
+          'E': -84.489183,
+          'W': -84.503093
+        };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
+        'lng' => $faker->longitude($min = -84.503093, $max = -84.489183),
+    ];
+});
+
+$factory->state(App\Monster::class, 'chevyChase', function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['ChevyChase'] = {
+          'N': 38.041314,
+          'S': 37.990589,
+          'E': -84.453474,
+          'W': -84.515582
+        };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 37.990589, $max = 38.041314),
+        'lng' => $faker->longitude($min = -84.515582, $max = -84.453474),
+    ];
+});
+
+$factory->state(App\Monster::class, 'awesomeInc', function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['AwesomeInc'] = {
+          'N': 38.0422392886,
+          'S': 38.0416787663,
+          'E': -84.4922482109,
+          'W': -84.4929573798
+        };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
+        'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
+    ];
+});
+
+// Treasures
+
+$factory->define(App\Treasure::class, function (Faker\Generator $faker) {
+/* Bounding Boxes
 
         ['LexingtonDowntown'] = {
           'N': 38.054707,
@@ -100,28 +196,155 @@ $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
           'W': -84.503093
         };
 
+*/
+
+    $treasureTypeIds = App\Treasure_Type::all()->pluck('id')->all();
+
+    return [
+        'lat' => $faker->latitude($min = 38.036752, $max = 338.054707),
+        'lng' => $faker->longitude($min = -84.503093, $max = -84.489183),
+        'treasure_type_id' => $faker->randomElement($treasureTypeIds),
+
+    ];
+});
+
+//Treasure Type States
+$factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Treasure Types
+        copper = 1,
+        silver = 2,
+        gold = 3
+        gem = 4
+
+*/
+
+    return [
+
+        'treasure_type_id' => 1
+
+    ];
+});
+
+$factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Treasure Types
+        copper = 1,
+        silver = 2,
+        gold = 3
+        gem = 4
+
+*/
+
+    return [
+
+        'treasure_type_id' => 2
+
+    ];
+});
+
+$factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Treasure Types
+        copper = 1,
+        silver = 2,
+        gold = 3
+        gem = 4
+
+*/
+
+    return [
+
+        'treasure_type_id' => 3
+
+    ];
+});
+
+$factory->state(App\Treasure::class, 'gem', function (Faker\Generator $faker) { 
+/* Bounding Boxes
+
+        Treasure Types
+        copper = 1,
+        silver = 2,
+        gold = 3
+        gem = 4
+
+*/
+
+    return [
+
+        'treasure_type_id' => 4
+
+    ];
+});
+
+
+//Location States
+
+$factory->state(App\Treasure::class, 'lexington', function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['Lexington'] = {
+         'N': 38.211404,
+         'S': 37.845256,
+         'E': -84.282715,
+         'W': -84.660415
+        };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 37.845256, $max = 38.211404),
+        'lng' => $faker->longitude($min = -84.660415, $max = -84.282715)
+
+    ];
+});
+
+$factory->state(App\Treasure::class, 'lexingtonDowntown', function (Faker\Generator $faker) {
+/* Bounding Boxes
+        ['LexingtonDowntown'] = {
+          'N': 38.054707,
+          'S': 38.036752,
+          'E': -84.489183,
+          'W': -84.503093
+        };
+*/
+
+    return [
+        'lat' => $faker->latitude($min = 38.036752, $max = 38.054707),
+        'lng' => $faker->longitude($min = -84.503093, $max = -84.489183),
+    ];
+});
+
+$factory->state(App\Treasure::class, 'chevyChase', function (Faker\Generator $faker) {
+/* Bounding Boxes
         ['ChevyChase'] = {
           'N': 38.041314,
           'S': 37.990589,
           'E': -84.453474,
           'W': -84.515582
         };
+*/
 
+    return [
+        'lat' => $faker->latitude($min = 37.990589, $max = 38.041314),
+        'lng' => $faker->longitude($min = -84.515582, $max = -84.453474),
+    ];
+});
+
+$factory->state(App\Treasure::class, 'awesomeInc', function (Faker\Generator $faker) {
+/* Bounding Boxes
         ['AwesomeInc'] = {
           'N': 38.0422392886,
           'S': 38.0416787663,
           'E': -84.4922482109,
           'W': -84.4929573798
         };
-
 */
-
-    $treasureTypeIds = App\Treasure_Type::all()->pluck('id')->all();
 
     return [
         'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
         'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
-        'treasure_type_id' => $faker->randomElement($treasureTypeIds),
-
     ];
 });
