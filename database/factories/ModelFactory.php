@@ -67,7 +67,7 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) { //defau
 
 //Monster Type States
 $factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Monster Types
         Bear = 1,
@@ -84,7 +84,7 @@ $factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) {
 });
 
 $factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Monster Types
         Bear = 1,
@@ -101,7 +101,7 @@ $factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) {
 });
 
 $factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Monster Types
         Bear = 1,
@@ -210,7 +210,7 @@ $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
 
 //Treasure Type States
 $factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Treasure Types
         copper = 1,
@@ -228,7 +228,7 @@ $factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker)
 });
 
 $factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Treasure Types
         copper = 1,
@@ -246,7 +246,7 @@ $factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker)
 });
 
 $factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Treasure Types
         copper = 1,
@@ -264,7 +264,7 @@ $factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) {
 });
 
 $factory->state(App\Treasure::class, 'gem', function (Faker\Generator $faker) { 
-/* Bounding Boxes
+/* 
 
         Treasure Types
         copper = 1,
