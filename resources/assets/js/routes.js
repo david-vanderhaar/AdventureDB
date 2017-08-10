@@ -14,8 +14,8 @@ let routes = [
 		component: require('./components/MapDashboard.vue'),
 	},
 	{
-		path: '/engaged',
-		component: require('./components/Engaged.vue'),
+		path: '/about',
+		component: require('./components/About.vue'),
 	},
 ];
 

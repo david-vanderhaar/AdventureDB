@@ -16,15 +16,16 @@
 <body class="red" style="margin-bottom: 70px;">
         <nav class="red darken-4">
             <div class="nav-wrapper">
-              <a href="{{ url('/') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
+              <a href="{{ url('') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
               <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
+                    <li><a href="{{ url('login') }}">Login</a></li>
+                    <li><a href="{{ url('register') }}">Register</a></li>
+                    <li><a href="{{ url('about') }}">About</a></li>
                 @else
-                    <li><a href="{{ url('/home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
+                    <li><a href="{{ url('home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
                     <li>
                         <a href="{{ url('logout') }}"
                             onclick="event.preventDefault();
@@ -35,7 +36,8 @@
                         <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
-                    </li>  
+                    </li>
+                    <li><a href="{{ url('/about') }}">About</a></li>  
                 @endif
               </ul>
               <ul class="side-nav" id="nav-mobile">
@@ -43,8 +45,9 @@
                 @if (Auth::guest())
                     <li><a href="{{ url('login') }}">Login</a></li>
                     <li><a href="{{ url('register') }}">Register</a></li>
+                    <li><a href="{{ url('about') }}">About</a></li>
                 @else
-                    <li><a href="{{ url('/home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
+                    <li><a href="{{ url('home') }}">{{ Auth::user()->name }}'s Tavern</a></li> 
                     <li class="divider"></li>
                     <li>
                         <a href="{{ url('logout') }}"
@@ -57,6 +60,7 @@
                             {{ csrf_field() }}
                         </form>
                     </li>
+                    <li><a href="{{ url('about') }}">About</a></li>
                 @endif
               </ul>
             </div>

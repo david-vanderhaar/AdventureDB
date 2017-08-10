@@ -14659,7 +14659,7 @@ var routes = [{
 	path: '/map-dashboard',
 	component: __webpack_require__(41)
 }, {
-	path: '/engaged',
+	path: '/about',
 	component: __webpack_require__(52)
 }];
 
@@ -18035,9 +18035,9 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/Engaged.vue"
+Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/About.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Engaged.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] About.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -18046,9 +18046,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6306cfdd", Component.options)
+    hotAPI.createRecord("data-v-56c21dc7", Component.options)
   } else {
-    hotAPI.reload("data-v-6306cfdd", Component.options)
+    hotAPI.reload("data-v-56c21dc7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -18094,13 +18094,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container"
   }, [_c('div', {
     staticClass: "row"
-  }, [_c('h3', [_vm._v("You've Found Something")])])])
+  }, [_c('h3', [_vm._v("About AdventureDB")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6306cfdd", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-56c21dc7", module.exports)
   }
 }
 
