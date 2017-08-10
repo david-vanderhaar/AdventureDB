@@ -117,6 +117,28 @@ $factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) 
     ];
 });
 
+$factory->state(App\Monster::class, 'janine', function (Faker\Generator $faker) { 
+
+
+    return [
+
+        'monster_type_id' => 4
+
+    ];
+});
+
+$factory->state(App\Monster::class, 'elton', function (Faker\Generator $faker) { 
+
+
+    return [
+
+        'monster_type_id' => 5
+
+    ];
+});
+
+
+
 //Location States
 
 $factory->state(App\Monster::class, 'lexington', function (Faker\Generator $faker) {

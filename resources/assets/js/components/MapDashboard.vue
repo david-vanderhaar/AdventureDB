@@ -283,6 +283,22 @@ import mapMethods from './mapjs/adventurer';
                         scale: .1,
                         strokeColor: 'black',
                         strokeWeight: 1
+                    },
+                    'Elton': {
+                        path: mapIcon['monster']['elton'],
+                        fillColor: 'gold',
+                        fillOpacity: 1,
+                        scale: .2,
+                        strokeColor: 'black',
+                        strokeWeight: 1
+                    },
+                    'Janine': {
+                        path: mapIcon['monster']['janine'],
+                        fillColor: 'purple',
+                        fillOpacity: 1,
+                        scale: .2,
+                        strokeColor: 'black',
+                        strokeWeight: 1
                     }
                 },//end monster icons
 
