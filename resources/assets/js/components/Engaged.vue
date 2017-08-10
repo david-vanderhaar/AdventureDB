@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <h3>About AdventureDB</h3>
+            <h3>Engaged</h3>
         </div>
     </div>
 </template>
