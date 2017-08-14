@@ -208,12 +208,10 @@
                           
                           this.victory = 1;
                           this.sb1Wins += 1;
-                          console.log('Stat Build One Wins');
 
                         } else if (stamina1 == 0 && defense1 == 0 && attack1 == 0) {
                             this.victory = 1;
                             this.sb2Wins += 1;
-                          console.log('Stat Build Two Wins');
                         } else {
                             this.victory = 0;
                         }
