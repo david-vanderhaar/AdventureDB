@@ -17,6 +17,11 @@ let routes = [
 		path: '/engaged',
 		component: require('./components/Engaged.vue'),
 	},
+
+	{
+		path: '/battlesim',
+		component: require('./components/BattleSim.vue'),
+	},
 ];
 
 export default new VueRouter({
