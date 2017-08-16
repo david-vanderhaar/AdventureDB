@@ -18277,6 +18277,53 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
@@ -18290,12 +18337,24 @@ exports.default = {
       sb1: {
         stamina: 5,
         defense: 5,
-        attack: 5
+        attack: 5,
+        water: 5,
+        earth: 5,
+        lightning: 5,
+        intuition: 5,
+        constitution: 5,
+        willpower: 5
       },
       sb2: {
         stamina: 5,
         defense: 5,
-        attack: 5
+        attack: 5,
+        water: 5,
+        earth: 5,
+        lightning: 5,
+        intuition: 5,
+        constitution: 5,
+        willpower: 5
       }
 
     };
@@ -18536,6 +18595,150 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.attack = $event.target.value
       }
     }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.water),
+      expression: "sb1.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.water = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.earth),
+      expression: "sb1.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.earth = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.lightning),
+      expression: "sb1.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.lightning = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Intuition")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.intuition),
+      expression: "sb1.intuition"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.intuition)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.intuition = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Constitution")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.constitution),
+      expression: "sb1.constitution"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.constitution)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.constitution = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Will Power")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.willpower),
+      expression: "sb1.willpower"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.willpower)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.willpower = $event.target.value
+      }
+    }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('h5', {
@@ -18620,6 +18823,150 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.sb2.attack = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.water),
+      expression: "sb2.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.water = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.earth),
+      expression: "sb2.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.earth = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.lightning),
+      expression: "sb2.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.lightning = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Intuition")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.intuition),
+      expression: "sb2.intuition"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.intuition)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.intuition = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Constitution")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.constitution),
+      expression: "sb2.constitution"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.constitution)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.constitution = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Will Power")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.willpower),
+      expression: "sb2.willpower"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.willpower)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.willpower = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {

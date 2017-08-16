@@ -18,7 +18,30 @@
                   <label for="sb1A" class="white-text">Attack</label>
                   <input class="white-text" type="number" v-model="sb1.attack">
                 </div>
-                
+                <div class="input-field">
+                  <label class="white-text">Water</label>
+                  <input class="white-text" type="number" v-model="sb1.water">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Earth</label>
+                  <input class="white-text" type="number" v-model="sb1.earth">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Lightning</label>
+                  <input class="white-text" type="number" v-model="sb1.lightning">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Intuition</label>
+                  <input class="white-text" type="number" v-model="sb1.intuition">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Constitution</label>
+                  <input class="white-text" type="number" v-model="sb1.constitution">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Will Power</label>
+                  <input class="white-text" type="number" v-model="sb1.willpower">
+                </div>
                 
             </div>
             <div class="col s6">
@@ -34,6 +57,30 @@
                 <div class="input-field">
                   <label for="sb2A" class="white-text">Attack</label>
                   <input class="white-text" type="number" v-model="sb2.attack">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Water</label>
+                  <input class="white-text" type="number" v-model="sb2.water">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Earth</label>
+                  <input class="white-text" type="number" v-model="sb2.earth">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Lightning</label>
+                  <input class="white-text" type="number" v-model="sb2.lightning">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Intuition</label>
+                  <input class="white-text" type="number" v-model="sb2.intuition">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Constitution</label>
+                  <input class="white-text" type="number" v-model="sb2.constitution">
+                </div>
+                <div class="input-field">
+                  <label class="white-text">Will Power</label>
+                  <input class="white-text" type="number" v-model="sb2.willpower">
                 </div>
             </div>
         </div>
@@ -82,11 +129,23 @@
                   stamina: 5,
                   defense: 5,
                   attack: 5,
+                  water: 5,
+                  earth: 5,
+                  lightning: 5,
+                  intuition: 5,
+                  constitution: 5,
+                  willpower: 5
                 },
                 sb2: {
                   stamina: 5,
                   defense: 5,
                   attack: 5,
+                  water: 5,
+                  earth: 5,
+                  lightning: 5,
+                  intuition: 5,
+                  constitution: 5,
+                  willpower: 5
                 }
 
             }
@@ -129,8 +188,8 @@
 
                         while (this.victory == 0) {
                           //monster selects random stat
-                          let sb1Action = this.getRandomAction(0,2, this.sb1);
-                          let sb2Action = this.getRandomAction(0,2, this.sb2);
+                          let sb1Action = this.getRandomAction(0,8, this.sb1);
+                          let sb2Action = this.getRandomAction(0,8, this.sb2);
 
 
                           this.compareActions(sb1Action, sb2Action);
@@ -164,7 +223,7 @@
                         if (statbuild.stamina > 0) {
                           return 0;
                         } else {
-                          return this.getRandomAction(0,2, statbuild);
+                          return this.getRandomAction(0,8, statbuild);
                         }
 
                         break;
@@ -173,7 +232,7 @@
                         if (statbuild.defense > 0) {
                           return 1;
                         } else {
-                          return this.getRandomAction(0,2, statbuild);
+                          return this.getRandomAction(0,8, statbuild);
                         }
 
                         break;
@@ -182,7 +241,61 @@
                         if (statbuild.attack > 0) {
                           return 2;
                         } else {
-                          return this.getRandomAction(0,2, statbuild);
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                        case 3:
+                        if (statbuild.stamina > 0) {
+                          return 3;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                      case 4:
+                        if (statbuild.defense > 0) {
+                          return 4;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                      case 5:
+                        if (statbuild.attack > 0) {
+                          return 5;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                        case 6:
+                        if (statbuild.stamina > 0) {
+                          return 6;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                      case 7:
+                        if (statbuild.defense > 0) {
+                          return 7;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
+                        }
+
+                        break;
+
+                      case 8:
+                        if (statbuild.attack > 0) {
+                          return 8;
+                        } else {
+                          return this.getRandomAction(0,8, statbuild);
                         }
 
                         break;
