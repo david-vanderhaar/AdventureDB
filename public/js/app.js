@@ -14964,8 +14964,14 @@ var routes = [{
 }, {
 	path: '/engaged',
 	component: __webpack_require__(52)
-}, {
-	path: '/battlesim',
+},
+
+// {
+// 	path: '/battlesim',
+// 	component: require('./components/BattleSim.vue'),
+// },
+{
+	path: '/battlesimv2',
 	component: __webpack_require__(55)
 }];
 
@@ -18128,9 +18134,9 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/BattleSim.vue"
+Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/BattleSimV2.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BattleSim.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] BattleSimV2.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -18139,9 +18145,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-042fa939", Component.options)
+    hotAPI.createRecord("data-v-11643cd6", Component.options)
   } else {
-    hotAPI.reload("data-v-042fa939", Component.options)
+    hotAPI.reload("data-v-11643cd6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -18162,13 +18168,13 @@ var content = __webpack_require__(57);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(11)("ded2c5ea", content, false);
+var update = __webpack_require__(11)("1154e2ce", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-042fa939\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSim.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-042fa939\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSim.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-11643cd6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV2.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-11643cd6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV2.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -18252,22 +18258,45 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     return {
-      sb1S: 5,
-      sb1D: 5,
-      sb1A: 5,
-      sb2S: 5,
-      sb2D: 5,
-      sb2A: 5,
       simCount: 10,
       battleCounter: 0,
       victory: 0,
+      simulating: false,
       sb1Wins: 0,
       sb2Wins: 0,
-      simulating: false
+      sb1: {
+        stamina: 5,
+        defense: 5,
+        attack: 5
+      },
+      sb2: {
+        stamina: 5,
+        defense: 5,
+        attack: 5
+      }
 
     };
   },
@@ -18288,77 +18317,76 @@ exports.default = {
       this.sb1Wins = 0;
       this.sb2Wins = 0;
 
-      var sb1SStart = this.sb1S;
-      var sb1DStart = this.sb1D;
-      var sb1AStart = this.sb1A;
-      var sb2SStart = this.sb2S;
-      var sb2DStart = this.sb2D;
-      var sb2AStart = this.sb2A;
+      // let sb1Start = this.sb1;
+      // let sb2Start = this.sb2;
+      var sb1Start = {};
+      var sb2Start = {};
+
+      Object.assign(sb1Start, this.sb1);
+      Object.assign(sb2Start, this.sb2);
 
       while (this.battleCounter < this.simCount) {
 
-        this.sb1S = sb1SStart;
-        this.sb1D = sb1DStart;
-        this.sb1A = sb1AStart;
-        this.sb2S = sb2SStart;
-        this.sb2D = sb2DStart;
-        this.sb2A = sb2AStart;
+        // this.sb1 = sb1Start;
+        // this.sb2 = sb2Start;
+
+        Object.assign(this.sb1, sb1Start);
+        Object.assign(this.sb2, sb2Start);
 
         this.victory = 0;
 
         while (this.victory == 0) {
           //monster selects random stat
-          var sb1Action = this.getRandomAction(0, 2, this.sb1S, this.sb1D, this.sb1A);
-          var sb2Action = this.getRandomAction(0, 2, this.sb2S, this.sb2D, this.sb2A);
+          var sb1Action = this.getRandomAction(0, 2, this.sb1);
+          var sb2Action = this.getRandomAction(0, 2, this.sb2);
 
           this.compareActions(sb1Action, sb2Action);
 
-          this.victoryCheck(this.sb1S, this.sb1D, this.sb1A, this.sb2S, this.sb2D, this.sb2A);
+          this.victoryCheck(this.sb1, this.sb2);
         } //end while
 
         this.battleCounter += 1;
       } //end simCount while
 
-      this.sb1S = sb1SStart;
-      this.sb1D = sb1DStart;
-      this.sb1A = sb1AStart;
-      this.sb2S = sb2SStart;
-      this.sb2D = sb2DStart;
-      this.sb2A = sb2AStart;
+      // this.sb1 = sb1Start;
+      // this.sb2 = sb2Start;
+
+      Object.assign(this.sb1, sb1Start);
+      Object.assign(this.sb2, sb2Start);
 
       this.simulating = false;
     },
     //end battle
 
-    getRandomAction: function getRandomAction(min, max, stamina, defense, attack) {
+    getRandomAction: function getRandomAction(min, max, statbuild) {
       min = Math.ceil(min);
       max = Math.floor(max);
       var random = Math.floor(Math.random() * (max - min + 1)) + min;
 
       switch (random) {
         case 0:
-          if (stamina > 0) {
+          if (statbuild.stamina > 0) {
             return 0;
           } else {
-            return this.getRandomAction(0, 2, stamina, defense, attack);
+            return this.getRandomAction(0, 2, statbuild);
           }
 
           break;
 
         case 1:
-          if (defense > 0) {
+          if (statbuild.defense > 0) {
             return 1;
           } else {
-            return this.getRandomAction(0, 2, stamina, defense, attack);
+            return this.getRandomAction(0, 2, statbuild);
           }
 
           break;
 
         case 2:
-          if (attack > 0) {
+          if (statbuild.attack > 0) {
             return 2;
           } else {
-            return this.getRandomAction(0, 2, stamina, defense, attack);
+            return this.getRandomAction(0, 2, statbuild);
           }
 
           break;
@@ -18366,40 +18394,40 @@ exports.default = {
     },
     //end getRandom action
 
-    compareActions: function compareActions(adA, monA) {
-      if (adA == 0 && monA == 0) {
-        this.sb1S -= 1;
-        this.sb2S -= 1;
-      } else if (adA == 1 && monA == 1) {
-        this.sb1D -= 1;
-        this.sb2D -= 1;
-      } else if (adA == 2 && monA == 2) {
-        this.sb1A -= 1;
-        this.sb2A -= 1;
-      } else if (adA == 0 && monA == 1) {
-        this.sb2D -= 1;
-      } else if (adA == 0 && monA == 2) {
-        this.sb1S -= 1;
-      } else if (adA == 1 && monA == 0) {
-        this.sb1D -= 1;
-      } else if (adA == 1 && monA == 2) {
-        this.sb2A -= 1;
-      } else if (adA == 2 && monA == 0) {
-        this.sb2S -= 1;
-      } else if (adA == 2 && monA == 1) {
-        this.sb1A -= 1;
+    compareActions: function compareActions(action1, action2) {
+      if (action1 == 0 && action2 == 0) {
+        this.sb1.stamina -= 1;
+        this.sb2.stamina -= 1;
+      } else if (action1 == 1 && action2 == 1) {
+        this.sb1.defense -= 1;
+        this.sb2.defense -= 1;
+      } else if (action1 == 2 && action2 == 2) {
+        this.sb1.attack -= 1;
+        this.sb2.attack -= 1;
+      } else if (action1 == 0 && action2 == 2) {
+        this.sb1.stamina -= 1;
+      } else if (action1 == 2 && action2 == 0) {
+        this.sb2.stamina -= 1;
+      } else if (action1 == 1 && action2 == 0) {
+        this.sb1.defense -= 1;
+      } else if (action1 == 0 && action2 == 1) {
+        this.sb2.defense -= 1;
+      } else if (action1 == 2 && action2 == 1) {
+        this.sb1.attack -= 1;
+      } else if (action1 == 1 && action2 == 2) {
+        this.sb2.attack -= 1;
       } else {
         console.log('comparison error');
       }
     },
     //end compare actions
 
-    victoryCheck: function victoryCheck(stamina1, defense1, attack1, stamina2, defense2, attack2) {
-      if (stamina2 == 0 && defense2 == 0 && attack2 == 0) {
+    victoryCheck: function victoryCheck(statbuild1, statbuild2) {
+      if (statbuild2.stamina == 0 && statbuild2.defense == 0 && statbuild2.attack == 0) {
 
         this.victory = 1;
         this.sb1Wins += 1;
-      } else if (stamina1 == 0 && defense1 == 0 && attack1 == 0) {
+      } else if (statbuild1.stamina == 0 && statbuild1.defense == 0 && statbuild1.attack == 0) {
         this.victory = 1;
         this.sb2Wins += 1;
       } else {
@@ -18425,131 +18453,176 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
-  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb1S),
-      expression: "sb1S"
-    }],
+  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
     staticClass: "white-text",
     attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb1S)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb1S = $event.target.value
-      }
+      "for": "sb1S"
     }
-  }), _vm._v(" "), _c('input', {
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.sb1D),
-      expression: "sb1D"
+      value: (_vm.sb1.stamina),
+      expression: "sb1.stamina"
     }],
     staticClass: "white-text",
     attrs: {
-      "type": "number"
+      "id": "sb1S",
+      "type": "number",
+      "active": ""
     },
     domProps: {
-      "value": (_vm.sb1D)
+      "value": (_vm.sb1.stamina)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.sb1D = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb1A),
-      expression: "sb1A"
-    }],
-    staticClass: "white-text",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb1A)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb1A = $event.target.value
+        _vm.sb1.stamina = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "col s6"
-  }, [_c('h5', {
-    staticClass: "white-text"
-  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('input', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.sb2S),
-      expression: "sb2S"
+      value: (_vm.sb1.defense),
+      expression: "sb1.defense"
     }],
     staticClass: "white-text",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.sb2S)
+      "value": (_vm.sb1.defense)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.sb2S = $event.target.value
+        _vm.sb1.defense = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb2D),
-      expression: "sb2D"
-    }],
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
     staticClass: "white-text",
     attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb2D)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb2D = $event.target.value
-      }
+      "for": "sb1A"
     }
-  }), _vm._v(" "), _c('input', {
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.sb2A),
-      expression: "sb2A"
+      value: (_vm.sb1.attack),
+      expression: "sb1.attack"
     }],
     staticClass: "white-text",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.sb2A)
+      "value": (_vm.sb1.attack)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.sb2A = $event.target.value
+        _vm.sb1.attack = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2S"
+    }
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.stamina),
+      expression: "sb2.stamina"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb2S",
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.stamina)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.stamina = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.defense),
+      expression: "sb2.defense"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.defense)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.defense = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2A"
+    }
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.attack),
+      expression: "sb2.attack"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.attack)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.attack = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
@@ -18620,13 +18693,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('h3', {
     staticClass: "white-text"
-  }, [_vm._v("Battle Simulation")])])
+  }, [_vm._v("Battle Simulation - Version 2")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-042fa939", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-11643cd6", module.exports)
   }
 }
 
