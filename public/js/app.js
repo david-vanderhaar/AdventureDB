@@ -18335,26 +18335,26 @@ exports.default = {
       sb1Wins: 0,
       sb2Wins: 0,
       sb1: {
-        stamina: 5,
-        defense: 5,
-        attack: 5,
-        water: 5,
-        earth: 5,
-        lightning: 5,
-        intuition: 5,
-        constitution: 5,
-        willpower: 5
+        stamina: 3,
+        defense: 3,
+        attack: 3,
+        water: 3,
+        earth: 3,
+        lightning: 3,
+        intuition: 3,
+        constitution: 3,
+        willpower: 3
       },
       sb2: {
-        stamina: 5,
-        defense: 5,
-        attack: 5,
-        water: 5,
-        earth: 5,
-        lightning: 5,
-        intuition: 5,
-        constitution: 5,
-        willpower: 5
+        stamina: 3,
+        defense: 3,
+        attack: 3,
+        water: 3,
+        earth: 3,
+        lightning: 3,
+        intuition: 3,
+        constitution: 3,
+        willpower: 3
       }
 
     };
@@ -18396,8 +18396,8 @@ exports.default = {
 
         while (this.victory == 0) {
           //monster selects random stat
-          var sb1Action = this.getRandomAction(0, 2, this.sb1);
-          var sb2Action = this.getRandomAction(0, 2, this.sb2);
+          var sb1Action = this.getRandomAction(0, 8, this.sb1);
+          var sb2Action = this.getRandomAction(0, 8, this.sb2);
 
           this.compareActions(sb1Action, sb2Action);
 
@@ -18427,7 +18427,7 @@ exports.default = {
           if (statbuild.stamina > 0) {
             return 0;
           } else {
-            return this.getRandomAction(0, 2, statbuild);
+            return this.getRandomAction(0, 8, statbuild);
           }
 
           break;
@@ -18436,7 +18436,7 @@ exports.default = {
           if (statbuild.defense > 0) {
             return 1;
           } else {
-            return this.getRandomAction(0, 2, statbuild);
+            return this.getRandomAction(0, 8, statbuild);
           }
 
           break;
@@ -18445,7 +18445,61 @@ exports.default = {
           if (statbuild.attack > 0) {
             return 2;
           } else {
-            return this.getRandomAction(0, 2, statbuild);
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 3:
+          if (statbuild.stamina > 0) {
+            return 3;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 4:
+          if (statbuild.defense > 0) {
+            return 4;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 5:
+          if (statbuild.attack > 0) {
+            return 5;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 6:
+          if (statbuild.stamina > 0) {
+            return 6;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 7:
+          if (statbuild.defense > 0) {
+            return 7;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
+          }
+
+          break;
+
+        case 8:
+          if (statbuild.attack > 0) {
+            return 8;
+          } else {
+            return this.getRandomAction(0, 8, statbuild);
           }
 
           break;
@@ -18454,39 +18508,48 @@ exports.default = {
     //end getRandom action
 
     compareActions: function compareActions(action1, action2) {
-      if (action1 == 0 && action2 == 0) {
-        this.sb1.stamina -= 1;
-        this.sb2.stamina -= 1;
-      } else if (action1 == 1 && action2 == 1) {
-        this.sb1.defense -= 1;
-        this.sb2.defense -= 1;
-      } else if (action1 == 2 && action2 == 2) {
-        this.sb1.attack -= 1;
-        this.sb2.attack -= 1;
-      } else if (action1 == 0 && action2 == 2) {
-        this.sb1.stamina -= 1;
-      } else if (action1 == 2 && action2 == 0) {
-        this.sb2.stamina -= 1;
-      } else if (action1 == 1 && action2 == 0) {
-        this.sb1.defense -= 1;
-      } else if (action1 == 0 && action2 == 1) {
-        this.sb2.defense -= 1;
-      } else if (action1 == 2 && action2 == 1) {
-        this.sb1.attack -= 1;
-      } else if (action1 == 1 && action2 == 2) {
-        this.sb2.attack -= 1;
-      } else {
-        console.log('comparison error');
+      var actionDistance = 0;
+
+      // do {
+      //   if (action1 == action2) {
+      //     //we have finished calculatin action distance, we can now determine what happens
+      //     //put actionDistance switch here
+      //     console.log('finished finding the action distance...', actionDistance);
+      //   } else {
+      //     if ((action1 + 1) > 8) { //check if action1 needs to wrap back around to 0 in the circle of actions
+      //       action1 = 0;
+      //     } else {
+      //       action1 += 1;
+      //     }
+      //     actionDistance += 1;
+      //     console.log(actionDistance);
+      //   }
+      // } while(action1 != action2);
+
+      while (action1 != action2) {
+
+        if (action1 + 1 > 8) {
+          //check if action1 needs to wrap back around to 0 in the circle of actions
+          action1 = 0;
+        } else {
+          action1 += 1;
+        }
+        actionDistance += 1;
       }
+
+      //we have finished calculatin action distance, we can now determine what happens
+      //put actionDistance switch here
+      console.log('finished finding the action distance...', actionDistance);
     },
-    //end compare actions
+    //end compareActions
+
 
     victoryCheck: function victoryCheck(statbuild1, statbuild2) {
-      if (statbuild2.stamina == 0 && statbuild2.defense == 0 && statbuild2.attack == 0) {
+      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0 && statbuild2.intuition <= 0 && statbuild2.constitution <= 0 && statbuild2.willpower <= 0) {
 
         this.victory = 1;
         this.sb1Wins += 1;
-      } else if (statbuild1.stamina == 0 && statbuild1.defense == 0 && statbuild1.attack == 0) {
+      } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0 && statbuild1.intuition <= 0 && statbuild1.constitution <= 0 && statbuild1.willpower <= 0) {
         this.victory = 1;
         this.sb2Wins += 1;
       } else {
@@ -18496,7 +18559,16 @@ exports.default = {
   }, // end methods
 
 
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    this.compareActions(0, 0);
+    this.compareActions(0, 1);
+    this.compareActions(0, 8);
+    this.compareActions(5, 0);
+    this.compareActions(5, 4);
+    this.compareActions(5, 5);
+    this.compareActions(8, 8);
+    this.compareActions(8, 0);
+  }
 };
 
 /***/ }),
