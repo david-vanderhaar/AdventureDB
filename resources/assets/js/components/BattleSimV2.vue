@@ -247,7 +247,7 @@
                         break;
 
                         case 3:
-                        if (statbuild.stamina > 0) {
+                        if (statbuild.water > 0) {
                           return 3;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -256,7 +256,7 @@
                         break;
 
                       case 4:
-                        if (statbuild.defense > 0) {
+                        if (statbuild.earth > 0) {
                           return 4;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -265,7 +265,7 @@
                         break;
 
                       case 5:
-                        if (statbuild.attack > 0) {
+                        if (statbuild.lightning > 0) {
                           return 5;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -274,7 +274,7 @@
                         break;
 
                         case 6:
-                        if (statbuild.stamina > 0) {
+                        if (statbuild.intuition > 0) {
                           return 6;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -283,7 +283,7 @@
                         break;
 
                       case 7:
-                        if (statbuild.defense > 0) {
+                        if (statbuild.constitution > 0) {
                           return 7;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -292,7 +292,7 @@
                         break;
 
                       case 8:
-                        if (statbuild.attack > 0) {
+                        if (statbuild.willpower > 0) {
                           return 8;
                         } else {
                           return this.getRandomAction(0,8, statbuild);
@@ -302,15 +302,61 @@
                     }
                   }, //end getRandom action
 
-                compareActions(action1, action2) {
-                  let actionDistance = 0;
+                selectStat(action) {
+                  switch (action) {
+                    case 0:
+                      return 'stamina';
+                    break;
+                      
+                    case 1:
+                      return 'defense';
+                    break;
 
-                  while (action1 != action2) {
+                    case 2:
+                      return 'attack';
+                    break;
+                      
+                    case 3:
+                      return 'water';
+                    break;
+
+                    case 4:
+                      return 'earth';
+                    break;
+
+                    case 5:
+                      return 'lightning';
+                    break;
+
+                    case 6:
+                      return 'intuition';
+                    break;
+
+                    case 7:
+                      return 'constitution';
+                    break;
+
+                    case 8:
+                      return 'willpower';
+                    break;
+                  }
+                }, //end selectStat
+
+                compareActions(action1, action2) {
+                  //Initialize find distance vars
+                  let actionDistance = 0;
+                  let action1Measure = action1;
+
+                  //Select Stats
+                  let selectedStat1 = this.selectStat(action1);
+                  let selectedStat2 = this.selectStat(action2);
+
+                  while (action1Measure != action2) {
                     
-                      if ((action1 + 1) > 8) { //check if action1 needs to wrap back around to 0 in the circle of actions
-                        action1 = 0;
+                      if ((action1Measure + 1) > 8) { //check if action1Measure needs to wrap back around to 0 in the circle of actions
+                        action1Measure = 0;
                       } else {
-                        action1 += 1;
+                        action1Measure += 1;
                       }
                       actionDistance += 1;                    
  
@@ -318,47 +364,59 @@
 
                   //we have finished calculatin action distance, we can now determine what happens
                   //put actionDistance switch here
-                  console.log('finished finding the action distance...', actionDistance);
+                  // console.log('finished finding the action distance...', actionDistance);
 
-                  switch (actionDistance) {
+                  switch (actionDistance) { //relative to action1
                     case 0:
-
+                      //It's a balanced tie
+                      this.sb1[selectedStat1] -= 1;
+                      this.sb2[selectedStat2] -= 1;
                     break;
 
                     case 1:
-
+                      //It's a balanced win
+                      this.sb2[selectedStat2] -= 1;
                     break;
 
                     case 2:
-
+                      //It's a balanced loss
+                      this.sb1[selectedStat1] -= 1;
                     break;
 
                     case 3:
-
+                      //It's a strong tie
+                      this.sb1[selectedStat1] -= 1;
+                      this.sb2[selectedStat2] -= 2;
                     break;
 
                     case 4:
-
+                      //It's a strong win
+                      this.sb2[selectedStat2] -= 2;
                     break;
 
                     case 5:
-
+                      //It's a strong loss
+                      this.sb1[selectedStat1] -= 2;
                     break;
 
                     case 6:
-
+                      //It's a weak tie
+                      this.sb1[selectedStat1] -= 2;
+                      this.sb2[selectedStat2] -= 1;
                     break;
 
                     case 7:
-
+                      //It's a weak win
+                      this.sb2[selectedStat2] -= 1;
                     break;
 
                     case 8:
-
+                      //It's a weak loss
+                      this.sb1[selectedStat1] -= 2;
                     break;
 
                   }
-
+                  // console.log(this.sb1, this.sb2);
                 }, //end compareActions
 
 
@@ -383,14 +441,14 @@
 
 
         mounted() {
-            this.compareActions(0,0);
-            this.compareActions(0,1);
-            this.compareActions(0,8);
-            this.compareActions(5,0);
-            this.compareActions(5,4);
-            this.compareActions(5,5);
-            this.compareActions(8,8);
-            this.compareActions(8,0);
+            // this.compareActions(0,0);
+            // this.compareActions(0,1);
+            // this.compareActions(0,8);
+            // this.compareActions(5,0);
+            // this.compareActions(5,4);
+            // this.compareActions(5,5);
+            // this.compareActions(8,8);
+            // this.compareActions(8,0);
         }, //end mounted
     }
 </script>
