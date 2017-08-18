@@ -18324,6 +18324,11 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
@@ -18362,6 +18367,10 @@ exports.default = {
 
 
   computed: {
+    sb1percent: function sb1percent() {
+      return this.sb1Wins / this.battleCounter;
+    },
+
     sb2percent: function sb2percent() {
       return this.sb2Wins / this.battleCounter;
     }
@@ -18422,87 +18431,12 @@ exports.default = {
       max = Math.floor(max);
       var random = Math.floor(Math.random() * (max - min + 1)) + min;
 
-      switch (random) {
-        case 0:
-          if (statbuild.stamina > 0) {
-            return 0;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
+      var randomStat = this.selectStat(random);
 
-          break;
-
-        case 1:
-          if (statbuild.defense > 0) {
-            return 1;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 2:
-          if (statbuild.attack > 0) {
-            return 2;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 3:
-          if (statbuild.water > 0) {
-            return 3;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 4:
-          if (statbuild.earth > 0) {
-            return 4;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 5:
-          if (statbuild.lightning > 0) {
-            return 5;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 6:
-          if (statbuild.intuition > 0) {
-            return 6;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 7:
-          if (statbuild.constitution > 0) {
-            return 7;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
-
-        case 8:
-          if (statbuild.willpower > 0) {
-            return 8;
-          } else {
-            return this.getRandomAction(0, 8, statbuild);
-          }
-
-          break;
+      if (statbuild[randomStat] > 0) {
+        return random;
+      } else {
+        return this.getRandomAction(0, 8, statbuild);
       }
     },
     //end getRandom action
@@ -18622,7 +18556,6 @@ exports.default = {
           break;
 
       }
-      // console.log(this.sb1, this.sb2);
     },
     //end compareActions
 
@@ -18642,16 +18575,7 @@ exports.default = {
   }, // end methods
 
 
-  mounted: function mounted() {
-    // this.compareActions(0,0);
-    // this.compareActions(0,1);
-    // this.compareActions(0,8);
-    // this.compareActions(5,0);
-    // this.compareActions(5,4);
-    // this.compareActions(5,5);
-    // this.compareActions(8,8);
-    // this.compareActions(8,0);
-  }
+  mounted: function mounted() {}
 };
 
 /***/ }),
@@ -19184,7 +19108,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "textContent": _vm._s(_vm.sb2Wins)
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "col s12 center"
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One Win %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.sb1percent) + "%")])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stat Build Two Win %")]), _vm._v(" "), _c('span', {

@@ -106,7 +106,12 @@
                 <span class="flow-text white-text" v-text="sb2Wins"></span>
                 
             </div>
-            <div class="col s12 center">
+            <div class="col s6 center">
+                <h5 class="white-text">Stat Build One Win %</h5>
+                <span class="flow-text white-text">{{sb1percent}}%</span>
+                
+            </div>
+            <div class="col s6 center">
                 <h5 class="white-text">Stat Build Two Win %</h5>
                 <span class="flow-text white-text">{{sb2percent}}%</span>
                 
@@ -152,6 +157,10 @@
         },
 
         computed: {
+                sb1percent: function () {
+                    return (this.sb1Wins/this.battleCounter);
+                },
+
                 sb2percent: function () {
                     return (this.sb2Wins/this.battleCounter);
                 }
@@ -218,88 +227,14 @@
                     max = Math.floor(max);
                     let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
-                    switch (random) {
-                      case 0:
-                        if (statbuild.stamina > 0) {
-                          return 0;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
+                    let randomStat = this.selectStat(random);
 
-                        break;
-
-                      case 1:
-                        if (statbuild.defense > 0) {
-                          return 1;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                      case 2:
-                        if (statbuild.attack > 0) {
-                          return 2;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                        case 3:
-                        if (statbuild.water > 0) {
-                          return 3;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                      case 4:
-                        if (statbuild.earth > 0) {
-                          return 4;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                      case 5:
-                        if (statbuild.lightning > 0) {
-                          return 5;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                        case 6:
-                        if (statbuild.intuition > 0) {
-                          return 6;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                      case 7:
-                        if (statbuild.constitution > 0) {
-                          return 7;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
-
-                      case 8:
-                        if (statbuild.willpower > 0) {
-                          return 8;
-                        } else {
-                          return this.getRandomAction(0,8, statbuild);
-                        }
-
-                        break;
+                    if (statbuild[randomStat] > 0) {
+                      return random;
+                    } else {
+                      return this.getRandomAction(0,8, statbuild);
                     }
+
                   }, //end getRandom action
 
                 selectStat(action) {
@@ -416,7 +351,6 @@
                     break;
 
                   }
-                  // console.log(this.sb1, this.sb2);
                 }, //end compareActions
 
 
@@ -441,14 +375,7 @@
 
 
         mounted() {
-            // this.compareActions(0,0);
-            // this.compareActions(0,1);
-            // this.compareActions(0,8);
-            // this.compareActions(5,0);
-            // this.compareActions(5,4);
-            // this.compareActions(5,5);
-            // this.compareActions(8,8);
-            // this.compareActions(8,0);
+
         }, //end mounted
     }
 </script>
