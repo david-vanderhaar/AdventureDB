@@ -18340,26 +18340,26 @@ exports.default = {
       sb1Wins: 0,
       sb2Wins: 0,
       sb1: {
-        stamina: 3,
-        defense: 3,
-        attack: 3,
-        water: 3,
-        earth: 3,
-        lightning: 3,
-        intuition: 3,
-        constitution: 3,
-        willpower: 3
+        stamina: 5,
+        defense: 5,
+        attack: 5,
+        water: 0,
+        earth: 0,
+        lightning: 0,
+        intuition: 0,
+        constitution: 0,
+        willpower: 0
       },
       sb2: {
-        stamina: 3,
-        defense: 3,
-        attack: 3,
-        water: 3,
-        earth: 3,
-        lightning: 3,
-        intuition: 3,
-        constitution: 3,
-        willpower: 3
+        stamina: 5,
+        defense: 5,
+        attack: 5,
+        water: 0,
+        earth: 0,
+        lightning: 0,
+        intuition: 0,
+        constitution: 0,
+        willpower: 0
       }
 
     };
@@ -18368,11 +18368,11 @@ exports.default = {
 
   computed: {
     sb1percent: function sb1percent() {
-      return this.sb1Wins / this.battleCounter;
+      return this.sb1Wins / this.battleCounter * 100;
     },
 
     sb2percent: function sb2percent() {
-      return this.sb2Wins / this.battleCounter;
+      return this.sb2Wins / this.battleCounter * 100;
     }
   },
 
@@ -18409,10 +18409,9 @@ exports.default = {
           var sb2Action = this.getRandomAction(0, 8, this.sb2);
 
           this.compareActions(sb1Action, sb2Action);
-
           this.victoryCheck(this.sb1, this.sb2);
         } //end while
-
+        // console.log('------------------------------------');
         this.battleCounter += 1;
       } //end simCount while
 
@@ -18423,6 +18422,10 @@ exports.default = {
       Object.assign(this.sb2, sb2Start);
 
       this.simulating = false;
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+
     },
     //end battle
 
@@ -18485,6 +18488,7 @@ exports.default = {
     compareActions: function compareActions(action1, action2) {
       //Initialize find distance vars
       var actionDistance = 0;
+
       var action1Measure = action1;
 
       //Select Stats
@@ -18504,7 +18508,9 @@ exports.default = {
 
       //we have finished calculatin action distance, we can now determine what happens
       //put actionDistance switch here
-      // console.log('finished finding the action distance...', actionDistance);
+
+      // console.log(selectedStat1, ' || ', selectedStat2);
+
 
       switch (actionDistance) {//relative to action1
         case 0:
@@ -18514,8 +18520,13 @@ exports.default = {
           break;
 
         case 1:
-          //It's a balanced win
-          this.sb2[selectedStat2] -= 1;
+          if (action1 == 2 || action1 == 5 || action1 == 8) {
+            //strong win
+            this.sb2[selectedStat2] -= 2;
+          } else {
+            //It's a balanced win
+            this.sb2[selectedStat2] -= 1;
+          }
           break;
 
         case 2:
@@ -18528,15 +18539,26 @@ exports.default = {
           this.sb1[selectedStat1] -= 1;
           this.sb2[selectedStat2] -= 2;
           break;
-
+        //stamina->defense->attack->water->earth->lightning->intuition->constitution->willpower->
         case 4:
-          //It's a strong win
-          this.sb2[selectedStat2] -= 2;
+          if (action1 == 2 || action1 == 5 || action1 == 8) {
+            //weak win
+            this.sb2[selectedStat2] -= 1;
+          } else {
+            //It's a strong win
+            this.sb2[selectedStat2] -= 2;
+          }
           break;
 
         case 5:
-          //It's a strong loss
-          this.sb1[selectedStat1] -= 2;
+
+          if (action1 == 0 || action1 == 3 || action1 == 6) {
+            //weak loss
+            this.sb1[selectedStat1] -= 1;
+          } else {
+            //It's a strong loss
+            this.sb1[selectedStat1] -= 2;
+          }
           break;
 
         case 6:
@@ -18551,11 +18573,19 @@ exports.default = {
           break;
 
         case 8:
-          //It's a weak loss
-          this.sb1[selectedStat1] -= 2;
+
+          if (action1 == 0 || action1 == 3 || action1 == 6) {
+            this.sb1[selectedStat1] -= 2;
+          } else {
+            //It's a weak loss
+            this.sb1[selectedStat1] -= 1;
+          }
           break;
 
       }
+
+      // console.log(this.sb1[selectedStat1], '||', this.sb2[selectedStat2]);
+      // console.log(actionDistance);
     },
     //end compareActions
 
@@ -18565,9 +18595,11 @@ exports.default = {
 
         this.victory = 1;
         this.sb1Wins += 1;
+        // console.log('Stat Build One Wins!');
       } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0 && statbuild1.intuition <= 0 && statbuild1.constitution <= 0 && statbuild1.willpower <= 0) {
         this.victory = 1;
         this.sb2Wins += 1;
+        // console.log('Stat Build Two Wins!');
       } else {
         this.victory = 0;
       }
