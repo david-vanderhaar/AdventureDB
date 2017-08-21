@@ -18,10 +18,10 @@ let routes = [
 		component: require('./components/Engaged.vue'),
 	},
 
-	// {
-	// 	path: '/battlesim',
-	// 	component: require('./components/BattleSim.vue'),
-	// },
+	{
+		path: '/battlesim',
+		component: require('./components/BattleSim.vue'),
+	},
 	{
 		path: '/battlesimv2',
 		component: require('./components/BattleSimV2.vue'),
