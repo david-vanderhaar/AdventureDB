@@ -19881,16 +19881,55 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     return {
-      simCount: 10,
+      simCount: 100,
       battleCounter: 0,
       victory: 0,
       simulating: false,
       sb1Wins: 0,
       sb2Wins: 0,
+      ties: 0,
       sb1: {
         stamina: 5,
         defense: 5,
@@ -19914,15 +19953,75 @@ exports.default = {
 
   computed: {
     sb1percent: function sb1percent() {
-      return this.sb1Wins / this.battleCounter * 100;
+      return Math.round(this.sb1Wins / this.battleCounter * 100);
     },
 
     sb2percent: function sb2percent() {
-      return this.sb2Wins / this.battleCounter * 100;
+      return Math.round(this.sb2Wins / this.battleCounter * 100);
+    },
+
+    tiesPercent: function tiesPercent() {
+      return Math.round(this.ties / this.battleCounter * 100);
     }
   },
 
   methods: {
+    quickClass: function quickClass(statbuild, classId) {
+      //stat caps for later use when leveling classes
+      var basePhysicalStatCap = 5;
+      var baseMagicalStatCap = 3;
+
+      for (var property in statbuild) {
+        if (statbuild.hasOwnProperty(property)) {
+          statbuild[property] = 0;
+        }
+      }
+
+      switch (classId) {
+        case 0:
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 1:
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 2:
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 3:
+          statbuild.water = baseMagicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 4:
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 5:
+          statbuild.water = baseMagicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 6:
+          statbuild.water = baseMagicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 7:
+          statbuild.water = baseMagicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+      } //end switch
+    },
+    //end quick class
+
     battle: function battle() {
 
       this.simulating = true;
@@ -19930,6 +20029,7 @@ exports.default = {
       this.battleCounter = 0;
       this.sb1Wins = 0;
       this.sb2Wins = 0;
+      this.ties = 0;
 
       // let sb1Start = this.sb1;
       // let sb2Start = this.sb2;
@@ -19957,7 +20057,7 @@ exports.default = {
           this.compareActions(sb1Action, sb2Action);
           this.victoryCheck(this.sb1, this.sb2);
         } //end while
-        // console.log('------------------------------------');
+        console.log('------------------------------------');
         this.battleCounter += 1;
       } //end simCount while
 
@@ -19968,10 +20068,9 @@ exports.default = {
       Object.assign(this.sb2, sb2Start);
 
       this.simulating = false;
-      // console.log('------------------------------------');
-      // console.log('------------------------------------');
-      // console.log('------------------------------------');
-
+      console.log('------------------------------------');
+      console.log('------------------------------------');
+      console.log('------------------------------------');
     },
     //end battle
 
@@ -20039,11 +20138,13 @@ exports.default = {
       //we have finished calculatin action distance, we can now determine what happens
       //put actionDistance switch here                  
 
+      //stamina->defense->attack->water->earth->lightning->
+
       switch (actionDistance) {//relative to action1
         case 0:
           //It's a tie
-          this.sb1[action1.name] -= action2.power;
-          this.sb2[action2.name] -= action1.power;
+          this.sb1[action1.name] -= action1.power;
+          this.sb2[action2.name] -= action2.power;
           break;
 
         case 1:
@@ -20058,10 +20159,9 @@ exports.default = {
 
         case 3:
           //It's a tie
-          this.sb1[action1.name] -= action2.power;
-          this.sb2[action2.name] -= action1.power;
+          this.sb1[action1.name] -= action1.power;
+          this.sb2[action2.name] -= action2.power;
           break;
-        //stamina->defense->attack->water->earth->lightning->
         case 4:
           //It's a win
           this.sb2[action2.name] -= action1.power;
@@ -20074,24 +20174,28 @@ exports.default = {
 
       }
 
-      // console.log(action1.name, '||', action2.name);
-      // console.log(actionDistance);
-      // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
-      // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+      console.log(action1.name, '||', action2.name);
+      console.log(actionDistance);
+      console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+      console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
     },
     //end compareActions
 
 
     victoryCheck: function victoryCheck(statbuild1, statbuild2) {
-      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0 && statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
 
         this.victory = 1;
+        console.log('The Stat Builds Tie');
+        this.ties += 1;
+      } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+        this.victory = 1;
         this.sb1Wins += 1;
-        // console.log('Stat Build One Wins!');
+        console.log('Stat Build One Wins!');
       } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
         this.victory = 1;
         this.sb2Wins += 1;
-        // console.log('Stat Build Two Wins!');
+        console.log('Stat Build Two Wins!');
       } else {
         this.victory = 0;
       }
@@ -20115,7 +20219,67 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
-  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('a', {
+    staticClass: "dropdown-button btn",
+    attrs: {
+      "data-activates": "dropdown1"
+    }
+  }, [_vm._v("Quick Class")]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-content",
+    attrs: {
+      "id": "dropdown1"
+    }
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 0)
+      }
+    }
+  }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 1)
+      }
+    }
+  }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 2)
+      }
+    }
+  }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 3)
+      }
+    }
+  }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 4)
+      }
+    }
+  }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 5)
+      }
+    }
+  }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 6)
+      }
+    }
+  }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 7)
+      }
+    }
+  }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20274,7 +20438,67 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
-  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('a', {
+    staticClass: "dropdown-button btn",
+    attrs: {
+      "data-activates": "dropdown2"
+    }
+  }, [_vm._v("Quick Class")]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-content",
+    attrs: {
+      "id": "dropdown2"
+    }
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 0)
+      }
+    }
+  }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 1)
+      }
+    }
+  }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 2)
+      }
+    }
+  }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 3)
+      }
+    }
+  }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 4)
+      }
+    }
+  }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 5)
+      }
+    }
+  }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 6)
+      }
+    }
+  }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 7)
+      }
+    }
+  }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20488,13 +20712,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "textContent": _vm._s(_vm.sb2Wins)
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "col s6 center"
+    staticClass: "col s4 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stat Build One Win %")]), _vm._v(" "), _c('span', {
     staticClass: "flow-text white-text"
   }, [_vm._v(_vm._s(_vm.sb1percent) + "%")])]), _vm._v(" "), _c('div', {
-    staticClass: "col s6 center"
+    staticClass: "col s4 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Tie %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.tiesPercent) + "%")])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stat Build Two Win %")]), _vm._v(" "), _c('span', {

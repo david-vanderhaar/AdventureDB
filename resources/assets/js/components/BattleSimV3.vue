@@ -6,6 +6,22 @@
         <div class="row">
             <div class="col s6">
                 <h5 class="white-text">Stat Build One</h5>
+                <!-- Dropdown Trigger -->
+                <a class='dropdown-button btn' data-activates='dropdown1'>Quick Class</a>
+
+                <!-- Dropdown Structure -->
+                <ul id='dropdown1' class='dropdown-content'>
+                  <li><a @click="quickClass(sb1, 0)">Warrior</a></li>
+                  <li><a @click="quickClass(sb1, 1)">Assassin</a></li>
+                  <li><a @click="quickClass(sb1, 2)">Warden</a></li>
+                  <li><a @click="quickClass(sb1, 3)">Mender</a></li>
+                  <li class="divider"></li>
+                  <li><a @click="quickClass(sb1, 4)">Astromancer</a></li>
+                  <li><a @click="quickClass(sb1, 5)">Warlock</a></li>
+                  <li><a @click="quickClass(sb1, 6)">Druid</a></li>
+                  <li><a @click="quickClass(sb1, 7)">Mage</a></li>
+                </ul>
+
                 <div class="input-field">
                   <label for="sb1S" class="white-text">Stamina</label>
                   <input id="sb1S" class="white-text" type="number" v-model="sb1.stamina" active>
@@ -33,6 +49,23 @@
             </div>
             <div class="col s6">
                 <h5 class="white-text">Stat Build Two</h5>
+
+                <!-- Dropdown Trigger -->
+                <a class='dropdown-button btn' data-activates='dropdown2'>Quick Class</a>
+
+                <!-- Dropdown Structure -->
+                <ul id='dropdown2' class='dropdown-content'>
+                  <li><a @click="quickClass(sb2, 0)">Warrior</a></li>
+                  <li><a @click="quickClass(sb2, 1)">Assassin</a></li>
+                  <li><a @click="quickClass(sb2, 2)">Warden</a></li>
+                  <li><a @click="quickClass(sb2, 3)">Mender</a></li>
+                  <li class="divider"></li>
+                  <li><a @click="quickClass(sb2, 4)">Astromancer</a></li>
+                  <li><a @click="quickClass(sb2, 5)">Warlock</a></li>
+                  <li><a @click="quickClass(sb2, 6)">Druid</a></li>
+                  <li><a @click="quickClass(sb2, 7)">Mage</a></li>
+                </ul>
+                
                 <div class="input-field">
                   <label for="sb2S" class="white-text">Stamina</label>
                   <input id="sb2S" class="white-text" type="number" v-model="sb2.stamina">
@@ -81,12 +114,17 @@
                 <span class="flow-text white-text" v-text="sb2Wins"></span>
                 
             </div>
-            <div class="col s6 center">
+            <div class="col s4 center">
                 <h5 class="white-text">Stat Build One Win %</h5>
                 <span class="flow-text white-text">{{sb1percent}}%</span>
                 
             </div>
-            <div class="col s6 center">
+            <div class="col s4 center">
+                <h5 class="white-text">Tie %</h5>
+                <span class="flow-text white-text">{{tiesPercent}}%</span>
+                
+            </div>
+            <div class="col s4 center">
                 <h5 class="white-text">Stat Build Two Win %</h5>
                 <span class="flow-text white-text">{{sb2percent}}%</span>
                 
@@ -99,12 +137,13 @@
     export default {
         data() {
             return {
-                simCount: 10,
+                simCount: 100,
                 battleCounter: 0,
                 victory: 0,
                 simulating: false,
                 sb1Wins: 0,
                 sb2Wins: 0,
+                ties: 0,
                 sb1: {
                   stamina: 5,
                   defense: 5,
@@ -127,15 +166,74 @@
 
         computed: {
                 sb1percent: function () {
-                    return (this.sb1Wins/this.battleCounter) * 100;
+                    return Math.round((this.sb1Wins/this.battleCounter) * 100);
                 },
 
                 sb2percent: function () {
-                    return (this.sb2Wins/this.battleCounter) * 100;
-                }
+                    return Math.round((this.sb2Wins/this.battleCounter) * 100);
+                },
+
+                tiesPercent: function () {
+                  return Math.round((this.ties/this.battleCounter) * 100);
+                },
         },
 
         methods: {
+
+                quickClass(statbuild, classId) {
+                  //stat caps for later use when leveling classes
+                  let basePhysicalStatCap = 5;
+                  let baseMagicalStatCap = 3;
+
+                  for (let property in statbuild) {
+                          if (statbuild.hasOwnProperty(property)) {
+                            statbuild[property] = 0;
+                          }
+                      }
+
+                  switch (classId) {
+                    case 0:
+                      statbuild.stamina = basePhysicalStatCap;
+                      statbuild.defense = basePhysicalStatCap;
+                      statbuild.attack = basePhysicalStatCap;
+                    break;
+                    case 1:
+                      statbuild.stamina = basePhysicalStatCap;
+                      statbuild.defense = basePhysicalStatCap;
+                      statbuild.lightning = baseMagicalStatCap;
+                    break;
+                    case 2:
+                      statbuild.stamina = basePhysicalStatCap;
+                      statbuild.earth = baseMagicalStatCap;
+                      statbuild.attack = basePhysicalStatCap;
+                    break;
+                    case 3:
+                      statbuild.water = baseMagicalStatCap;
+                      statbuild.defense = basePhysicalStatCap;
+                      statbuild.attack = basePhysicalStatCap;
+                    break;
+                    case 4:
+                      statbuild.stamina = basePhysicalStatCap;
+                      statbuild.earth = baseMagicalStatCap;
+                      statbuild.lightning = baseMagicalStatCap;
+                    break;
+                    case 5:
+                      statbuild.water = baseMagicalStatCap;
+                      statbuild.defense = basePhysicalStatCap;
+                      statbuild.lightning = baseMagicalStatCap;
+                    break;
+                    case 6:
+                      statbuild.water = baseMagicalStatCap;
+                      statbuild.earth = baseMagicalStatCap;
+                      statbuild.attack = basePhysicalStatCap;
+                    break;
+                    case 7:
+                      statbuild.water = baseMagicalStatCap;
+                      statbuild.earth = baseMagicalStatCap;
+                      statbuild.lightning = baseMagicalStatCap;
+                    break;
+                  }//end switch
+                },//end quick class
 
                 battle() {
 
@@ -144,6 +242,7 @@
                     this.battleCounter = 0;
                     this.sb1Wins = 0;
                     this.sb2Wins = 0;
+                    this.ties = 0;
 
                      // let sb1Start = this.sb1;
                      // let sb2Start = this.sb2;
@@ -174,7 +273,7 @@
                           this.victoryCheck(this.sb1, this.sb2);
 
                       }//end while
-                      // console.log('------------------------------------');
+                      console.log('------------------------------------');
                     this.battleCounter += 1;
 
                   }//end simCount while
@@ -186,9 +285,9 @@
                     Object.assign(this.sb2, sb2Start);
 
                     this.simulating = false;
-                    // console.log('------------------------------------');
-                    // console.log('------------------------------------');
-                    // console.log('------------------------------------');
+                    console.log('------------------------------------');
+                    console.log('------------------------------------');
+                    console.log('------------------------------------');
 
 
 
@@ -257,11 +356,13 @@
                   //we have finished calculatin action distance, we can now determine what happens
                   //put actionDistance switch here                  
 
+                  //stamina->defense->attack->water->earth->lightning->
+
                   switch (actionDistance) { //relative to action1
                     case 0:
                       //It's a tie
-                      this.sb1[action1.name] -= action2.power;
-                      this.sb2[action2.name] -= action1.power;
+                      this.sb1[action1.name] -= action1.power;
+                      this.sb2[action2.name] -= action2.power;
                     break;
 
                     case 1:
@@ -276,10 +377,9 @@
 
                     case 3:
                       //It's a tie
-                      this.sb1[action1.name] -= action2.power;
-                      this.sb2[action2.name] -= action1.power;
+                      this.sb1[action1.name] -= action1.power;
+                      this.sb2[action2.name] -= action2.power;
                     break;
-//stamina->defense->attack->water->earth->lightning->
                     case 4:
                       //It's a win
                       this.sb2[action2.name] -= action1.power;
@@ -292,27 +392,35 @@
 
                   }
 
-                  // console.log(action1.name, '||', action2.name);
-                  // console.log(actionDistance);
-                  // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
-                  // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+                  console.log(action1.name, '||', action2.name);
+                  console.log(actionDistance);
+                  console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+                  console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
 
                 }, //end compareActions
 
 
                 victoryCheck(statbuild1, statbuild2) {
                   if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 
+                      && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0
+                        && statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 
+                            && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+
+                    this.victory = 1;
+                    console.log('The Stat Builds Tie');
+                    this.ties += 1;
+
+                  } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 
                       && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
-                          
                           this.victory = 1;
                           this.sb1Wins += 1;
-                          // console.log('Stat Build One Wins!');
+                          console.log('Stat Build One Wins!');
 
                         } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 
                             && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
                             this.victory = 1;
                             this.sb2Wins += 1;
-                            // console.log('Stat Build Two Wins!');
+                            console.log('Stat Build Two Wins!');
                         } else {
                             this.victory = 0;
                         }
