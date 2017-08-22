@@ -273,7 +273,7 @@
                           this.victoryCheck(this.sb1, this.sb2);
 
                       }//end while
-                      console.log('------------------------------------');
+                      // console.log('------------------------------------');
                     this.battleCounter += 1;
 
                   }//end simCount while
@@ -285,9 +285,9 @@
                     Object.assign(this.sb2, sb2Start);
 
                     this.simulating = false;
-                    console.log('------------------------------------');
-                    console.log('------------------------------------');
-                    console.log('------------------------------------');
+                    // console.log('------------------------------------');
+                    // console.log('------------------------------------');
+                    // console.log('------------------------------------');
 
 
 
@@ -361,8 +361,8 @@
                   switch (actionDistance) { //relative to action1
                     case 0:
                       //It's a tie
-                      this.sb1[action1.name] -= action1.power;
-                      this.sb2[action2.name] -= action2.power;
+                      this.sb1[action1.name] -= action2.power;
+                      this.sb2[action2.name] -= action1.power;
                     break;
 
                     case 1:
@@ -377,8 +377,8 @@
 
                     case 3:
                       //It's a tie
-                      this.sb1[action1.name] -= action1.power;
-                      this.sb2[action2.name] -= action2.power;
+                      this.sb1[action1.name] -= action2.power;
+                      this.sb2[action2.name] -= action1.power;
                     break;
                     case 4:
                       //It's a win
@@ -392,10 +392,10 @@
 
                   }
 
-                  console.log(action1.name, '||', action2.name);
-                  console.log(actionDistance);
-                  console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
-                  console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+                  // console.log(action1.name, '||', action2.name);
+                  // console.log(actionDistance);
+                  // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+                  // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
 
                 }, //end compareActions
 
@@ -407,20 +407,20 @@
                             && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
 
                     this.victory = 1;
-                    console.log('The Stat Builds Tie');
+                    // console.log('The Stat Builds Tie');
                     this.ties += 1;
 
                   } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 
                       && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
                           this.victory = 1;
                           this.sb1Wins += 1;
-                          console.log('Stat Build One Wins!');
+                          // console.log('Stat Build One Wins!');
 
                         } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 
                             && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
                             this.victory = 1;
                             this.sb2Wins += 1;
-                            console.log('Stat Build Two Wins!');
+                            // console.log('Stat Build Two Wins!');
                         } else {
                             this.victory = 0;
                         }
