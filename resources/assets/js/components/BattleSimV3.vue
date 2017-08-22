@@ -6,90 +6,120 @@
         <div class="row">
             <div class="col s6">
                 <h5 class="white-text">Stat Build One</h5>
+                <h5 class="white-text">{{sbClassName[1]}}</h5>
                 <!-- Dropdown Trigger -->
                 <a class='dropdown-button btn' data-activates='dropdown1'>Quick Class</a>
 
                 <!-- Dropdown Structure -->
                 <ul id='dropdown1' class='dropdown-content'>
-                  <li><a @click="quickClass(sb1, 0)">Warrior</a></li>
-                  <li><a @click="quickClass(sb1, 1)">Assassin</a></li>
-                  <li><a @click="quickClass(sb1, 2)">Warden</a></li>
-                  <li><a @click="quickClass(sb1, 3)">Mender</a></li>
+                  <li><a @click="quickClass(sb1, 0, 1)">Warrior</a></li>
+                  <li><a @click="quickClass(sb1, 1, 1)">Assassin</a></li>
+                  <li><a @click="quickClass(sb1, 2, 1)">Warden</a></li>
+                  <li><a @click="quickClass(sb1, 3, 1)">Mender</a></li>
                   <li class="divider"></li>
-                  <li><a @click="quickClass(sb1, 4)">Astromancer</a></li>
-                  <li><a @click="quickClass(sb1, 5)">Warlock</a></li>
-                  <li><a @click="quickClass(sb1, 6)">Druid</a></li>
-                  <li><a @click="quickClass(sb1, 7)">Mage</a></li>
+                  <li><a @click="quickClass(sb1, 4, 1)">Astromancer</a></li>
+                  <li><a @click="quickClass(sb1, 5, 1)">Warlock</a></li>
+                  <li><a @click="quickClass(sb1, 6, 1)">Druid</a></li>
+                  <li><a @click="quickClass(sb1, 7, 1)">Mage</a></li>
                 </ul>
 
-                <div class="input-field">
-                  <label for="sb1S" class="white-text">Stamina</label>
-                  <input id="sb1S" class="white-text" type="number" v-model="sb1.stamina" active>
+                <div class="row">
+                  <div class="col s4" v-if="sb1.stamina > 0">
+                    <div class="input-field">
+                    <label for="sb1S" class="white-text">Stamina</label>
+                    <input id="sb1S" class="white-text" type="number" v-model="sb1.stamina" active>
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb1.water > 0">
+                    <div class="input-field">
+                    <label class="white-text">Water</label>
+                    <input class="white-text" type="number" v-model="sb1.water">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb1.defense > 0">
+                    <div class="input-field">
+                    <label for="sb1D" class="white-text">Defense</label>
+                    <input class="white-text" type="number" v-model="sb1.defense">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb1.earth > 0">
+                    <div class="input-field">
+                    <label class="white-text">Earth</label>
+                    <input class="white-text" type="number" v-model="sb1.earth">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb1.attack > 0">
+                    <div class="input-field">
+                    <label for="sb1A" class="white-text">Attack</label>
+                    <input class="white-text" type="number" v-model="sb1.attack">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb1.lightning > 0">
+                    <div class="input-field">
+                    <label class="white-text">Lightning</label>
+                    <input class="white-text" type="number" v-model="sb1.lightning">
+                  </div>
+                  </div>
                 </div>
-                <div class="input-field">
-                  <label for="sb1D" class="white-text">Defense</label>
-                  <input class="white-text" type="number" v-model="sb1.defense">
-                </div>
-                <div class="input-field">
-                  <label for="sb1A" class="white-text">Attack</label>
-                  <input class="white-text" type="number" v-model="sb1.attack">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Water</label>
-                  <input class="white-text" type="number" v-model="sb1.water">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Earth</label>
-                  <input class="white-text" type="number" v-model="sb1.earth">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Lightning</label>
-                  <input class="white-text" type="number" v-model="sb1.lightning">
-                </div>   
             </div>
             <div class="col s6">
                 <h5 class="white-text">Stat Build Two</h5>
+                <h5 class="white-text">{{sbClassName[2]}}</h5>
 
                 <!-- Dropdown Trigger -->
                 <a class='dropdown-button btn' data-activates='dropdown2'>Quick Class</a>
 
                 <!-- Dropdown Structure -->
                 <ul id='dropdown2' class='dropdown-content'>
-                  <li><a @click="quickClass(sb2, 0)">Warrior</a></li>
-                  <li><a @click="quickClass(sb2, 1)">Assassin</a></li>
-                  <li><a @click="quickClass(sb2, 2)">Warden</a></li>
-                  <li><a @click="quickClass(sb2, 3)">Mender</a></li>
+                  <li><a @click="quickClass(sb2, 0, 2)">Warrior</a></li>
+                  <li><a @click="quickClass(sb2, 1, 2)">Assassin</a></li>
+                  <li><a @click="quickClass(sb2, 2, 2)">Warden</a></li>
+                  <li><a @click="quickClass(sb2, 3, 2)">Mender</a></li>
                   <li class="divider"></li>
-                  <li><a @click="quickClass(sb2, 4)">Astromancer</a></li>
-                  <li><a @click="quickClass(sb2, 5)">Warlock</a></li>
-                  <li><a @click="quickClass(sb2, 6)">Druid</a></li>
-                  <li><a @click="quickClass(sb2, 7)">Mage</a></li>
+                  <li><a @click="quickClass(sb2, 4, 2)">Astromancer</a></li>
+                  <li><a @click="quickClass(sb2, 5, 2)">Warlock</a></li>
+                  <li><a @click="quickClass(sb2, 6, 2)">Druid</a></li>
+                  <li><a @click="quickClass(sb2, 7, 2)">Mage</a></li>
                 </ul>
                 
-                <div class="input-field">
-                  <label for="sb2S" class="white-text">Stamina</label>
-                  <input id="sb2S" class="white-text" type="number" v-model="sb2.stamina">
-                </div>
-                <div class="input-field">
-                  <label for="sb2D" class="white-text">Defense</label>
-                  <input class="white-text" type="number" v-model="sb2.defense">
-                </div>
-                <div class="input-field">
-                  <label for="sb2A" class="white-text">Attack</label>
-                  <input class="white-text" type="number" v-model="sb2.attack">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Water</label>
-                  <input class="white-text" type="number" v-model="sb2.water">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Earth</label>
-                  <input class="white-text" type="number" v-model="sb2.earth">
-                </div>
-                <div class="input-field">
-                  <label class="white-text">Lightning</label>
-                  <input class="white-text" type="number" v-model="sb2.lightning">
-                </div>
+                <div class="row">
+                  <div class="col s4" v-if="sb2.stamina > 0">
+                    <div class="input-field">
+                    <label for="sb2S" class="white-text">Stamina</label>
+                    <input id="sb2S" class="white-text" type="number" v-model="sb2.stamina" active>
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb2.water > 0">
+                    <div class="input-field">
+                    <label class="white-text">Water</label>
+                    <input class="white-text" type="number" v-model="sb2.water">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb2.defense > 0">
+                    <div class="input-field">
+                    <label for="sb2D" class="white-text">Defense</label>
+                    <input class="white-text" type="number" v-model="sb2.defense">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb2.earth > 0">
+                    <div class="input-field">
+                    <label class="white-text">Earth</label>
+                    <input class="white-text" type="number" v-model="sb2.earth">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb2.attack > 0">
+                    <div class="input-field">
+                    <label for="sb2A" class="white-text">Attack</label>
+                    <input class="white-text" type="number" v-model="sb2.attack">
+                  </div>
+                  </div>
+                  <div class="col s4" v-if="sb2.lightning > 0">
+                    <div class="input-field">
+                    <label class="white-text">Lightning</label>
+                    <input class="white-text" type="number" v-model="sb2.lightning">
+                  </div>
+                  </div>
+                </div>  
             </div>
         </div>
         <div class="row">
@@ -137,13 +167,17 @@
     export default {
         data() {
             return {
-                simCount: 100,
+                simCount: 10000,
                 battleCounter: 0,
                 victory: 0,
                 simulating: false,
                 sb1Wins: 0,
                 sb2Wins: 0,
                 ties: 0,
+                sbClassName: {
+                  1: 'Warrior',
+                  2: 'Warrior'
+                },
                 sb1: {
                   stamina: 5,
                   defense: 5,
@@ -180,7 +214,7 @@
 
         methods: {
 
-                quickClass(statbuild, classId) {
+                quickClass(statbuild, classId, sbNumber) {
                   //stat caps for later use when leveling classes
                   let basePhysicalStatCap = 5;
                   let baseMagicalStatCap = 3;
@@ -193,41 +227,49 @@
 
                   switch (classId) {
                     case 0:
+                      this.sbClassName[sbNumber] = 'Warrior';
                       statbuild.stamina = basePhysicalStatCap;
                       statbuild.defense = basePhysicalStatCap;
                       statbuild.attack = basePhysicalStatCap;
                     break;
                     case 1:
+                      this.sbClassName[sbNumber] = 'Assassin';
                       statbuild.stamina = basePhysicalStatCap;
                       statbuild.defense = basePhysicalStatCap;
                       statbuild.lightning = baseMagicalStatCap;
                     break;
                     case 2:
+                      this.sbClassName[sbNumber] = 'Warden';
                       statbuild.stamina = basePhysicalStatCap;
                       statbuild.earth = baseMagicalStatCap;
                       statbuild.attack = basePhysicalStatCap;
                     break;
                     case 3:
+                      this.sbClassName[sbNumber] = 'Mender';
                       statbuild.water = baseMagicalStatCap;
                       statbuild.defense = basePhysicalStatCap;
                       statbuild.attack = basePhysicalStatCap;
                     break;
                     case 4:
+                      this.sbClassName[sbNumber] = 'Astromancer';
                       statbuild.stamina = basePhysicalStatCap;
                       statbuild.earth = baseMagicalStatCap;
                       statbuild.lightning = baseMagicalStatCap;
                     break;
                     case 5:
+                      this.sbClassName[sbNumber] = 'Warlock';
                       statbuild.water = baseMagicalStatCap;
                       statbuild.defense = basePhysicalStatCap;
                       statbuild.lightning = baseMagicalStatCap;
                     break;
                     case 6:
+                      this.sbClassName[sbNumber] = 'Druid';
                       statbuild.water = baseMagicalStatCap;
                       statbuild.earth = baseMagicalStatCap;
                       statbuild.attack = basePhysicalStatCap;
                     break;
                     case 7:
+                      this.sbClassName[sbNumber] = 'Mage';
                       statbuild.water = baseMagicalStatCap;
                       statbuild.earth = baseMagicalStatCap;
                       statbuild.lightning = baseMagicalStatCap;
@@ -311,27 +353,27 @@
                 selectStat(action) {
                   switch (action) {
                     case 0:
-                      return {name: 'stamina', power: 1, position: 0};
+                      return {name: 'stamina', type: 'physical', power: 0, position: 0};
                     break;
                       
                     case 1:
-                      return {name: 'defense', power: 1, position: 1};
+                      return {name: 'defense', type: 'physical', power: 0, position: 1};
                     break;
 
                     case 2:
-                      return {name: 'attack', power: 1, position: 2};
+                      return {name: 'attack', type: 'physical', power: 0, position: 2};
                     break;
                       
                     case 3:
-                      return {name: 'water', power: 2, position: 3};
+                      return {name: 'water', type: 'magical', power: 0, position: 3};
                     break;
 
                     case 4:
-                      return {name: 'earth', power: 2, position: 4};
+                      return {name: 'earth', type: 'magical', power: 0, position: 4};
                     break;
 
                     case 5:
-                      return {name: 'lightning', power: 2, position: 5};
+                      return {name: 'lightning', type: 'magical', power: 0, position: 5};
                     break;
                   }
                 }, //end selectStat
@@ -356,13 +398,37 @@
                   //we have finished calculatin action distance, we can now determine what happens
                   //put actionDistance switch here                  
 
-                  //stamina->defense->attack->water->earth->lightning->
+                  //Transform Power 
+                  if (action1.type == 'physical') {
+                    action1.power = 1;
+                  } else if (action1.type == 'magical'){
+                    // action1.power = this.sb1[action1.name];
+                    action1.power = 2;
+                  }
 
+                  if (action2.type == 'physical') {
+                    action2.power = 1;
+                  } else if (action2.type == 'magical'){
+                    // action2.power = this.sb2[action2.name];
+                    action2.power = 2;
+                  }
+
+                  //stamina->defense->attack->water->earth->lightning->
                   switch (actionDistance) { //relative to action1
                     case 0:
                       //It's a tie
+
+                      //Exchange of Power
                       this.sb1[action1.name] -= action2.power;
                       this.sb2[action2.name] -= action1.power;
+
+                      //Self Harm
+                      // this.sb1[action1.name] -= action1.power;
+                      // this.sb2[action2.name] -= action2.power;
+
+                      //Arbitrary Loss
+                      // this.sb1[action1.name] -= 1;
+                      // this.sb2[action2.name] -= 1;
                     break;
 
                     case 1:
@@ -377,8 +443,15 @@
 
                     case 3:
                       //It's a tie
+
                       this.sb1[action1.name] -= action2.power;
                       this.sb2[action2.name] -= action1.power;
+
+                      // this.sb1[action1.name] -= action1.power;
+                      // this.sb2[action2.name] -= action2.power;
+
+                      // this.sb1[action1.name] -= 1;
+                      // this.sb2[action2.name] -= 1;
                     break;
                     case 4:
                       //It's a win
@@ -429,7 +502,18 @@
 
 
         mounted() {
-
+          //Initialize Dropdown
+          $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrainWidth: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left', // Displays dropdown with edge aligned to the left of button
+                stopPropagation: false // Stops event propagation
+              }
+            );
         }, //end mounted
     }
 </script>

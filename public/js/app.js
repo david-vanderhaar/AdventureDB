@@ -19919,17 +19919,51 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     return {
-      simCount: 100,
+      simCount: 10000,
       battleCounter: 0,
       victory: 0,
       simulating: false,
       sb1Wins: 0,
       sb2Wins: 0,
       ties: 0,
+      sbClassName: {
+        1: 'Warrior',
+        2: 'Warrior'
+      },
       sb1: {
         stamina: 5,
         defense: 5,
@@ -19966,7 +20000,7 @@ exports.default = {
   },
 
   methods: {
-    quickClass: function quickClass(statbuild, classId) {
+    quickClass: function quickClass(statbuild, classId, sbNumber) {
       //stat caps for later use when leveling classes
       var basePhysicalStatCap = 5;
       var baseMagicalStatCap = 3;
@@ -19979,41 +20013,49 @@ exports.default = {
 
       switch (classId) {
         case 0:
+          this.sbClassName[sbNumber] = 'Warrior';
           statbuild.stamina = basePhysicalStatCap;
           statbuild.defense = basePhysicalStatCap;
           statbuild.attack = basePhysicalStatCap;
           break;
         case 1:
+          this.sbClassName[sbNumber] = 'Assassin';
           statbuild.stamina = basePhysicalStatCap;
           statbuild.defense = basePhysicalStatCap;
           statbuild.lightning = baseMagicalStatCap;
           break;
         case 2:
+          this.sbClassName[sbNumber] = 'Warden';
           statbuild.stamina = basePhysicalStatCap;
           statbuild.earth = baseMagicalStatCap;
           statbuild.attack = basePhysicalStatCap;
           break;
         case 3:
+          this.sbClassName[sbNumber] = 'Mender';
           statbuild.water = baseMagicalStatCap;
           statbuild.defense = basePhysicalStatCap;
           statbuild.attack = basePhysicalStatCap;
           break;
         case 4:
+          this.sbClassName[sbNumber] = 'Astromancer';
           statbuild.stamina = basePhysicalStatCap;
           statbuild.earth = baseMagicalStatCap;
           statbuild.lightning = baseMagicalStatCap;
           break;
         case 5:
+          this.sbClassName[sbNumber] = 'Warlock';
           statbuild.water = baseMagicalStatCap;
           statbuild.defense = basePhysicalStatCap;
           statbuild.lightning = baseMagicalStatCap;
           break;
         case 6:
+          this.sbClassName[sbNumber] = 'Druid';
           statbuild.water = baseMagicalStatCap;
           statbuild.earth = baseMagicalStatCap;
           statbuild.attack = basePhysicalStatCap;
           break;
         case 7:
+          this.sbClassName[sbNumber] = 'Mage';
           statbuild.water = baseMagicalStatCap;
           statbuild.earth = baseMagicalStatCap;
           statbuild.lightning = baseMagicalStatCap;
@@ -20093,27 +20135,27 @@ exports.default = {
     selectStat: function selectStat(action) {
       switch (action) {
         case 0:
-          return { name: 'stamina', power: 1, position: 0 };
+          return { name: 'stamina', type: 'physical', power: 0, position: 0 };
           break;
 
         case 1:
-          return { name: 'defense', power: 1, position: 1 };
+          return { name: 'defense', type: 'physical', power: 0, position: 1 };
           break;
 
         case 2:
-          return { name: 'attack', power: 1, position: 2 };
+          return { name: 'attack', type: 'physical', power: 0, position: 2 };
           break;
 
         case 3:
-          return { name: 'water', power: 2, position: 3 };
+          return { name: 'water', type: 'magical', power: 0, position: 3 };
           break;
 
         case 4:
-          return { name: 'earth', power: 2, position: 4 };
+          return { name: 'earth', type: 'magical', power: 0, position: 4 };
           break;
 
         case 5:
-          return { name: 'lightning', power: 2, position: 5 };
+          return { name: 'lightning', type: 'magical', power: 0, position: 5 };
           break;
       }
     },
@@ -20139,13 +20181,37 @@ exports.default = {
       //we have finished calculatin action distance, we can now determine what happens
       //put actionDistance switch here                  
 
-      //stamina->defense->attack->water->earth->lightning->
+      //Transform Power 
+      if (action1.type == 'physical') {
+        action1.power = 1;
+      } else if (action1.type == 'magical') {
+        // action1.power = this.sb1[action1.name];
+        action1.power = 2;
+      }
 
+      if (action2.type == 'physical') {
+        action2.power = 1;
+      } else if (action2.type == 'magical') {
+        // action2.power = this.sb2[action2.name];
+        action2.power = 2;
+      }
+
+      //stamina->defense->attack->water->earth->lightning->
       switch (actionDistance) {//relative to action1
         case 0:
           //It's a tie
+
+          //Exchange of Power
           this.sb1[action1.name] -= action2.power;
           this.sb2[action2.name] -= action1.power;
+
+          //Self Harm
+          // this.sb1[action1.name] -= action1.power;
+          // this.sb2[action2.name] -= action2.power;
+
+          //Arbitrary Loss
+          // this.sb1[action1.name] -= 1;
+          // this.sb2[action2.name] -= 1;
           break;
 
         case 1:
@@ -20160,8 +20226,15 @@ exports.default = {
 
         case 3:
           //It's a tie
+
           this.sb1[action1.name] -= action2.power;
           this.sb2[action2.name] -= action1.power;
+
+          // this.sb1[action1.name] -= action1.power;
+          // this.sb2[action2.name] -= action2.power;
+
+          // this.sb1[action1.name] -= 1;
+          // this.sb2[action2.name] -= 1;
           break;
         case 4:
           //It's a win
@@ -20204,7 +20277,19 @@ exports.default = {
   }, // end methods
 
 
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    //Initialize Dropdown
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    });
+  }
 };
 
 /***/ }),
@@ -20220,7 +20305,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
-  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('a', {
+  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v(_vm._s(_vm.sbClassName[1]))]), _vm._v(" "), _c('a', {
     staticClass: "dropdown-button btn",
     attrs: {
       "data-activates": "dropdown1"
@@ -20233,25 +20320,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 0)
+        _vm.quickClass(_vm.sb1, 0, 1)
       }
     }
   }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 1)
+        _vm.quickClass(_vm.sb1, 1, 1)
       }
     }
   }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 2)
+        _vm.quickClass(_vm.sb1, 2, 1)
       }
     }
   }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 3)
+        _vm.quickClass(_vm.sb1, 3, 1)
       }
     }
   }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
@@ -20259,28 +20346,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 4)
+        _vm.quickClass(_vm.sb1, 4, 1)
       }
     }
   }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 5)
+        _vm.quickClass(_vm.sb1, 5, 1)
       }
     }
   }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 6)
+        _vm.quickClass(_vm.sb1, 6, 1)
       }
     }
   }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb1, 7)
+        _vm.quickClass(_vm.sb1, 7, 1)
       }
     }
   }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [(_vm.sb1.stamina > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20309,7 +20400,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.stamina = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.water > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.water),
+      expression: "sb1.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.water = $event.target.value
+      }
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.defense > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20336,7 +20455,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.defense = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.earth > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.earth),
+      expression: "sb1.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.earth = $event.target.value
+      }
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.attack > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20363,55 +20510,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.attack = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "input-field"
-  }, [_c('label', {
-    staticClass: "white-text"
-  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb1.water),
-      expression: "sb1.water"
-    }],
-    staticClass: "white-text",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb1.water)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb1.water = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "input-field"
-  }, [_c('label', {
-    staticClass: "white-text"
-  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb1.earth),
-      expression: "sb1.earth"
-    }],
-    staticClass: "white-text",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb1.earth)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb1.earth = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.lightning > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text"
@@ -20435,11 +20536,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.lightning = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
-  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('a', {
+  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v(_vm._s(_vm.sbClassName[2]))]), _vm._v(" "), _c('a', {
     staticClass: "dropdown-button btn",
     attrs: {
       "data-activates": "dropdown2"
@@ -20452,25 +20555,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 0)
+        _vm.quickClass(_vm.sb2, 0, 2)
       }
     }
   }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 1)
+        _vm.quickClass(_vm.sb2, 1, 2)
       }
     }
   }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 2)
+        _vm.quickClass(_vm.sb2, 2, 2)
       }
     }
   }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 3)
+        _vm.quickClass(_vm.sb2, 3, 2)
       }
     }
   }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
@@ -20478,28 +20581,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 4)
+        _vm.quickClass(_vm.sb2, 4, 2)
       }
     }
   }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 5)
+        _vm.quickClass(_vm.sb2, 5, 2)
       }
     }
   }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 6)
+        _vm.quickClass(_vm.sb2, 6, 2)
       }
     }
   }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
     on: {
       "click": function($event) {
-        _vm.quickClass(_vm.sb2, 7)
+        _vm.quickClass(_vm.sb2, 7, 2)
       }
     }
   }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [(_vm.sb2.stamina > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20516,7 +20623,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "white-text",
     attrs: {
       "id": "sb2S",
-      "type": "number"
+      "type": "number",
+      "active": ""
     },
     domProps: {
       "value": (_vm.sb2.stamina)
@@ -20527,7 +20635,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.stamina = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.water > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.water),
+      expression: "sb2.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.water = $event.target.value
+      }
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.defense > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20554,7 +20690,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.defense = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.earth > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.earth),
+      expression: "sb2.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.earth = $event.target.value
+      }
+    }
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.attack > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text",
@@ -20581,55 +20745,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.attack = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "input-field"
-  }, [_c('label', {
-    staticClass: "white-text"
-  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb2.water),
-      expression: "sb2.water"
-    }],
-    staticClass: "white-text",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb2.water)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb2.water = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "input-field"
-  }, [_c('label', {
-    staticClass: "white-text"
-  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sb2.earth),
-      expression: "sb2.earth"
-    }],
-    staticClass: "white-text",
-    attrs: {
-      "type": "number"
-    },
-    domProps: {
-      "value": (_vm.sb2.earth)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.sb2.earth = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.lightning > 0) ? _c('div', {
+    staticClass: "col s4"
+  }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
     staticClass: "white-text"
@@ -20653,7 +20771,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.lightning = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
