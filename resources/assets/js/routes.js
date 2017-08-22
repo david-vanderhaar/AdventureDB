@@ -26,6 +26,10 @@ let routes = [
 		path: '/battlesimv2',
 		component: require('./components/BattleSimV2.vue'),
 	},
+	{
+		path: '/battlesimv3',
+		component: require('./components/BattleSimV3.vue'),
+	},
 ];
 
 export default new VueRouter({

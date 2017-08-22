@@ -472,106 +472,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(21);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(7);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 /*
@@ -653,7 +553,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -872,6 +772,106 @@ function applyToTag (styleElement, obj) {
   }
 }
 
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(21);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(7);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(7);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
 /* 5 */
@@ -3665,7 +3665,7 @@ if (inBrowser && window.Vue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(65);
+module.exports = __webpack_require__(70);
 
 
 /***/ }),
@@ -13887,7 +13887,7 @@ module.exports = g;
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(19);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -13970,7 +13970,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(29);
 var dispatchRequest = __webpack_require__(30);
@@ -14692,7 +14692,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(31);
 var isCancel = __webpack_require__(9);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(4);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -14970,6 +14970,9 @@ var routes = [{
 }, {
 	path: '/battlesimv2',
 	component: __webpack_require__(60)
+}, {
+	path: '/battlesimv3',
+	component: __webpack_require__(65)
 }];
 
 exports.default = new _vueRouter2.default({
@@ -15856,7 +15859,7 @@ var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("57e0cff2", content, false);
+var update = __webpack_require__(3)("57e0cff2", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -15875,7 +15878,7 @@ if(false) {
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -18165,7 +18168,7 @@ var content = __webpack_require__(57);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("ded2c5ea", content, false);
+var update = __webpack_require__(3)("ded2c5ea", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -18184,7 +18187,7 @@ if(false) {
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -18688,7 +18691,7 @@ var content = __webpack_require__(62);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("1154e2ce", content, false);
+var update = __webpack_require__(3)("1154e2ce", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -18707,7 +18710,7 @@ if(false) {
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(undefined);
+exports = module.exports = __webpack_require__(2)(undefined);
 // imports
 
 
@@ -19689,6 +19692,831 @@ if (false) {
 
 /***/ }),
 /* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(66)
+}
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(68),
+  /* template */
+  __webpack_require__(69),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/BattleSimV3.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BattleSimV3.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-11480dd4", Component.options)
+  } else {
+    hotAPI.reload("data-v-11480dd4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(67);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("288352a0", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-11480dd4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV3.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-11480dd4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV3.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    return {
+      simCount: 10,
+      battleCounter: 0,
+      victory: 0,
+      simulating: false,
+      sb1Wins: 0,
+      sb2Wins: 0,
+      sb1: {
+        stamina: 5,
+        defense: 5,
+        attack: 5,
+        water: 0,
+        earth: 0,
+        lightning: 0
+      },
+      sb2: {
+        stamina: 5,
+        defense: 5,
+        attack: 5,
+        water: 0,
+        earth: 0,
+        lightning: 0
+      }
+
+    };
+  },
+
+
+  computed: {
+    sb1percent: function sb1percent() {
+      return this.sb1Wins / this.battleCounter * 100;
+    },
+
+    sb2percent: function sb2percent() {
+      return this.sb2Wins / this.battleCounter * 100;
+    }
+  },
+
+  methods: {
+    battle: function battle() {
+
+      this.simulating = true;
+
+      this.battleCounter = 0;
+      this.sb1Wins = 0;
+      this.sb2Wins = 0;
+
+      // let sb1Start = this.sb1;
+      // let sb2Start = this.sb2;
+      var sb1Start = {};
+      var sb2Start = {};
+
+      Object.assign(sb1Start, this.sb1);
+      Object.assign(sb2Start, this.sb2);
+
+      while (this.battleCounter < this.simCount) {
+
+        // this.sb1 = sb1Start;
+        // this.sb2 = sb2Start;
+
+        Object.assign(this.sb1, sb1Start);
+        Object.assign(this.sb2, sb2Start);
+
+        this.victory = 0;
+
+        while (this.victory == 0) {
+          //monster selects random stat
+          var sb1Action = this.getRandomAction(0, 5, this.sb1);
+          var sb2Action = this.getRandomAction(0, 5, this.sb2);
+
+          this.compareActions(sb1Action, sb2Action);
+          this.victoryCheck(this.sb1, this.sb2);
+        } //end while
+        // console.log('------------------------------------');
+        this.battleCounter += 1;
+      } //end simCount while
+
+      // this.sb1 = sb1Start;
+      // this.sb2 = sb2Start;
+
+      Object.assign(this.sb1, sb1Start);
+      Object.assign(this.sb2, sb2Start);
+
+      this.simulating = false;
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+
+    },
+    //end battle
+
+    getRandomAction: function getRandomAction(min, max, statbuild) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      var random = Math.floor(Math.random() * (max - min + 1)) + min;
+
+      var randomStat = this.selectStat(random);
+
+      if (statbuild[randomStat.name] > 0) {
+        return randomStat;
+      } else {
+        return this.getRandomAction(0, 5, statbuild);
+      }
+    },
+    //end getRandom action
+
+    selectStat: function selectStat(action) {
+      switch (action) {
+        case 0:
+          return { name: 'stamina', power: 1, position: 0 };
+          break;
+
+        case 1:
+          return { name: 'defense', power: 1, position: 1 };
+          break;
+
+        case 2:
+          return { name: 'attack', power: 1, position: 2 };
+          break;
+
+        case 3:
+          return { name: 'water', power: 2, position: 3 };
+          break;
+
+        case 4:
+          return { name: 'earth', power: 2, position: 4 };
+          break;
+
+        case 5:
+          return { name: 'lightning', power: 2, position: 5 };
+          break;
+      }
+    },
+    //end selectStat
+
+    compareActions: function compareActions(action1, action2) {
+      //Initialize find distance vars
+      var actionDistance = 0;
+
+      var action1Measure = action1.position;
+
+      while (action1Measure != action2.position) {
+
+        if (action1Measure + 1 > 5) {
+          //check if action1Measure needs to wrap back around to 0 in the circle of actions
+          action1Measure = 0;
+        } else {
+          action1Measure += 1;
+        }
+        actionDistance += 1;
+      }
+
+      //we have finished calculatin action distance, we can now determine what happens
+      //put actionDistance switch here                  
+
+      switch (actionDistance) {//relative to action1
+        case 0:
+          //It's a tie
+          this.sb1[action1.name] -= action2.power;
+          this.sb2[action2.name] -= action1.power;
+          break;
+
+        case 1:
+          //It's a win
+          this.sb2[action2.name] -= action1.power;
+          break;
+
+        case 2:
+          //It's a loss
+          this.sb1[action1.name] -= action2.power;
+          break;
+
+        case 3:
+          //It's a tie
+          this.sb1[action1.name] -= action2.power;
+          this.sb2[action2.name] -= action1.power;
+          break;
+        //stamina->defense->attack->water->earth->lightning->
+        case 4:
+          //It's a win
+          this.sb2[action2.name] -= action1.power;
+          break;
+
+        case 5:
+          //It's a loss
+          this.sb1[action1.name] -= action2.power;
+          break;
+
+      }
+
+      // console.log(action1.name, '||', action2.name);
+      // console.log(actionDistance);
+      // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+      // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+    },
+    //end compareActions
+
+
+    victoryCheck: function victoryCheck(statbuild1, statbuild2) {
+      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+
+        this.victory = 1;
+        this.sb1Wins += 1;
+        // console.log('Stat Build One Wins!');
+      } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+        this.victory = 1;
+        this.sb2Wins += 1;
+        // console.log('Stat Build Two Wins!');
+      } else {
+        this.victory = 0;
+      }
+    }
+  }, // end methods
+
+
+  mounted: function mounted() {}
+};
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s6"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1S"
+    }
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.stamina),
+      expression: "sb1.stamina"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb1S",
+      "type": "number",
+      "active": ""
+    },
+    domProps: {
+      "value": (_vm.sb1.stamina)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.stamina = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.defense),
+      expression: "sb1.defense"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.defense)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.defense = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1A"
+    }
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.attack),
+      expression: "sb1.attack"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.attack)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.attack = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.water),
+      expression: "sb1.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.water = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.earth),
+      expression: "sb1.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.earth = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.lightning),
+      expression: "sb1.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.lightning = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2S"
+    }
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.stamina),
+      expression: "sb2.stamina"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb2S",
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.stamina)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.stamina = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.defense),
+      expression: "sb2.defense"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.defense)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.defense = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2A"
+    }
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.attack),
+      expression: "sb2.attack"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.attack)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.attack = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.water),
+      expression: "sb2.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.water = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.earth),
+      expression: "sb2.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.earth = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.lightning),
+      expression: "sb2.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.lightning = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Battle Sim Count")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.simCount),
+      expression: "simCount"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.simCount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.simCount = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (!_vm.simulating) ? _c('button', {
+    staticClass: "btn",
+    on: {
+      "click": function($event) {
+        _vm.battle()
+      }
+    }
+  }, [_vm._v("Simulate")]) : _vm._e(), _vm._v(" "), (_vm.simulating) ? _c('div', {
+    staticClass: "progress"
+  }, [_c('div', {
+    staticClass: "indeterminate"
+  })]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Results")]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One Victory")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text",
+    domProps: {
+      "textContent": _vm._s(_vm.sb1Wins)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two Victory")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text",
+    domProps: {
+      "textContent": _vm._s(_vm.sb2Wins)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One Win %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.sb1percent) + "%")])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two Win %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.sb2percent) + "%")])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('h3', {
+    staticClass: "white-text"
+  }, [_vm._v("Battle Simulation - Version 3")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-11480dd4", module.exports)
+  }
+}
+
+/***/ }),
+/* 70 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
