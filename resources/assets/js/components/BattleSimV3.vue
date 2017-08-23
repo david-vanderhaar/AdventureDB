@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col s6">
                 <h5 class="white-text">Stat Build One</h5>
-                <h5 class="white-text">{{sbClassName[1]}}</h5>
                 <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' data-activates='dropdown1'>Quick Class</a>
+                <h5 class="white-text dropdown-button" data-activates='dropdown1'>{{sbClassName[1]}}</h5>
+                
 
                 <!-- Dropdown Structure -->
                 <ul id='dropdown1' class='dropdown-content'>
@@ -22,52 +22,58 @@
                   <li><a @click="quickClass(sb1, 6, 1)">Druid</a></li>
                   <li><a @click="quickClass(sb1, 7, 1)">Mage</a></li>
                 </ul>
-
+                
                 <div class="row">
-                  <div class="col s4" v-if="sb1.stamina > 0">
+                  <div class="col s4 blue darken-3" v-if="sb1.stamina > 0">
                     <div class="input-field">
                     <label for="sb1S" class="white-text">Stamina</label>
-                    <input id="sb1S" class="white-text" type="number" v-model="sb1.stamina" active>
+                    <input id="sb1S" class="white-text" type="number" v-model="sb1.stamina" selected>
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb1.water > 0">
+                  <div class="col s4 blue darken-3" v-if="sb1.water > 0">
                     <div class="input-field">
                     <label class="white-text">Water</label>
                     <input class="white-text" type="number" v-model="sb1.water">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb1.defense > 0">
+                  <div class="col s4 green darken-3" v-if="sb1.defense > 0">
                     <div class="input-field">
                     <label for="sb1D" class="white-text">Defense</label>
                     <input class="white-text" type="number" v-model="sb1.defense">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb1.earth > 0">
+                  <div class="col s4 green darken-3" v-if="sb1.earth > 0">
                     <div class="input-field">
                     <label class="white-text">Earth</label>
                     <input class="white-text" type="number" v-model="sb1.earth">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb1.attack > 0">
+                  <div class="col s4 orange darken-3" v-if="sb1.attack > 0">
                     <div class="input-field">
                     <label for="sb1A" class="white-text">Attack</label>
                     <input class="white-text" type="number" v-model="sb1.attack">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb1.lightning > 0">
+                  <div class="col s4 orange darken-3" v-if="sb1.lightning > 0">
                     <div class="input-field">
                     <label class="white-text">Lightning</label>
                     <input class="white-text" type="number" v-model="sb1.lightning">
                   </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col s4"><a @click="battleManual({name: 'stamina', type: 'physical', power: 0, position: 0})" class="btn waves-light waves-effect blue">{{sb1.stamina}}</a></div>
+                  <div class="col s4"><a @click="battleManual({name: 'defense', type: 'physical', power: 0, position: 1})" class="btn waves-light waves-effect green">{{sb1.defense}}</a></div>
+                  <div class="col s4"><a @click="battleManual({name: 'attack', type: 'physical', power: 0, position: 2})" class="btn waves-light waves-effect orange">{{sb1.attack}}</a></div>
+                  <div class="col s4"><a @click="battleManual({name: 'water', type: 'magical', power: 0, position: 3})" class="btn waves-light waves-effect blue">{{sb1.water}}</a></div>
+                  <div class="col s4"><a @click="battleManual({name: 'earth', type: 'magical', power: 0, position: 4})" class="btn waves-light waves-effect green">{{sb1.earth}}</a></div>
+                  <div class="col s4"><a @click="battleManual({name: 'lightning', type: 'magical', power: 0, position: 5})" class="btn waves-light waves-effect orange">{{sb1.lightning}}</a></div>
+                </div>
             </div>
             <div class="col s6">
                 <h5 class="white-text">Stat Build Two</h5>
-                <h5 class="white-text">{{sbClassName[2]}}</h5>
-
                 <!-- Dropdown Trigger -->
-                <a class='dropdown-button btn' data-activates='dropdown2'>Quick Class</a>
+                <h5 class="white-text dropdown-button" data-activates='dropdown2'>{{sbClassName[2]}}</h5>
 
                 <!-- Dropdown Structure -->
                 <ul id='dropdown2' class='dropdown-content'>
@@ -83,42 +89,50 @@
                 </ul>
                 
                 <div class="row">
-                  <div class="col s4" v-if="sb2.stamina > 0">
+                  <div class="col s4 blue darken-3" v-if="sb2.stamina > 0">
                     <div class="input-field">
                     <label for="sb2S" class="white-text">Stamina</label>
                     <input id="sb2S" class="white-text" type="number" v-model="sb2.stamina" active>
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb2.water > 0">
+                  <div class="col s4 blue darken-3" v-if="sb2.water > 0">
                     <div class="input-field">
                     <label class="white-text">Water</label>
                     <input class="white-text" type="number" v-model="sb2.water">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb2.defense > 0">
+                  <div class="col s4 green darken-3" v-if="sb2.defense > 0">
                     <div class="input-field">
                     <label for="sb2D" class="white-text">Defense</label>
                     <input class="white-text" type="number" v-model="sb2.defense">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb2.earth > 0">
+                  <div class="col s4 green darken-3" v-if="sb2.earth > 0">
                     <div class="input-field">
                     <label class="white-text">Earth</label>
                     <input class="white-text" type="number" v-model="sb2.earth">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb2.attack > 0">
+                  <div class="col s4 orange darken-3" v-if="sb2.attack > 0">
                     <div class="input-field">
                     <label for="sb2A" class="white-text">Attack</label>
                     <input class="white-text" type="number" v-model="sb2.attack">
                   </div>
                   </div>
-                  <div class="col s4" v-if="sb2.lightning > 0">
+                  <div class="col s4 orange darken-3" v-if="sb2.lightning > 0">
                     <div class="input-field">
                     <label class="white-text">Lightning</label>
                     <input class="white-text" type="number" v-model="sb2.lightning">
                   </div>
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col s4"><a class="btn waves-light waves-effect blue">{{sb2.stamina}}</a></div>
+                  <div class="col s4"><a class="btn waves-light waves-effect green">{{sb2.defense}}</a></div>
+                  <div class="col s4"><a class="btn waves-light waves-effect orange">{{sb2.attack}}</a></div>
+                  <div class="col s4"><a class="btn waves-light waves-effect blue">{{sb2.water}}</a></div>
+                  <div class="col s4"><a class="btn waves-light waves-effect green">{{sb2.earth}}</a></div>
+                  <div class="col s4"><a class="btn waves-light waves-effect orange">{{sb2.lightning}}</a></div>
                 </div>  
             </div>
         </div>
@@ -276,6 +290,17 @@
                     break;
                   }//end switch
                 },//end quick class
+
+                battleManual(sb1Action) {
+                  this.victory = 0;
+                  if (this.sb1[sb1Action.name] > 0) {
+                    let sb2Action = this.getRandomAction(0,5, this.sb2);
+                    this.compareActions(sb1Action, sb2Action);
+                    this.victoryCheck(this.sb1, this.sb2);
+                  } else {
+                    console.log('Cannot perform this action');
+                  }
+                },//end battleManual
 
                 battle() {
 

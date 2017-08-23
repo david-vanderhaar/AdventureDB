@@ -19949,6 +19949,20 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
@@ -20063,6 +20077,18 @@ exports.default = {
       } //end switch
     },
     //end quick class
+
+    battleManual: function battleManual(sb1Action) {
+      this.victory = 0;
+      if (this.sb1[sb1Action.name] > 0) {
+        var sb2Action = this.getRandomAction(0, 5, this.sb2);
+        this.compareActions(sb1Action, sb2Action);
+        this.victoryCheck(this.sb1, this.sb2);
+      } else {
+        console.log('Cannot perform this action');
+      }
+    },
+    //end battleManual
 
     battle: function battle() {
 
@@ -20306,13 +20332,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('h5', {
-    staticClass: "white-text"
-  }, [_vm._v(_vm._s(_vm.sbClassName[1]))]), _vm._v(" "), _c('a', {
-    staticClass: "dropdown-button btn",
+    staticClass: "white-text dropdown-button",
     attrs: {
       "data-activates": "dropdown1"
     }
-  }, [_vm._v("Quick Class")]), _vm._v(" "), _c('ul', {
+  }, [_vm._v(_vm._s(_vm.sbClassName[1]))]), _vm._v(" "), _c('ul', {
     staticClass: "dropdown-content",
     attrs: {
       "id": "dropdown1"
@@ -20370,7 +20394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [(_vm.sb1.stamina > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 blue darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20389,7 +20413,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "sb1S",
       "type": "number",
-      "active": ""
+      "selected": ""
     },
     domProps: {
       "value": (_vm.sb1.stamina)
@@ -20401,7 +20425,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.water > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 blue darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20427,7 +20451,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.defense > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 green darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20456,7 +20480,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.earth > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 green darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20482,7 +20506,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.attack > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 orange darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20511,7 +20535,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb1.lightning > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 orange darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20536,18 +20560,102 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb1.lightning = $event.target.value
       }
     }
-  })])]) : _vm._e()])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'stamina',
+          type: 'physical',
+          power: 0,
+          position: 0
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.stamina))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'defense',
+          type: 'physical',
+          power: 0,
+          position: 1
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.defense))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'attack',
+          type: 'physical',
+          power: 0,
+          position: 2
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.attack))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'water',
+          type: 'magical',
+          power: 0,
+          position: 3
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.water))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'earth',
+          type: 'magical',
+          power: 0,
+          position: 4
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.earth))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'lightning',
+          type: 'magical',
+          power: 0,
+          position: 5
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb1.lightning))])])])]), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('h5', {
-    staticClass: "white-text"
-  }, [_vm._v(_vm._s(_vm.sbClassName[2]))]), _vm._v(" "), _c('a', {
-    staticClass: "dropdown-button btn",
+    staticClass: "white-text dropdown-button",
     attrs: {
       "data-activates": "dropdown2"
     }
-  }, [_vm._v("Quick Class")]), _vm._v(" "), _c('ul', {
+  }, [_vm._v(_vm._s(_vm.sbClassName[2]))]), _vm._v(" "), _c('ul', {
     staticClass: "dropdown-content",
     attrs: {
       "id": "dropdown2"
@@ -20605,7 +20713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [(_vm.sb2.stamina > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 blue darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20636,7 +20744,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.water > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 blue darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20662,7 +20770,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.defense > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 green darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20691,7 +20799,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.earth > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 green darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20717,7 +20825,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.attack > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 orange darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20746,7 +20854,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]) : _vm._e(), _vm._v(" "), (_vm.sb2.lightning > 0) ? _c('div', {
-    staticClass: "col s4"
+    staticClass: "col s4 orange darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -20771,7 +20879,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.lightning = $event.target.value
       }
     }
-  })])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
+  })])]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue"
+  }, [_vm._v(_vm._s(_vm.sb2.stamina))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green"
+  }, [_vm._v(_vm._s(_vm.sb2.defense))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange"
+  }, [_vm._v(_vm._s(_vm.sb2.attack))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue"
+  }, [_vm._v(_vm._s(_vm.sb2.water))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green"
+  }, [_vm._v(_vm._s(_vm.sb2.earth))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange"
+  }, [_vm._v(_vm._s(_vm.sb2.lightning))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
