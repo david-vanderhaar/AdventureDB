@@ -69,6 +69,7 @@
                   <div class="col s4"><a @click="battleManual({name: 'earth', type: 'magical', power: 0, position: 4})" class="btn waves-light waves-effect green">{{sb1.earth}}</a></div>
                   <div class="col s4"><a @click="battleManual({name: 'lightning', type: 'magical', power: 0, position: 5})" class="btn waves-light waves-effect orange">{{sb1.lightning}}</a></div>
                 </div>
+                  <skill></skill>
             </div>
             <div class="col s6">
                 <h5 class="white-text">Stat Build Two</h5>
@@ -178,7 +179,14 @@
 </template>
 
 <script>
+
+    import Skill from './Skill.vue';
+
     export default {
+        components: {
+          'skill': Skill
+        },
+
         data() {
             return {
                 simCount: 10000,
@@ -523,6 +531,17 @@
                             this.victory = 0;
                         }
                 }, //end victory check
+
+                spendStatOnSkill(targetSkillStat) {
+                  console.log(targetSkillStat);
+                  // if (targetSkillStat) {
+                  //   targetSkillStat = false;
+                  //   console.log(targetSkillStat);
+                  // } else {
+                  //   targetSkillStat = true;
+                  //   console.log(targetSkillStat);
+                  // }
+                },//end spend stat on skill
         }, // end methods
 
 
