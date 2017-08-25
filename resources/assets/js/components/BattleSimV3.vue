@@ -69,7 +69,13 @@
                   <div class="col s4"><a @click="battleManual({name: 'earth', type: 'magical', power: 0, position: 4})" class="btn waves-light waves-effect green">{{sb1.earth}}</a></div>
                   <div class="col s4"><a @click="battleManual({name: 'lightning', type: 'magical', power: 0, position: 5})" class="btn waves-light waves-effect orange">{{sb1.lightning}}</a></div>
                 </div>
-                  <skill></skill>
+                  <skill title="Furious Attack" stat-one="attack" stat-two="attack" stat-type="attack" actionObject='{"name": "attack", "type": "physical", "power": 0, "powerAddedFromSkill": 2, "statRegenerated": "attack", "statRegeneratedAmount": 0, "skillStatOne": "attack", "skillStatTwo": "attack", "position": 2}'>
+                    <p>This skill requires two attack actions, but it packs a punch!</p>
+                  </skill>
+
+                  <skill title="Shield Bash" stat-one="attack" stat-two="defense" stat-type="attack" actionObject='{"name": "attack", "type": "physical", "power": 0, "powerAddedFromSkill": 1, "statProtected": "attack", "skillStatOne": "attack", "skillStatTwo": "defense", "position": 2}'>
+                    <p>Strike the enemy while maintaining your defenses against an enemy attack action!</p>
+                  </skill>
             </div>
             <div class="col s6">
                 <h5 class="white-text">Stat Build Two</h5>
@@ -310,6 +316,13 @@
                   }
                 },//end battleManual
 
+                battleManualWithSkills(sb1Action) {
+                  this.victory = 0;
+                    let sb2Action = this.getRandomAction(0,5, this.sb2);
+                    this.compareActionsWithSkill(JSON.parse(sb1Action), sb2Action);
+                    this.victoryCheck(this.sb1, this.sb2);
+                },//end battleManualWithSkills
+
                 battle() {
 
                     this.simulating = true;
@@ -435,20 +448,19 @@
                   if (action1.type == 'physical') {
                     action1.power = 1;
                   } else if (action1.type == 'magical'){
-                    // action1.power = this.sb1[action1.name];
                     action1.power = 2;
                   }
 
                   if (action2.type == 'physical') {
                     action2.power = 1;
                   } else if (action2.type == 'magical'){
-                    // action2.power = this.sb2[action2.name];
                     action2.power = 2;
                   }
 
                   //stamina->defense->attack->water->earth->lightning->
                   switch (actionDistance) { //relative to action1
                     case 0:
+                    case 3:
                       //It's a tie
 
                       //Exchange of Power
@@ -465,37 +477,127 @@
                     break;
 
                     case 1:
-                      //It's a win
-                      this.sb2[action2.name] -= action1.power;
-                    break;
-
-                    case 2:
-                      //It's a loss
-                      this.sb1[action1.name] -= action2.power;
-                    break;
-
-                    case 3:
-                      //It's a tie
-
-                      this.sb1[action1.name] -= action2.power;
-                      this.sb2[action2.name] -= action1.power;
-
-                      // this.sb1[action1.name] -= action1.power;
-                      // this.sb2[action2.name] -= action2.power;
-
-                      // this.sb1[action1.name] -= 1;
-                      // this.sb2[action2.name] -= 1;
-                    break;
                     case 4:
                       //It's a win
                       this.sb2[action2.name] -= action1.power;
                     break;
 
+                    case 2:
                     case 5:
                       //It's a loss
                       this.sb1[action1.name] -= action2.power;
                     break;
+                  }
 
+                  // console.log(action1.name, '||', action2.name);
+                  // console.log(actionDistance);
+                  // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+                  // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+
+                }, //end compareActions
+
+                compareActionsWithSkill(action1, action2) {
+                  /*action1 should be passed in as object as follows
+                  * {name: 'lightning', type: 'magical', power: 0, powerAddedFromSkill: 1, statRegenerated: 'water', statRegeneratedAmount: 1, skillStatOne: 'lightning', skillStatTwo: 'water',  position: 5}
+                  */
+                  //Initialize find distance vars
+                  let actionDistance = 0;
+
+                  let action1Measure = action1.position;
+
+                  while (action1Measure != action2.position) {
+                    
+                      if ((action1Measure + 1) > 5) { //check if action1Measure needs to wrap back around to 0 in the circle of actions
+                        action1Measure = 0;
+                      } else {
+                        action1Measure += 1;
+                      }
+                      actionDistance += 1;                    
+ 
+                  }
+
+                  //we have finished calculatin action distance, we can now determine what happens
+                  //put actionDistance switch here                  
+
+                  //Transform Power 
+                  if (action1.type == 'physical') {
+                    action1.power = 1;
+                  } else if (action1.type == 'magical'){
+                    action1.power = 2;
+                  }
+
+                  if (action2.type == 'physical') {
+                    action2.power = 1;
+                  } else if (action2.type == 'magical'){
+                    action2.power = 2;
+                  }
+
+                  //stamina->defense->attack->water->earth->lightning->
+                  switch (actionDistance) { //relative to action1
+                    case 0:
+                    case 3:
+                      //It's a tie
+
+                      //Exchange of Power
+                      this.sb1[action1.name] -= action2.power;
+                      this.sb2[action2.name] -= action1.power;
+
+                    
+                        //Skills Activate
+                        if (action1.statRegenerated){
+                          this.sb1[action1.statRegenerated] += action1.statRegeneratedAmount;
+                        }
+
+                        if (action1.powerAddedFromSkill) {
+                          this.sb2[action2.name] -= action1.powerAddedFromSkill;
+                        }
+
+                        if (action1.statProtected) {
+                          // if (action2.name == action1.statProtected) { //if protected stat was targeted, protect it
+                            this.sb1[action1.name] += action2.power + 1;
+                          // }
+                        }
+                      
+
+                      //Self Harm
+                      // this.sb1[action1.name] -= action1.power;
+                      // this.sb2[action2.name] -= action2.power;
+
+                      //Arbitrary Loss
+                      // this.sb1[action1.name] -= 1;
+                      // this.sb2[action2.name] -= 1;
+                    break;
+
+                    case 1:
+                    case 4:
+                      //It's a win
+                      this.sb2[action2.name] -= action1.power;
+
+                        //Skills Activate
+                        if (action1.statRegenerated){
+                          this.sb1[action1.statRegenerated] += action1.statRegeneratedAmount;
+                        }
+
+                        if (action1.powerAddedFromSkill) {
+                          this.sb2[action2.name] -= action1.powerAddedFromSkill;
+                        }
+
+                        //Regain stat spent on skill
+                        this.sb1[action1.skillStatOne] += 1;
+                        this.sb1[action1.skillStatTwo] += 1;
+                    break;
+
+                    case 2:
+                    case 5:
+                      //It's a loss
+                      this.sb1[action1.name] -= action2.power;
+
+                      if (action1.statProtected) {
+                          // if (action2.name == action1.statProtected) { //if protected stat was targeted, protect it
+                            this.sb1[action1.name] += action2.power;
+                          // }
+                        }
+                    break;
                   }
 
                   // console.log(action1.name, '||', action2.name);
@@ -532,16 +634,6 @@
                         }
                 }, //end victory check
 
-                spendStatOnSkill(targetSkillStat) {
-                  console.log(targetSkillStat);
-                  // if (targetSkillStat) {
-                  //   targetSkillStat = false;
-                  //   console.log(targetSkillStat);
-                  // } else {
-                  //   targetSkillStat = true;
-                  //   console.log(targetSkillStat);
-                  // }
-                },//end spend stat on skill
         }, // end methods
 
 

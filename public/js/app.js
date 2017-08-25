@@ -19921,6 +19921,14 @@ exports.default = {
     },
     //end battleManual
 
+    battleManualWithSkills: function battleManualWithSkills(sb1Action) {
+      this.victory = 0;
+      var sb2Action = this.getRandomAction(0, 5, this.sb2);
+      this.compareActionsWithSkill(JSON.parse(sb1Action), sb2Action);
+      this.victoryCheck(this.sb1, this.sb2);
+    },
+    //end battleManualWithSkills
+
     battle: function battle() {
 
       this.simulating = true;
@@ -20042,20 +20050,19 @@ exports.default = {
       if (action1.type == 'physical') {
         action1.power = 1;
       } else if (action1.type == 'magical') {
-        // action1.power = this.sb1[action1.name];
         action1.power = 2;
       }
 
       if (action2.type == 'physical') {
         action2.power = 1;
       } else if (action2.type == 'magical') {
-        // action2.power = this.sb2[action2.name];
         action2.power = 2;
       }
 
       //stamina->defense->attack->water->earth->lightning->
       switch (actionDistance) {//relative to action1
         case 0:
+        case 3:
           //It's a tie
 
           //Exchange of Power
@@ -20072,37 +20079,125 @@ exports.default = {
           break;
 
         case 1:
-          //It's a win
-          this.sb2[action2.name] -= action1.power;
-          break;
-
-        case 2:
-          //It's a loss
-          this.sb1[action1.name] -= action2.power;
-          break;
-
-        case 3:
-          //It's a tie
-
-          this.sb1[action1.name] -= action2.power;
-          this.sb2[action2.name] -= action1.power;
-
-          // this.sb1[action1.name] -= action1.power;
-          // this.sb2[action2.name] -= action2.power;
-
-          // this.sb1[action1.name] -= 1;
-          // this.sb2[action2.name] -= 1;
-          break;
         case 4:
           //It's a win
           this.sb2[action2.name] -= action1.power;
           break;
 
+        case 2:
         case 5:
           //It's a loss
           this.sb1[action1.name] -= action2.power;
           break;
+      }
 
+      // console.log(action1.name, '||', action2.name);
+      // console.log(actionDistance);
+      // console.log('s: ' + this.sb1.stamina, 'd: ' + this.sb1.defense, 'a: ' + this.sb1.attack, 'w: ' + this.sb1.water, 'e: ' + this.sb1.earth, 'l: ' + this.sb1.lightning);
+      // console.log('s: ' + this.sb2.stamina, 'd: ' + this.sb2.defense, 'a: ' + this.sb2.attack, 'w: ' + this.sb2.water, 'e: ' + this.sb2.earth, 'l: ' + this.sb2.lightning);
+    },
+    //end compareActions
+
+    compareActionsWithSkill: function compareActionsWithSkill(action1, action2) {
+      /*action1 should be passed in as object as follows
+      * {name: 'lightning', type: 'magical', power: 0, powerAddedFromSkill: 1, statRegenerated: 'water', statRegeneratedAmount: 1, skillStatOne: 'lightning', skillStatTwo: 'water',  position: 5}
+      */
+      //Initialize find distance vars
+      var actionDistance = 0;
+
+      var action1Measure = action1.position;
+
+      while (action1Measure != action2.position) {
+
+        if (action1Measure + 1 > 5) {
+          //check if action1Measure needs to wrap back around to 0 in the circle of actions
+          action1Measure = 0;
+        } else {
+          action1Measure += 1;
+        }
+        actionDistance += 1;
+      }
+
+      //we have finished calculatin action distance, we can now determine what happens
+      //put actionDistance switch here                  
+
+      //Transform Power 
+      if (action1.type == 'physical') {
+        action1.power = 1;
+      } else if (action1.type == 'magical') {
+        action1.power = 2;
+      }
+
+      if (action2.type == 'physical') {
+        action2.power = 1;
+      } else if (action2.type == 'magical') {
+        action2.power = 2;
+      }
+
+      //stamina->defense->attack->water->earth->lightning->
+      switch (actionDistance) {//relative to action1
+        case 0:
+        case 3:
+          //It's a tie
+
+          //Exchange of Power
+          this.sb1[action1.name] -= action2.power;
+          this.sb2[action2.name] -= action1.power;
+
+          //Skills Activate
+          if (action1.statRegenerated) {
+            this.sb1[action1.statRegenerated] += action1.statRegeneratedAmount;
+          }
+
+          if (action1.powerAddedFromSkill) {
+            this.sb2[action2.name] -= action1.powerAddedFromSkill;
+          }
+
+          if (action1.statProtected) {
+            // if (action2.name == action1.statProtected) { //if protected stat was targeted, protect it
+            this.sb1[action1.name] += action2.power + 1;
+            // }
+          }
+
+          //Self Harm
+          // this.sb1[action1.name] -= action1.power;
+          // this.sb2[action2.name] -= action2.power;
+
+          //Arbitrary Loss
+          // this.sb1[action1.name] -= 1;
+          // this.sb2[action2.name] -= 1;
+          break;
+
+        case 1:
+        case 4:
+          //It's a win
+          this.sb2[action2.name] -= action1.power;
+
+          //Skills Activate
+          if (action1.statRegenerated) {
+            this.sb1[action1.statRegenerated] += action1.statRegeneratedAmount;
+          }
+
+          if (action1.powerAddedFromSkill) {
+            this.sb2[action2.name] -= action1.powerAddedFromSkill;
+          }
+
+          //Regain stat spent on skill
+          this.sb1[action1.skillStatOne] += 1;
+          this.sb1[action1.skillStatTwo] += 1;
+          break;
+
+        case 2:
+        case 5:
+          //It's a loss
+          this.sb1[action1.name] -= action2.power;
+
+          if (action1.statProtected) {
+            // if (action2.name == action1.statProtected) { //if protected stat was targeted, protect it
+            this.sb1[action1.name] += action2.power;
+            // }
+          }
+          break;
       }
 
       // console.log(action1.name, '||', action2.name);
@@ -20130,18 +20225,6 @@ exports.default = {
       } else {
         this.victory = 0;
       }
-    },
-    //end victory check
-
-    spendStatOnSkill: function spendStatOnSkill(targetSkillStat) {
-      console.log(targetSkillStat);
-      // if (targetSkillStat) {
-      //   targetSkillStat = false;
-      //   console.log(targetSkillStat);
-      // } else {
-      //   targetSkillStat = true;
-      //   console.log(targetSkillStat);
-      // }
     }
   }, // end methods
 
@@ -20160,6 +20243,12 @@ exports.default = {
     });
   }
 }; //
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20414,8 +20503,70 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
+    props: ['title', 'statOne', 'statTwo', 'statType', 'actionObject'],
+    data: function data() {
+        return {
+            statOnePurchased: false, //represents if the required stats has been selected
+            statTwoPurchased: false //represents if the required stats has been selected
+        };
+    },
+    //end data
+
+    computed: {
+        skillActive: function skillActive() {
+            //determines whether this skill is active
+            if (this.statOnePurchased && this.statTwoPurchased == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, //end computed
+    methods: {
+        clickHandler: function clickHandler() {
+            this.$parent.battleManualWithSkills(this.actionObject);
+            //reset stat Purchases
+            this.statOnePurchased = false;
+            this.statTwoPurchased = false;
+        },
+        //end clickHandler
+        spendStatOnSkill: function spendStatOnSkill(skillStatPurchased, skillStatPurchasedId) {
+            switch (skillStatPurchasedId) {//checks whether this is statOne or statTwo
+                case 1:
+
+                    if (!skillStatPurchased && this.$parent.sb1[this.statOne] > 0) {
+                        //toggles whether the required stat has been selected (player spend stat point)
+                        skillStatPurchased = true;
+                        this.statOnePurchased = skillStatPurchased;
+                        this.$parent.sb1[this.statOne] -= 1;
+                    } else if (skillStatPurchased) {
+                        skillStatPurchased = false;
+                        this.statOnePurchased = skillStatPurchased;
+                        this.$parent.sb1[this.statOne] += 1;
+                    }
+
+                    break;
+
+                case 2:
+                    if (!skillStatPurchased && this.$parent.sb1[this.statTwo] > 0) {
+                        skillStatPurchased = true;
+                        this.statTwoPurchased = skillStatPurchased;
+                        this.$parent.sb1[this.statTwo] -= 1;
+                    } else if (skillStatPurchased) {
+                        skillStatPurchased = false;
+                        this.statTwoPurchased = skillStatPurchased;
+                        this.$parent.sb1[this.statTwo] += 1;
+                    }
+                    break;
+            } //end switch
+        }
+    }, //end methods
     mounted: function mounted() {
         console.log('Component mounted.');
     }
@@ -20426,34 +20577,68 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12"
   }, [_c('div', {
-    staticClass: "card orange darken-3"
+    staticClass: "card darken-3",
+    class: {
+      blue: _vm.statType == 'stamina' || _vm.statType == 'water',
+        green: _vm.statType == 'defense' || _vm.statType == 'earth',
+        orange: _vm.statType == 'attack' || _vm.statType == 'lightning'
+    }
   }, [_c('div', {
     staticClass: "card-content white-text"
   }, [_c('span', {
     staticClass: "card-title"
-  }, [_vm._v("Furious Defense")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s6"
   }, [_c('button', {
-    staticClass: "btn grey"
-  }, [_vm._v("Attack")])]), _vm._v(" "), _c('div', {
+    staticClass: "btn",
+    class: {
+      teal: _vm.statOnePurchased, grey: !_vm.statOnePurchased
+    },
+    on: {
+      "click": function($event) {
+        _vm.spendStatOnSkill(_vm.statOnePurchased, 1)
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.statOne))])]), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('button', {
-    staticClass: "btn grey"
-  }, [_vm._v("Attack")])])]), _vm._v(" "), _c('p', [_vm._v("This skill requires two attack actions, but it does serious damage!")])]), _vm._v(" "), _c('div', {
-    staticClass: "card-action"
+    staticClass: "btn",
+    class: {
+      teal: _vm.statTwoPurchased, grey: !_vm.statTwoPurchased
+    },
+    on: {
+      "click": function($event) {
+        _vm.spendStatOnSkill(_vm.statTwoPurchased, 2)
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.statTwo))])])]), _vm._v(" "), _vm._t("default")], 2), _vm._v(" "), _c('div', {
+    staticClass: "card-action center"
+  }, [_c('transition', {
+    attrs: {
+      "name": "fade"
+    }
   }, [_c('button', {
-    staticClass: "btn white-text"
-  }, [_vm._v("Use Skill")])])])])])
-}]}
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.skillActive),
+      expression: "skillActive"
+    }],
+    staticClass: "btn white-text",
+    on: {
+      "click": function($event) {
+        _vm.clickHandler()
+      }
+    }
+  }, [_vm._v("Use Skill")])])], 1)])])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -20790,7 +20975,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })
       }
     }
-  }, [_vm._v(_vm._s(_vm.sb1.lightning))])])]), _vm._v(" "), _c('skill')], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1.lightning))])])]), _vm._v(" "), _c('skill', {
+    attrs: {
+      "title": "Furious Attack",
+      "stat-one": "attack",
+      "stat-two": "attack",
+      "stat-type": "attack",
+      "actionObject": "{\"name\": \"attack\", \"type\": \"physical\", \"power\": 0, \"powerAddedFromSkill\": 2, \"statRegenerated\": \"attack\", \"statRegeneratedAmount\": 0, \"skillStatOne\": \"attack\", \"skillStatTwo\": \"attack\", \"position\": 2}"
+    }
+  }, [_c('p', [_vm._v("This skill requires two attack actions, but it packs a punch!")])]), _vm._v(" "), _c('skill', {
+    attrs: {
+      "title": "Shield Bash",
+      "stat-one": "attack",
+      "stat-two": "defense",
+      "stat-type": "attack",
+      "actionObject": "{\"name\": \"attack\", \"type\": \"physical\", \"power\": 0, \"powerAddedFromSkill\": 1, \"statProtected\": \"attack\", \"skillStatOne\": \"attack\", \"skillStatTwo\": \"defense\", \"position\": 2}"
+    }
+  }, [_c('p', [_vm._v("Strike the enemy while maintaining your defenses against an enemy attack action!")])])], 1), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
