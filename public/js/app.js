@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@
 
 
 var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(18);
+var isBuffer = __webpack_require__(19);
 
 /*global toString:true*/
 
@@ -572,7 +572,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(46)
+var listToStyles = __webpack_require__(47)
 
 /*
 type StyleObject = {
@@ -781,7 +781,7 @@ function applyToTag (styleElement, obj) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(21);
+var normalizeHeaderName = __webpack_require__(22);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -871,13 +871,13 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(18);
 
 /***/ }),
 /* 6 */
@@ -905,12 +905,12 @@ module.exports = function bind(fn, thisArg) {
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(22);
-var buildURL = __webpack_require__(24);
-var parseHeaders = __webpack_require__(25);
-var isURLSameOrigin = __webpack_require__(26);
+var settle = __webpack_require__(23);
+var buildURL = __webpack_require__(25);
+var parseHeaders = __webpack_require__(26);
+var isURLSameOrigin = __webpack_require__(27);
 var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1007,7 +1007,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(28);
+      var cookies = __webpack_require__(29);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1091,7 +1091,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(23);
+var enhanceError = __webpack_require__(24);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -3664,20 +3664,60 @@ if (inBrowser && window.Vue) {
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(13);
-module.exports = __webpack_require__(73);
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(70),
+  /* template */
+  __webpack_require__(71),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/Skill.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Skill.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1d4ac28b", Component.options)
+  } else {
+    hotAPI.reload("data-v-1d4ac28b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
 
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(14);
+module.exports = __webpack_require__(78);
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-__webpack_require__(14);
+__webpack_require__(15);
 
-var _routes = __webpack_require__(36);
+var _routes = __webpack_require__(37);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -3701,13 +3741,13 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _vue = __webpack_require__(15);
+var _vue = __webpack_require__(16);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -3756,7 +3796,7 @@ if (token) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13848,10 +13888,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 var g;
@@ -13878,7 +13918,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13886,7 +13926,7 @@ module.exports = g;
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
-var Axios = __webpack_require__(19);
+var Axios = __webpack_require__(20);
 var defaults = __webpack_require__(4);
 
 /**
@@ -13921,14 +13961,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(10);
-axios.CancelToken = __webpack_require__(34);
+axios.CancelToken = __webpack_require__(35);
 axios.isCancel = __webpack_require__(9);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(35);
+axios.spread = __webpack_require__(36);
 
 module.exports = axios;
 
@@ -13937,7 +13977,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 /*!
@@ -13964,7 +14004,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13972,10 +14012,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(4);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(29);
-var dispatchRequest = __webpack_require__(30);
-var isAbsoluteURL = __webpack_require__(32);
-var combineURLs = __webpack_require__(33);
+var InterceptorManager = __webpack_require__(30);
+var dispatchRequest = __webpack_require__(31);
+var isAbsoluteURL = __webpack_require__(33);
+var combineURLs = __webpack_require__(34);
 
 /**
  * Create a new instance of Axios
@@ -14057,7 +14097,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -14247,7 +14287,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14266,7 +14306,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14299,7 +14339,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14327,7 +14367,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14402,7 +14442,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14446,7 +14486,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14521,7 +14561,7 @@ module.exports = (
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14564,7 +14604,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14624,7 +14664,7 @@ module.exports = (
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14683,14 +14723,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(31);
+var transformData = __webpack_require__(32);
 var isCancel = __webpack_require__(9);
 var defaults = __webpack_require__(4);
 
@@ -14769,7 +14809,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14796,7 +14836,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14817,7 +14857,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14838,7 +14878,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14902,7 +14942,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14936,7 +14976,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14954,25 +14994,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var routes = [{
 	path: '/',
-	component: __webpack_require__(37)
+	component: __webpack_require__(38)
 }, {
 	path: '/create-adventurer',
-	component: __webpack_require__(40)
+	component: __webpack_require__(41)
 }, {
 	path: '/map-dashboard',
-	component: __webpack_require__(43)
+	component: __webpack_require__(44)
 }, {
 	path: '/engaged',
-	component: __webpack_require__(52)
+	component: __webpack_require__(53)
 }, {
 	path: '/battlesim',
-	component: __webpack_require__(55)
+	component: __webpack_require__(56)
 }, {
 	path: '/battlesimv2',
-	component: __webpack_require__(60)
+	component: __webpack_require__(61)
 }, {
 	path: '/battlesimv3',
-	component: __webpack_require__(65)
+	component: __webpack_require__(66)
+}, {
+	path: '/battlesimv4',
+	component: __webpack_require__(73)
 }];
 
 exports.default = new _vueRouter2.default({
@@ -14981,15 +15024,15 @@ exports.default = new _vueRouter2.default({
 });
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(38),
-  /* template */
   __webpack_require__(39),
+  /* template */
+  __webpack_require__(40),
   /* styles */
   null,
   /* scopeId */
@@ -15021,7 +15064,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15153,7 +15196,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -15302,15 +15345,15 @@ if (false) {
 }
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(41),
-  /* template */
   __webpack_require__(42),
+  /* template */
+  __webpack_require__(43),
   /* styles */
   null,
   /* scopeId */
@@ -15342,7 +15385,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15581,7 +15624,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -15805,19 +15848,19 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(44)
+  __webpack_require__(45)
 }
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(47),
+  __webpack_require__(48),
   /* template */
-  __webpack_require__(51),
+  __webpack_require__(52),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -15849,13 +15892,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(45);
+var content = __webpack_require__(46);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -15875,7 +15918,7 @@ if(false) {
 }
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -15889,7 +15932,7 @@ exports.push([module.i, "\n#map {\n      height: 70vh;\n}\n#battle-modal {\n    
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports) {
 
 /**
@@ -15922,7 +15965,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15932,11 +15975,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mapIcons = __webpack_require__(48);
+var _mapIcons = __webpack_require__(49);
 
 var _mapIcons2 = _interopRequireDefault(_mapIcons);
 
-var _adventurer = __webpack_require__(49);
+var _adventurer = __webpack_require__(50);
 
 var _adventurer2 = _interopRequireDefault(_adventurer);
 
@@ -16314,7 +16357,7 @@ exports.default = {
 }; //import icons for map objects
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16356,7 +16399,7 @@ var mapIcon = {
 exports.default = mapIcon;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16366,7 +16409,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _mapStyles = __webpack_require__(50);
+var _mapStyles = __webpack_require__(51);
 
 var _mapStyles2 = _interopRequireDefault(_mapStyles);
 
@@ -16993,7 +17036,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17444,7 +17487,7 @@ var mapStyles = {
 exports.default = mapStyles;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -18028,15 +18071,15 @@ if (false) {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(53),
-  /* template */
   __webpack_require__(54),
+  /* template */
+  __webpack_require__(55),
   /* styles */
   null,
   /* scopeId */
@@ -18068,7 +18111,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18093,7 +18136,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -18114,19 +18157,19 @@ if (false) {
 }
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(56)
+  __webpack_require__(57)
 }
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(58),
-  /* template */
   __webpack_require__(59),
+  /* template */
+  __webpack_require__(60),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -18158,13 +18201,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(57);
+var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -18184,7 +18227,7 @@ if(false) {
 }
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -18198,7 +18241,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transitio
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18419,7 +18462,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -18637,19 +18680,19 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(61)
+  __webpack_require__(62)
 }
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(63),
-  /* template */
   __webpack_require__(64),
+  /* template */
+  __webpack_require__(65),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -18681,13 +18724,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(62);
+var content = __webpack_require__(63);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -18707,7 +18750,7 @@ if(false) {
 }
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -18721,7 +18764,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transitio
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19134,7 +19177,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -19691,17 +19734,17 @@ if (false) {
 }
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(66)
+  __webpack_require__(67)
 }
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(68),
+  __webpack_require__(69),
   /* template */
   __webpack_require__(72),
   /* styles */
@@ -19735,13 +19778,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(67);
+var content = __webpack_require__(68);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -19761,7 +19804,7 @@ if(false) {
 }
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -19775,7 +19818,7 @@ exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transitio
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19785,7 +19828,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Skill = __webpack_require__(69);
+var _Skill = __webpack_require__(12);
 
 var _Skill2 = _interopRequireDefault(_Skill);
 
@@ -20428,46 +20471,6 @@ exports.default = {
 //
 //
 //
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(70),
-  /* template */
-  __webpack_require__(71),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/Skill.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Skill.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1d4ac28b", Component.options)
-  } else {
-    hotAPI.reload("data-v-1d4ac28b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ }),
 /* 70 */
@@ -21345,6 +21348,1551 @@ if (false) {
 
 /***/ }),
 /* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(74)
+}
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(76),
+  /* template */
+  __webpack_require__(77),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/dvanderhaar/personal-web/adventureDB/resources/assets/js/components/BattleSimV4.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BattleSimV4.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-112bded2", Component.options)
+  } else {
+    hotAPI.reload("data-v-112bded2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(75);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("6bd2b594", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-112bded2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV4.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-112bded2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./BattleSimV4.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _Skill = __webpack_require__(12);
+
+var _Skill2 = _interopRequireDefault(_Skill);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: {
+    'skill': _Skill2.default
+  },
+
+  data: function data() {
+    return {
+      simCount: 10000,
+      battleCounter: 0,
+      victory: 0,
+      simulating: false,
+      sb1Wins: 0,
+      sb2Wins: 0,
+      ties: 0,
+      sbClassName: {
+        1: 'Warrior',
+        2: 'Warrior'
+      },
+      sb1: {
+        stamina: 5,
+        defense: 2,
+        attack: 3,
+        finesse: 5,
+        life: 10,
+        water: 0,
+        earth: 0,
+        lightning: 0,
+        //Temp Stat Hold Overflow stats from effects
+        staminaTemp: 0,
+        defenseTemp: 0,
+        attackTemp: 0,
+        finesseTemp: 0,
+        lifeTemp: 0
+      },
+      sb2: {
+        stamina: 5,
+        defense: 2,
+        attack: 3,
+        finesse: 5,
+        life: 10,
+        water: 0,
+        earth: 0,
+        lightning: 0,
+        //Temp Stat Hold Overflow stats from effects
+        staminaTemp: 0,
+        defenseTemp: 0,
+        attackTemp: 0,
+        finesseTemp: 0,
+        lifeTemp: 0
+      }
+
+    };
+  },
+
+
+  computed: {
+    sb1percent: function sb1percent() {
+      return Math.round(this.sb1Wins / this.battleCounter * 100);
+    },
+
+    sb2percent: function sb2percent() {
+      return Math.round(this.sb2Wins / this.battleCounter * 100);
+    },
+
+    tiesPercent: function tiesPercent() {
+      return Math.round(this.ties / this.battleCounter * 100);
+    }
+  },
+
+  methods: {
+    /*
+    * Actions
+    */
+
+    attackAction: function attackAction() {},
+    //end Attack
+
+    maneuverAction: function maneuverAction() {},
+    //end Maneuver
+
+    restAction: function restAction() {},
+    //end rest
+
+    infuseMagic: function infuseMagic() {},
+    //end infuse magic
+
+    exertStamina: function exertStamina() {},
+    //end exertStamina
+
+    quickClass: function quickClass(statbuild, classId, sbNumber) {
+      //stat caps for later use when leveling classes
+      var basePhysicalStatCap = 5;
+      var baseMagicalStatCap = 3;
+
+      for (var property in statbuild) {
+        if (statbuild.hasOwnProperty(property)) {
+          statbuild[property] = 0;
+        }
+      }
+
+      switch (classId) {
+        case 0:
+          this.sbClassName[sbNumber] = 'Warrior';
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 1:
+          this.sbClassName[sbNumber] = 'Assassin';
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 2:
+          this.sbClassName[sbNumber] = 'Warden';
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 3:
+          this.sbClassName[sbNumber] = 'Mender';
+          statbuild.water = baseMagicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 4:
+          this.sbClassName[sbNumber] = 'Astromancer';
+          statbuild.stamina = basePhysicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 5:
+          this.sbClassName[sbNumber] = 'Warlock';
+          statbuild.water = baseMagicalStatCap;
+          statbuild.defense = basePhysicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+        case 6:
+          this.sbClassName[sbNumber] = 'Druid';
+          statbuild.water = baseMagicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.attack = basePhysicalStatCap;
+          break;
+        case 7:
+          this.sbClassName[sbNumber] = 'Mage';
+          statbuild.water = baseMagicalStatCap;
+          statbuild.earth = baseMagicalStatCap;
+          statbuild.lightning = baseMagicalStatCap;
+          break;
+      } //end switch
+    },
+    //end quick class
+
+    battleManual: function battleManual(sb1Action) {
+      this.victory = 0;
+      if (this.sb1[sb1Action.name] > 0) {
+        var sb2Action = this.getRandomAction(0, 5, this.sb2);
+        this.compareActions(sb1Action, sb2Action);
+        this.victoryCheck(this.sb1, this.sb2);
+      } else {
+        console.log('Cannot perform this action');
+      }
+    },
+    //end battleManual
+
+    battle: function battle() {
+
+      this.simulating = true;
+
+      this.battleCounter = 0;
+      this.sb1Wins = 0;
+      this.sb2Wins = 0;
+      this.ties = 0;
+
+      // let sb1Start = this.sb1;
+      // let sb2Start = this.sb2;
+      var sb1Start = {};
+      var sb2Start = {};
+
+      Object.assign(sb1Start, this.sb1);
+      Object.assign(sb2Start, this.sb2);
+
+      while (this.battleCounter < this.simCount) {
+
+        // this.sb1 = sb1Start;
+        // this.sb2 = sb2Start;
+
+        Object.assign(this.sb1, sb1Start);
+        Object.assign(this.sb2, sb2Start);
+
+        this.victory = 0;
+
+        while (this.victory == 0) {
+          //monster selects random stat
+          var sb1Action = this.getRandomAction(0, 5, this.sb1);
+          var sb2Action = this.getRandomAction(0, 5, this.sb2);
+
+          this.compareActions(sb1Action, sb2Action);
+          this.victoryCheck(this.sb1, this.sb2);
+        } //end while
+        // console.log('------------------------------------');
+        this.battleCounter += 1;
+      } //end simCount while
+
+      // this.sb1 = sb1Start;
+      // this.sb2 = sb2Start;
+
+      Object.assign(this.sb1, sb1Start);
+      Object.assign(this.sb2, sb2Start);
+
+      this.simulating = false;
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+      // console.log('------------------------------------');
+
+    },
+    //end battle
+
+    getRandomAction: function getRandomAction(min, max, statbuild) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      var random = Math.floor(Math.random() * (max - min + 1)) + min;
+
+      var randomStat = this.selectStat(random);
+
+      if (statbuild[randomStat.name] > 0) {
+        return randomStat;
+      } else {
+        return this.getRandomAction(0, 5, statbuild);
+      }
+    },
+    //end getRandom action
+
+    selectStat: function selectStat(action) {
+      switch (action) {
+        case 0:
+          return { name: 'stamina', type: 'physical', power: 0, position: 0 };
+          break;
+
+        case 1:
+          return { name: 'defense', type: 'physical', power: 0, position: 1 };
+          break;
+
+        case 2:
+          return { name: 'attack', type: 'physical', power: 0, position: 2 };
+          break;
+
+        case 3:
+          return { name: 'water', type: 'magical', power: 0, position: 3 };
+          break;
+
+        case 4:
+          return { name: 'earth', type: 'magical', power: 0, position: 4 };
+          break;
+
+        case 5:
+          return { name: 'lightning', type: 'magical', power: 0, position: 5 };
+          break;
+      }
+    },
+    //end selectStat
+
+
+    victoryCheck: function victoryCheck(statbuild1, statbuild2) {
+      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0 && statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+
+        this.victory = 1;
+        // console.log('The Stat Builds Tie');
+        this.ties += 1;
+      } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+        this.victory = 1;
+        this.sb1Wins += 1;
+        // console.log('Stat Build One Wins!');
+      } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+        this.victory = 1;
+        this.sb2Wins += 1;
+        // console.log('Stat Build Two Wins!');
+      } else {
+        this.victory = 0;
+      }
+    }
+  }, // end methods
+
+
+  mounted: function mounted() {
+    //Initialize Dropdown
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    });
+  }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s6"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One")]), _vm._v(" "), _c('h5', {
+    staticClass: "white-text dropdown-button",
+    attrs: {
+      "data-activates": "dropdown1"
+    }
+  }, [_vm._v(_vm._s(_vm.sbClassName[1]))]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-content",
+    attrs: {
+      "id": "dropdown1"
+    }
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 0, 1)
+      }
+    }
+  }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 1, 1)
+      }
+    }
+  }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 2, 1)
+      }
+    }
+  }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 3, 1)
+      }
+    }
+  }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 4, 1)
+      }
+    }
+  }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 5, 1)
+      }
+    }
+  }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 6, 1)
+      }
+    }
+  }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb1, 7, 1)
+      }
+    }
+  }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s6 red darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1S"
+    }
+  }, [_vm._v("Life")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.life),
+      expression: "sb1.life"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb1S",
+      "type": "number",
+      "selected": ""
+    },
+    domProps: {
+      "value": (_vm.sb1.life)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.life = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 purple darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1S"
+    }
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.stamina),
+      expression: "sb1.stamina"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb1S",
+      "type": "number",
+      "selected": ""
+    },
+    domProps: {
+      "value": (_vm.sb1.stamina)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.stamina = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 blue darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1D"
+    }
+  }, [_vm._v("Finesse")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.finesse),
+      expression: "sb1.finesse"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.finesse)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.finesse = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 green darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.defense),
+      expression: "sb1.defense"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.defense)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.defense = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 orange darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1A"
+    }
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.attack),
+      expression: "sb1.attack"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.attack)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.attack = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4 blue darken-1"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.water),
+      expression: "sb1.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.water = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 green darken-1"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.earth),
+      expression: "sb1.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.earth = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 orange darken-1"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb1.lightning),
+      expression: "sb1.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb1.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb1.lightning = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Life")]), _vm._v(" "), _c('a', {
+    staticClass: "btn-large btn waves-light waves-effect red"
+  }, [_vm._v(_vm._s(_vm.sb1.life))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('a', {
+    staticClass: "btn-large btn waves-light waves-effect purple"
+  }, [_vm._v(_vm._s(_vm.sb1.stamina))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _c('a', {
+    staticClass: "btn-large btn waves-light waves-effect blue"
+  }, [_vm._v(_vm._s(_vm.sb1.water))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _c('a', {
+    staticClass: "btn-large btn waves-light waves-effect green"
+  }, [_vm._v(_vm._s(_vm.sb1.earth))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _c('a', {
+    staticClass: "btn-large btn waves-light waves-effect orange"
+  }, [_vm._v(_vm._s(_vm.sb1.lightning))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Finesse")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn-large btn waves-light waves-effect blue"
+  }, [_vm._v(_vm._s(_vm.sb1.finesse))]), _vm._v(" "), _c('button', {
+    staticClass: "btn waves-light waves-effect"
+  }, [_vm._v("Move")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn-large btn waves-light waves-effect green"
+  }, [_vm._v(_vm._s(_vm.sb1.defense))])]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _c('div', {
+    staticClass: "col s12 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn-large btn waves-light waves-effect orange"
+  }, [_vm._v(_vm._s(_vm.sb1.attack))]), _vm._v(" "), _c('button', {
+    staticClass: "btn waves-light waves-effect"
+  }, [_vm._v("Attack")])]), _vm._v(" "), _vm._m(6)])])]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+    staticClass: "col s6"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two")]), _vm._v(" "), _c('h5', {
+    staticClass: "white-text dropdown-button",
+    attrs: {
+      "data-activates": "dropdown2"
+    }
+  }, [_vm._v(_vm._s(_vm.sbClassName[2]))]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-content",
+    attrs: {
+      "id": "dropdown2"
+    }
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 0, 2)
+      }
+    }
+  }, [_vm._v("Warrior")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 1, 2)
+      }
+    }
+  }, [_vm._v("Assassin")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 2, 2)
+      }
+    }
+  }, [_vm._v("Warden")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 3, 2)
+      }
+    }
+  }, [_vm._v("Mender")])]), _vm._v(" "), _c('li', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 4, 2)
+      }
+    }
+  }, [_vm._v("Astromancer")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 5, 2)
+      }
+    }
+  }, [_vm._v("Warlock")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 6, 2)
+      }
+    }
+  }, [_vm._v("Druid")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.quickClass(_vm.sb2, 7, 2)
+      }
+    }
+  }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4 blue darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2S"
+    }
+  }, [_vm._v("Stamina")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.stamina),
+      expression: "sb2.stamina"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb2S",
+      "type": "number",
+      "selected": ""
+    },
+    domProps: {
+      "value": (_vm.sb2.stamina)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.stamina = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 green darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2D"
+    }
+  }, [_vm._v("Defense")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.defense),
+      expression: "sb2.defense"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.defense)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.defense = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 orange darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2A"
+    }
+  }, [_vm._v("Attack")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.attack),
+      expression: "sb2.attack"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.attack)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.attack = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'stamina',
+          type: 'physical',
+          power: 0,
+          position: 0
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.stamina))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'defense',
+          type: 'physical',
+          power: 0,
+          position: 1
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.defense))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'attack',
+          type: 'physical',
+          power: 0,
+          position: 2
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.attack))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s4 blue darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Water")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.water),
+      expression: "sb2.water"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.water)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.water = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 green darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Earth")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.earth),
+      expression: "sb2.earth"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.earth)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.earth = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 orange darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text"
+  }, [_vm._v("Lightning")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.lightning),
+      expression: "sb2.lightning"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.lightning)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.lightning = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect blue",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'water',
+          type: 'magical',
+          power: 0,
+          position: 3
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.water))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect green",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'earth',
+          type: 'magical',
+          power: 0,
+          position: 4
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.earth))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('a', {
+    staticClass: "btn waves-light waves-effect orange",
+    on: {
+      "click": function($event) {
+        _vm.battleManual({
+          name: 'lightning',
+          type: 'magical',
+          power: 0,
+          position: 5
+        })
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.sb2.lightning))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col s12 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Battle Sim Count")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.simCount),
+      expression: "simCount"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.simCount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.simCount = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (!_vm.simulating) ? _c('button', {
+    staticClass: "btn",
+    on: {
+      "click": function($event) {
+        _vm.battle()
+      }
+    }
+  }, [_vm._v("Simulate")]) : _vm._e(), _vm._v(" "), (_vm.simulating) ? _c('div', {
+    staticClass: "progress"
+  }, [_c('div', {
+    staticClass: "indeterminate"
+  })]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Results")]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One Victory")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text",
+    domProps: {
+      "textContent": _vm._s(_vm.sb1Wins)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two Victory")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text",
+    domProps: {
+      "textContent": _vm._s(_vm.sb2Wins)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build One Win %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.sb1percent) + "%")])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Tie %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.tiesPercent) + "%")])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 center"
+  }, [_c('h5', {
+    staticClass: "white-text"
+  }, [_vm._v("Stat Build Two Win %")]), _vm._v(" "), _c('span', {
+    staticClass: "flow-text white-text"
+  }, [_vm._v(_vm._s(_vm.sb2percent) + "%")])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('h3', {
+    staticClass: "white-text"
+  }, [_vm._v("Battle Simulation - Version 4")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row center"
+  }, [_c('div', {
+    staticClass: "col s12"
+  }, [_c('button', {
+    staticClass: "btn waves-light waves-effect"
+  }, [_vm._v("Rest")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-112bded2", module.exports)
+  }
+}
+
+/***/ }),
+/* 78 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
