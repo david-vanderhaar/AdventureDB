@@ -21457,6 +21457,8 @@ exports.default = {
       simCount: 10000,
       battleCounter: 0,
       victory: 0,
+      turn: 1,
+      turnCount: 0,
       simulating: false,
       sb1Wins: 0,
       sb2Wins: 0,
@@ -21465,6 +21467,7 @@ exports.default = {
         1: 'Warrior',
         2: 'Warrior'
       },
+      magicInfuseAmount: 4,
       sb1: {
         stamina: 5,
         defense: 2,
@@ -21479,7 +21482,12 @@ exports.default = {
         defenseTemp: 0,
         attackTemp: 0,
         finesseTemp: 0,
-        lifeTemp: 0
+        lifeTemp: 0,
+        staminaMagicTemp: 0,
+        defenseMagicTemp: 0,
+        attackMagicTemp: 0,
+        finesseMagicTemp: 0,
+        lifeMagicTemp: 0
       },
       sb2: {
         stamina: 5,
@@ -21495,7 +21503,12 @@ exports.default = {
         defenseTemp: 0,
         attackTemp: 0,
         finesseTemp: 0,
-        lifeTemp: 0
+        lifeTemp: 0,
+        staminaMagicTemp: 0,
+        defenseMagicTemp: 0,
+        attackMagicTemp: 0,
+        finesseMagicTemp: 0,
+        lifeMagicTemp: 0
       }
 
     };
@@ -21513,6 +21526,26 @@ exports.default = {
 
     tiesPercent: function tiesPercent() {
       return Math.round(this.ties / this.battleCounter * 100);
+    },
+
+    sb1EndTurn: function sb1EndTurn() {
+      return {
+        stamina: this.sb1.stamina + this.sb1.staminaTemp + this.sb1.staminaMagicTemp,
+        defense: this.sb1.defense + this.sb1.defenseTemp + this.sb1.defenseMagicTemp,
+        attack: this.sb1.attack + this.sb1.attackTemp + this.sb1.attackMagicTemp,
+        finesse: this.sb1.finesse + this.sb1.finesseTemp + this.sb1.finesseMagicTemp,
+        life: this.sb1.life + this.sb1.lifeTemp + this.sb1.lifeMagicTemp
+      };
+    },
+
+    sb2EndTurn: function sb2EndTurn() {
+      return {
+        stamina: this.sb2.stamina + this.sb2.staminaTemp + this.sb2.staminaMagicTemp,
+        defense: this.sb2.defense + this.sb2.defenseTemp + this.sb2.defenseMagicTemp,
+        attack: this.sb2.attack + this.sb2.attackTemp + this.sb2.attackMagicTemp,
+        finesse: this.sb2.finesse + this.sb2.finesseTemp + this.sb2.finesseMagicTemp,
+        life: this.sb2.life + this.sb2.lifeTemp + this.sb2.lifeMagicTemp
+      };
     }
   },
 
@@ -21521,20 +21554,159 @@ exports.default = {
     * Actions
     */
 
-    attackAction: function attackAction() {},
+    attackAction: function attackAction(statbuild, statbuildEndTurn, target, targetEndTurn, endTurnBool) {
+      if (statbuild.stamina > 0) {
+        statbuild.stamina -= 1;
+        if (statbuildEndTurn.attack - targetEndTurn.defense > 0) {
+          if (targetEndTurn.defense < 0) {
+            //check for negative defense
+            target.life -= statbuildEndTurn.attack;
+            if (endTurnBool == true) {
+              //end turn
+              this.endTurn();
+            }
+          } else {
+            target.life -= statbuildEndTurn.attack - targetEndTurn.defense;
+            if (endTurnBool == true) {
+              //end turn
+              this.endTurn();
+            }
+          }
+        } else {
+          statbuild.stamina += 1;
+          console.log("Cannot get past enemy's defense");
+        }
+      } else {
+        console.log("Not enough Stamina");
+      }
+    },
     //end Attack
 
-    maneuverAction: function maneuverAction() {},
+    maneuverAction: function maneuverAction(statbuild, statbuildEndTurn, target, targetEndTurn, endTurnBool) {
+      if (statbuild.stamina > 0) {
+        statbuild.stamina -= 1;
+        target.defense -= statbuildEndTurn.finesse;
+
+        if (endTurnBool == true) {
+          this.endTurn();
+        }
+      } else {
+        console.log("Not enough Stamina");
+      }
+    },
     //end Maneuver
 
-    restAction: function restAction() {},
+    restAction: function restAction(statbuild, endTurnBool) {
+      statbuild.stamina += 1;
+      if (endTurnBool == true) {
+        this.endTurn();
+      }
+    },
     //end rest
 
-    infuseMagic: function infuseMagic() {},
+    sbActionPicker: function sbActionPicker(statbuild, statbuildEndTurn, target, targetEndTurn) {
+
+      if (statbuild.stamina < 1) {
+        //not enough stamina to act
+        this.restAction(statbuild, false);
+        console.log('ai rest');
+      } else if (statbuildEndTurn.attack > targetEndTurn.defense) {
+        this.attackAction(statbuild, statbuildEndTurn, target, targetEndTurn, false);
+        console.log('ai attack');
+      } else if (statbuildEndTurn.attack <= targetEndTurn.defense) {
+        this.maneuverAction(statbuild, statbuildEndTurn, target, targetEndTurn, false);
+        console.log('ai maneuver');
+      }
+    },
+    //end sbActionPicker
+
+    endTurn: function endTurn() {
+      //user has picked action
+      this.victoryCheck(this.sb1, this.sb2);
+
+      //bot temp stats cleared
+      this.sb2.staminaTemp = 0;
+      this.sb2.staminaMagicTemp = 0;
+      this.sb2.defenseTemp = 0;
+      this.sb2.defenseMagicTemp = 0;
+      this.sb2.attackTemp = 0;
+      this.sb2.attackMagicTemp = 0;
+      this.sb2.finesseTemp = 0;
+      this.sb2.finesseMagicTemp = 0;
+      this.sb2.lifeTemp = 0;
+      this.sb2.lifeMagicTemp = 0;
+
+      //bot picks action
+      this.sbActionPicker(this.sb2, this.sb2EndTurn, this.sb1, this.sb1EndTurn);
+
+      //bot modifies stats
+
+      this.victoryCheck(this.sb1, this.sb2);
+
+      //user temp stats cleared
+      this.sb1.staminaTemp = 0;
+      this.sb1.staminaMagicTemp = 0;
+      this.sb1.defenseTemp = 0;
+      this.sb1.defenseMagicTemp = 0;
+      this.sb1.attackTemp = 0;
+      this.sb1.attackMagicTemp = 0;
+      this.sb1.finesseTemp = 0;
+      this.sb1.finesseMagicTemp = 0;
+      this.sb1.lifeTemp = 0;
+      this.sb1.lifeMagicTemp = 0;
+      console.log("Your turn.");
+    },
+    //end endTurn
+
+    modifyStats: function modifyStats(statbuild) {},
+    //end modifyStats
+
+    pickAction: function pickAction() {},
+    //end pickAction
+
+    infuseMagic: function infuseMagic(statbuild, statInfused, magicStatUsed) {
+      if (statbuild[magicStatUsed] > 0) {
+        //check if magic stat is available
+        statbuild[statInfused] += this.magicInfuseAmount;
+        statbuild[magicStatUsed] -= 1;
+      } else {
+        console.log('Magic not available');
+      }
+    },
     //end infuse magic
 
-    exertStamina: function exertStamina() {},
+    defuseMagic: function defuseMagic(statbuild, statInfused, magicStatUsed) {
+      if (statbuild[statInfused] > 0) {
+        //check if magic stat has been used available
+        statbuild[magicStatUsed] += 1;
+        statbuild[statInfused] -= this.magicInfuseAmount;
+      } else {
+        console.log('No magic to be restored');
+      }
+    },
+    //end defuse magic
+
+    exertStamina: function exertStamina(statbuild, statExerted) {
+      if (statbuild.stamina > 0) {
+        //check if magic stat is available
+        statbuild[statExerted] += 1;
+        statbuild.stamina -= 1;
+      } else {
+        console.log('Stamina not available');
+      }
+    },
     //end exertStamina
+
+    relaxStamina: function relaxStamina(statbuild, statRelaxed) {
+      if (statbuild[statRelaxed] > 0) {
+        //check if magic stat is available
+        statbuild.stamina += 1;
+        statbuild[statRelaxed] -= 1;
+      } else {
+        console.log('No stamina to be restored');
+      }
+    },
+    //end relaxStamina
 
     quickClass: function quickClass(statbuild, classId, sbNumber) {
       //stat caps for later use when leveling classes
@@ -21711,19 +21883,19 @@ exports.default = {
 
 
     victoryCheck: function victoryCheck(statbuild1, statbuild2) {
-      if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0 && statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+      if (statbuild1.life <= 0 && statbuild2.life <= 0) {
 
         this.victory = 1;
-        // console.log('The Stat Builds Tie');
+        console.log('The Stat Builds Tie');
         this.ties += 1;
-      } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+      } else if (statbuild2.life <= 0) {
         this.victory = 1;
         this.sb1Wins += 1;
-        // console.log('Stat Build One Wins!');
-      } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+        console.log('Stat Build One Wins!');
+      } else if (statbuild1.life <= 0) {
         this.victory = 1;
         this.sb2Wins += 1;
-        // console.log('Stat Build Two Wins!');
+        console.log('Stat Build Two Wins!');
       } else {
         this.victory = 0;
       }
@@ -21745,6 +21917,18 @@ exports.default = {
     });
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -22327,13 +22511,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "white-text"
   }, [_vm._v("Life")]), _vm._v(" "), _c('a', {
     staticClass: "btn-large btn waves-light waves-effect red"
-  }, [_vm._v(_vm._s(_vm.sb1.life))])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1.life + _vm.sb1.lifeTemp + _vm.sb1.lifeMagicTemp))])]), _vm._v(" "), _c('div', {
     staticClass: "col s6 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Stamina")]), _vm._v(" "), _c('a', {
     staticClass: "btn-large btn waves-light waves-effect purple"
-  }, [_vm._v(_vm._s(_vm.sb1.stamina))])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1.stamina + _vm.sb1.staminaTemp + _vm.sb1.staminaMagicTemp))])]), _vm._v(" "), _c('div', {
     staticClass: "col s4 center"
   }, [_c('span', {
     staticClass: "white-text"
@@ -22359,35 +22543,195 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "white-text"
   }, [_vm._v("Finesse")]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.exertStamina(_vm.sb1, 'finesseTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.relaxStamina(_vm.sb1, 'finesseTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])]), _vm._v(" "), _c('div', {
     staticClass: "col s4"
   }, [_c('a', {
     staticClass: "btn-large btn waves-light waves-effect blue"
-  }, [_vm._v(_vm._s(_vm.sb1.finesse))]), _vm._v(" "), _c('button', {
-    staticClass: "btn waves-light waves-effect"
-  }, [_vm._v("Move")])]), _vm._v(" "), _vm._m(2)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1EndTurn.finesse))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.infuseMagic(_vm.sb1, 'finesseMagicTemp', 'water')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.defuseMagic(_vm.sb1, 'finesseMagicTemp', 'water')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col s12 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Defense")]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.exertStamina(_vm.sb1, 'defenseTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.relaxStamina(_vm.sb1, 'defenseTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])]), _vm._v(" "), _c('div', {
     staticClass: "col s4"
   }, [_c('a', {
     staticClass: "btn-large btn waves-light waves-effect green"
-  }, [_vm._v(_vm._s(_vm.sb1.defense))])]), _vm._v(" "), _vm._m(4)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1EndTurn.defense))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.infuseMagic(_vm.sb1, 'defenseMagicTemp', 'earth')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.defuseMagic(_vm.sb1, 'defenseMagicTemp', 'earth')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col s12 center"
   }, [_c('h5', {
     staticClass: "white-text"
   }, [_vm._v("Attack")]), _vm._v(" "), _c('div', {
     staticClass: "row"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.exertStamina(_vm.sb1, 'attackTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.relaxStamina(_vm.sb1, 'attackTemp')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])]), _vm._v(" "), _c('div', {
     staticClass: "col s4"
   }, [_c('a', {
     staticClass: "btn-large btn waves-light waves-effect orange"
-  }, [_vm._v(_vm._s(_vm.sb1.attack))]), _vm._v(" "), _c('button', {
-    staticClass: "btn waves-light waves-effect"
-  }, [_vm._v("Attack")])]), _vm._v(" "), _vm._m(6)])])]), _vm._v(" "), _vm._m(7)]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sb1EndTurn.attack))])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4"
+  }, [_c('span', {
+    staticClass: "white-text"
+  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.infuseMagic(_vm.sb1, 'attackMagicTemp', 'lightning')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
+    staticClass: "btn grey",
+    on: {
+      "click": function($event) {
+        _vm.defuseMagic(_vm.sb1, 'attackMagicTemp', 'lightning')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_down")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "row center"
+  }, [_c('div', {
+    staticClass: "col s12"
+  }, [_c('button', {
+    staticClass: "white-text dropdown-button btn-large",
+    attrs: {
+      "data-activates": "dropdownAction"
+    }
+  }, [_vm._v("Turn Action")]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-content",
+    attrs: {
+      "id": "dropdownAction"
+    }
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.attackAction(_vm.sb1, _vm.sb1EndTurn, _vm.sb2, _vm.sb2EndTurn, true)
+      }
+    }
+  }, [_vm._v("Attack")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.maneuverAction(_vm.sb1, _vm.sb1EndTurn, _vm.sb2, _vm.sb2EndTurn, true)
+      }
+    }
+  }, [_vm._v("Maneuver")])]), _vm._v(" "), _c('li', [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.restAction(_vm.sb1, true)
+      }
+    }
+  }, [_vm._v("Rest")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "col s6"
   }, [_c('h5', {
     staticClass: "white-text"
@@ -22454,7 +22798,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Mage")])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col s4 blue darken-3"
+    staticClass: "col s6 red darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb1S"
+    }
+  }, [_vm._v("Life")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.life),
+      expression: "sb2.life"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "id": "sb1S",
+      "type": "number",
+      "selected": ""
+    },
+    domProps: {
+      "value": (_vm.sb2.life)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.life = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s6 purple darken-3"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -22482,6 +22857,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.sb2.stamina = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col s4 blue darken-3"
+  }, [_c('div', {
+    staticClass: "input-field"
+  }, [_c('label', {
+    staticClass: "white-text",
+    attrs: {
+      "for": "sb2D"
+    }
+  }, [_vm._v("Finesse")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sb2.finesse),
+      expression: "sb2.finesse"
+    }],
+    staticClass: "white-text",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.sb2.finesse)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.sb2.finesse = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -22542,52 +22946,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.attack = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect blue",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'stamina',
-          type: 'physical',
-          power: 0,
-          position: 0
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.stamina))])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect green",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'defense',
-          type: 'physical',
-          power: 0,
-          position: 1
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.defense))])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect orange",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'attack',
-          type: 'physical',
-          power: 0,
-          position: 2
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.attack))])])]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col s4 blue darken-3"
+    staticClass: "col s4 blue darken-1"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -22613,7 +22975,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4 green darken-3"
+    staticClass: "col s4 green darken-1"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -22639,7 +23001,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4 orange darken-3"
+    staticClass: "col s4 orange darken-1"
   }, [_c('div', {
     staticClass: "input-field"
   }, [_c('label', {
@@ -22664,49 +23026,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.sb2.lightning = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect blue",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'water',
-          type: 'magical',
-          power: 0,
-          position: 3
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.water))])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect green",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'earth',
-          type: 'magical',
-          power: 0,
-          position: 4
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.earth))])]), _vm._v(" "), _c('div', {
-    staticClass: "col s4"
-  }, [_c('a', {
-    staticClass: "btn waves-light waves-effect orange",
-    on: {
-      "click": function($event) {
-        _vm.battleManual({
-          name: 'lightning',
-          type: 'magical',
-          power: 0,
-          position: 5
-        })
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.sb2.lightning))])])])])]), _vm._v(" "), _c('div', {
+  })])])])])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col s12 center"
@@ -22790,98 +23110,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h3', {
     staticClass: "white-text"
   }, [_vm._v("Battle Simulation - Version 4")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Exert")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col s4"
-  }, [_c('span', {
-    staticClass: "white-text"
-  }, [_vm._v("Infuse")]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_up")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn grey"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_down")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row center"
-  }, [_c('div', {
-    staticClass: "col s12"
-  }, [_c('button', {
-    staticClass: "btn waves-light waves-effect"
-  }, [_vm._v("Rest")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

@@ -79,11 +79,11 @@
                 <div class="row">
                   <div class="col s6 center">
                     <h5 class="white-text">Life</h5>
-                    <a class="btn-large btn waves-light waves-effect red">{{sb1.life}}</a>
+                    <a class="btn-large btn waves-light waves-effect red">{{sb1.life + sb1.lifeTemp + sb1.lifeMagicTemp}}</a>
                   </div>
                   <div class="col s6 center">
                     <h5 class="white-text">Stamina</h5>
-                    <a class="btn-large btn waves-light waves-effect purple">{{sb1.stamina}}</a>
+                    <a class="btn-large btn waves-light waves-effect purple">{{sb1.stamina + sb1.staminaTemp + sb1.staminaMagicTemp}}</a>
                   </div>
                   <div class="col s4 center">
                     <span class="white-text">Water</span><a class="btn-large btn waves-light waves-effect blue">{{sb1.water}}</a>
@@ -101,17 +101,17 @@
                     <div class="row">
                       <div class="col s4">
                         <span class="white-text">Exert</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="exertStamina(sb1, 'finesseTemp')"><i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="relaxStamina(sb1, 'finesseTemp')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
                       <div class="col s4">
-                        <a class="btn-large btn waves-light waves-effect blue">{{sb1.finesse}}</a>
-                        <button class="btn waves-light waves-effect">Move</button>
+                        <a class="btn-large btn waves-light waves-effect blue">{{sb1EndTurn.finesse}}</a>
+                        
                       </div>
                       <div class="col s4">
                         <span class="white-text">Infuse</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="infuseMagic(sb1, 'finesseMagicTemp', 'water')"> <i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="defuseMagic(sb1, 'finesseMagicTemp', 'water')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
                     </div>
                   </div>
@@ -120,14 +120,14 @@
                     <div class="row">
                       <div class="col s4">
                         <span class="white-text">Exert</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="exertStamina(sb1, 'defenseTemp')"> <i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="relaxStamina(sb1, 'defenseTemp')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
-                      <div class="col s4"><a class="btn-large btn waves-light waves-effect green">{{sb1.defense}}</a></div>
+                      <div class="col s4"><a class="btn-large btn waves-light waves-effect green">{{sb1EndTurn.defense}}</a></div>
                       <div class="col s4">
                         <span class="white-text">Infuse</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="infuseMagic(sb1, 'defenseMagicTemp', 'earth')"> <i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="defuseMagic(sb1, 'defenseMagicTemp', 'earth')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
                     </div>
                   </div>
@@ -136,24 +136,33 @@
                     <div class="row">
                       <div class="col s4">
                         <span class="white-text">Exert</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="exertStamina(sb1, 'attackTemp')"> <i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="relaxStamina(sb1, 'attackTemp')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
                       <div class="col s4">
-                        <a class="btn-large btn waves-light waves-effect orange">{{sb1.attack}}</a>
-                        <button class="btn waves-light waves-effect">Attack</button>
+                        <a class="btn-large btn waves-light waves-effect orange">{{sb1EndTurn.attack}}</a>
+                        
                       </div>
                       <div class="col s4">
                         <span class="white-text">Infuse</span>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_up</i></button>
-                        <button class="btn grey"> <i class="material-icons">keyboard_arrow_down</i></button>
+                        <button class="btn grey" @click="infuseMagic(sb1, 'attackMagicTemp', 'lightning')"> <i class="material-icons">keyboard_arrow_up</i></button>
+                        <button class="btn grey" @click="defuseMagic(sb1, 'attackMagicTemp', 'lightning')"> <i class="material-icons">keyboard_arrow_down</i></button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row center">
                   <div class="col s12">
-                  <button class="btn waves-light waves-effect">Rest</button>
+                    <!-- Dropdown Trigger -->
+                    <button class="white-text dropdown-button btn-large" data-activates='dropdownAction'>Turn Action</button>
+                    
+
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdownAction' class='dropdown-content'>
+                      <li><a @click="attackAction(sb1, sb1EndTurn, sb2, sb2EndTurn, true)">Attack</a></li>
+                      <li><a @click="maneuverAction(sb1, sb1EndTurn, sb2, sb2EndTurn, true)">Maneuver</a></li>
+                      <li><a @click="restAction(sb1, true)">Rest</a></li>
+                    </ul>
                   </div>
                 </div>
             </div>
@@ -175,13 +184,24 @@
                   <li><a @click="quickClass(sb2, 7, 2)">Mage</a></li>
                 </ul>
                 <div class="row">
-                  <div class="col s4 blue darken-3">
+                  <div class="col s6 red darken-3">
+                    <div class="input-field">
+                    <label for="sb1S" class="white-text">Life</label>
+                    <input id="sb1S" class="white-text" type="number" v-model="sb2.life" selected>
+                  </div>
+                  </div>
+                  <div class="col s6 purple darken-3">
                     <div class="input-field">
                     <label for="sb2S" class="white-text">Stamina</label>
                     <input id="sb2S" class="white-text" type="number" v-model="sb2.stamina" selected>
                   </div>
                   </div>
-                  
+                  <div class="col s4 blue darken-3">
+                    <div class="input-field">
+                    <label for="sb2D" class="white-text">Finesse</label>
+                    <input class="white-text" type="number" v-model="sb2.finesse">
+                  </div>
+                  </div>
                   <div class="col s4 green darken-3">
                     <div class="input-field">
                     <label for="sb2D" class="white-text">Defense</label>
@@ -195,32 +215,26 @@
                     <input class="white-text" type="number" v-model="sb2.attack">
                   </div>
                   </div>
-                  <div class="col s4"><a @click="battleManual({name: 'stamina', type: 'physical', power: 0, position: 0})" class="btn waves-light waves-effect blue">{{sb2.stamina}}</a></div>
-                  <div class="col s4"><a @click="battleManual({name: 'defense', type: 'physical', power: 0, position: 1})" class="btn waves-light waves-effect green">{{sb2.defense}}</a></div>
-                  <div class="col s4"><a @click="battleManual({name: 'attack', type: 'physical', power: 0, position: 2})" class="btn waves-light waves-effect orange">{{sb2.attack}}</a></div>
                 </div>
                 <div class="row">
-                  <div class="col s4 blue darken-3">
+                  <div class="col s4 blue darken-1">
                     <div class="input-field">
                     <label class="white-text">Water</label>
                     <input class="white-text" type="number" v-model="sb2.water">
                   </div>
                   </div>
-                  <div class="col s4 green darken-3">
+                  <div class="col s4 green darken-1">
                     <div class="input-field">
                     <label class="white-text">Earth</label>
                     <input class="white-text" type="number" v-model="sb2.earth">
                   </div>
                   </div>
-                  <div class="col s4 orange darken-3">
+                  <div class="col s4 orange darken-1">
                     <div class="input-field">
                     <label class="white-text">Lightning</label>
                     <input class="white-text" type="number" v-model="sb2.lightning">
                   </div>
                   </div>
-                  <div class="col s4"><a @click="battleManual({name: 'water', type: 'magical', power: 0, position: 3})" class="btn waves-light waves-effect blue">{{sb2.water}}</a></div>
-                  <div class="col s4"><a @click="battleManual({name: 'earth', type: 'magical', power: 0, position: 4})" class="btn waves-light waves-effect green">{{sb2.earth}}</a></div>
-                  <div class="col s4"><a @click="battleManual({name: 'lightning', type: 'magical', power: 0, position: 5})" class="btn waves-light waves-effect orange">{{sb2.lightning}}</a></div>
                 </div>
                 
             </div>
@@ -280,6 +294,8 @@
                 simCount: 10000,
                 battleCounter: 0,
                 victory: 0,
+                turn: 1,
+                turnCount: 0,
                 simulating: false,
                 sb1Wins: 0,
                 sb2Wins: 0,
@@ -288,6 +304,7 @@
                   1: 'Warrior',
                   2: 'Warrior'
                 },
+                magicInfuseAmount: 4,
                 sb1: {
                   stamina: 5,
                   defense: 2,
@@ -303,6 +320,11 @@
                   attackTemp: 0,
                   finesseTemp: 0,
                   lifeTemp: 0,
+                  staminaMagicTemp: 0,
+                  defenseMagicTemp: 0,
+                  attackMagicTemp: 0,
+                  finesseMagicTemp: 0,
+                  lifeMagicTemp: 0,
                 },
                 sb2: {
                   stamina: 5,
@@ -319,6 +341,11 @@
                   attackTemp: 0,
                   finesseTemp: 0,
                   lifeTemp: 0,
+                  staminaMagicTemp: 0,
+                  defenseMagicTemp: 0,
+                  attackMagicTemp: 0,
+                  finesseMagicTemp: 0,
+                  lifeMagicTemp: 0,
                 }
 
             }
@@ -336,6 +363,26 @@
                 tiesPercent: function () {
                   return Math.round((this.ties/this.battleCounter) * 100);
                 },
+
+                sb1EndTurn: function () {
+                  return {
+                    stamina: this.sb1.stamina + this.sb1.staminaTemp + this.sb1.staminaMagicTemp,
+                    defense: this.sb1.defense + this.sb1.defenseTemp + this.sb1.defenseMagicTemp,
+                    attack: this.sb1.attack + this.sb1.attackTemp + this.sb1.attackMagicTemp,
+                    finesse: this.sb1.finesse + this.sb1.finesseTemp + this.sb1.finesseMagicTemp,
+                    life: this.sb1.life + this.sb1.lifeTemp + this.sb1.lifeMagicTemp
+                  };
+                },
+
+                sb2EndTurn: function () {
+                  return {
+                    stamina: this.sb2.stamina + this.sb2.staminaTemp + this.sb2.staminaMagicTemp,
+                    defense: this.sb2.defense + this.sb2.defenseTemp + this.sb2.defenseMagicTemp,
+                    attack: this.sb2.attack + this.sb2.attackTemp + this.sb2.attackMagicTemp,
+                    finesse: this.sb2.finesse + this.sb2.finesseTemp + this.sb2.finesseMagicTemp,
+                    life: this.sb2.life + this.sb2.lifeTemp + this.sb2.lifeMagicTemp
+                  };
+                },
         },
 
         methods: {
@@ -343,25 +390,147 @@
                 * Actions
                 */
 
-                attackAction() {
+                attackAction(statbuild, statbuildEndTurn, target, targetEndTurn, endTurnBool) {
+                  if (statbuild.stamina > 0) {
+                    statbuild.stamina -= 1;
+                    if (statbuildEndTurn.attack - targetEndTurn.defense > 0) {
+                      if (targetEndTurn.defense < 0){ //check for negative defense
+                        target.life -= (statbuildEndTurn.attack);
+                        if (endTurnBool == true) { //end turn
+                          this.endTurn();
+                        }
+                      } else {
+                        target.life -= (statbuildEndTurn.attack - targetEndTurn.defense);
+                        if (endTurnBool == true) { //end turn
+                          this.endTurn();
+                        }
+                      }
+                      
+                    } else {
+                      statbuild.stamina += 1;
+                      console.log("Cannot get past enemy's defense");
+                    }
+                  } else {
+                    console.log("Not enough Stamina");
+                  }
 
                 },//end Attack
 
-                maneuverAction() {
+                maneuverAction(statbuild, statbuildEndTurn, target, targetEndTurn, endTurnBool) {
+                  if (statbuild.stamina > 0) {
+                    statbuild.stamina -= 1;
+                    target.defense -= statbuildEndTurn.finesse;
 
+                    if (endTurnBool == true) {
+                      this.endTurn();
+                    }
+                  } else {
+                    console.log("Not enough Stamina");
+                  }
+                  
                 },//end Maneuver
 
-                restAction() {
-
+                restAction(statbuild, endTurnBool) {
+                  statbuild.stamina += 1;
+                  if (endTurnBool == true) {
+                    this.endTurn();
+                  }
                 },//end rest
 
-                infuseMagic() {
+                sbActionPicker(statbuild, statbuildEndTurn, target, targetEndTurn) {
 
+                  if (statbuild.stamina < 1) { //not enough stamina to act
+                    this.restAction(statbuild, false);
+                    console.log('ai rest');
+                  } else if (statbuildEndTurn.attack > targetEndTurn.defense) {
+                    this.attackAction(statbuild, statbuildEndTurn, target, targetEndTurn, false);
+                    console.log('ai attack');
+                  } else if (statbuildEndTurn.attack <= targetEndTurn.defense) {
+                    this.maneuverAction(statbuild, statbuildEndTurn, target, targetEndTurn, false);
+                    console.log('ai maneuver');
+                  }
+                },//end sbActionPicker
+
+                endTurn() {
+                  //user has picked action
+                  this.victoryCheck(this.sb1, this.sb2);
+
+                  //bot temp stats cleared
+                  this.sb2.staminaTemp = 0;
+                  this.sb2.staminaMagicTemp = 0;
+                  this.sb2.defenseTemp = 0;
+                  this.sb2.defenseMagicTemp = 0;
+                  this.sb2.attackTemp = 0;
+                  this.sb2.attackMagicTemp = 0;
+                  this.sb2.finesseTemp = 0;
+                  this.sb2.finesseMagicTemp = 0;
+                  this.sb2.lifeTemp = 0;
+                  this.sb2.lifeMagicTemp = 0;
+
+                  //bot picks action
+                  this.sbActionPicker(this.sb2, this.sb2EndTurn, this.sb1, this.sb1EndTurn);
+
+                  //bot modifies stats
+                  
+                  this.victoryCheck(this.sb1, this.sb2);
+                  
+                  //user temp stats cleared
+                  this.sb1.staminaTemp = 0;
+                  this.sb1.staminaMagicTemp = 0;
+                  this.sb1.defenseTemp = 0;
+                  this.sb1.defenseMagicTemp = 0;
+                  this.sb1.attackTemp = 0;
+                  this.sb1.attackMagicTemp = 0;
+                  this.sb1.finesseTemp = 0;
+                  this.sb1.finesseMagicTemp = 0;
+                  this.sb1.lifeTemp = 0;
+                  this.sb1.lifeMagicTemp = 0;
+                  console.log("Your turn.")
+                },//end endTurn
+
+                modifyStats(statbuild) {
+
+                },//end modifyStats
+
+                pickAction() {
+
+                },//end pickAction
+
+                infuseMagic(statbuild, statInfused, magicStatUsed) {
+                  if (statbuild[magicStatUsed] > 0) { //check if magic stat is available
+                    statbuild[statInfused] += this.magicInfuseAmount;
+                    statbuild[magicStatUsed] -= 1;
+                  } else {
+                    console.log('Magic not available');
+                  }
                 },//end infuse magic
 
-                exertStamina() {
+                defuseMagic(statbuild, statInfused, magicStatUsed) {
+                  if (statbuild[statInfused] > 0) { //check if magic stat has been used available
+                    statbuild[magicStatUsed] += 1;
+                    statbuild[statInfused] -= this.magicInfuseAmount;
+                  } else {
+                    console.log('No magic to be restored');
+                  }
+                },//end defuse magic
 
+                exertStamina(statbuild, statExerted) {
+                  if (statbuild.stamina > 0) { //check if magic stat is available
+                    statbuild[statExerted] += 1;
+                    statbuild.stamina -= 1;
+                  } else {
+                    console.log('Stamina not available');
+                  }
                 },//end exertStamina
+
+                relaxStamina(statbuild, statRelaxed) {
+                  if (statbuild[statRelaxed] > 0) { //check if magic stat is available
+                    statbuild.stamina += 1;
+                    statbuild[statRelaxed] -= 1;
+                  } else {
+                    console.log('No stamina to be restored');
+                  }
+                },//end relaxStamina
 
                 quickClass(statbuild, classId, sbNumber) {
                   //stat caps for later use when leveling classes
@@ -541,26 +710,21 @@
 
 
                 victoryCheck(statbuild1, statbuild2) {
-                  if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 
-                      && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0
-                        && statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 
-                            && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+                  if (statbuild1.life <= 0 && statbuild2.life <= 0) {
 
                     this.victory = 1;
-                    // console.log('The Stat Builds Tie');
+                    console.log('The Stat Builds Tie');
                     this.ties += 1;
 
-                  } else if (statbuild2.stamina <= 0 && statbuild2.defense <= 0 && statbuild2.attack <= 0 
-                      && statbuild2.water <= 0 && statbuild2.earth <= 0 && statbuild2.lightning <= 0) {
+                  } else if (statbuild2.life <= 0) {
                           this.victory = 1;
                           this.sb1Wins += 1;
-                          // console.log('Stat Build One Wins!');
+                          console.log('Stat Build One Wins!');
 
-                        } else if (statbuild1.stamina <= 0 && statbuild1.defense <= 0 && statbuild1.attack <= 0 
-                            && statbuild1.water <= 0 && statbuild1.earth <= 0 && statbuild1.lightning <= 0) {
+                        } else if (statbuild1.life <= 0) {
                             this.victory = 1;
                             this.sb2Wins += 1;
-                            // console.log('Stat Build Two Wins!');
+                            console.log('Stat Build Two Wins!');
                         } else {
                             this.victory = 0;
                         }
