@@ -1,5 +1,15 @@
 # fantasy-caching
 
+### Initializing the Project
+cd into the adventureDB directory,
+* Start the server
+`
+php artisan serve --port=8080
+`
+* Bundle the Sass and JS
+`
+node_modules/.bin/webpack
+`
 ### What is fantasy-caching?
 
 Fantasy-chaching is an adventure game using geolocation and Google Maps APIs.
