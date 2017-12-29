@@ -207,10 +207,9 @@ $factory->state(App\Monster::class, 'awesomeInc', function (Faker\Generator $fak
 });
 
 $factory->state(App\Monster::class, 'koury', function (Faker\Generator $faker) {
-
     return [
-        'lat' => $faker->latitude($min = 36.0374809197, $max = 36.0401788803),
-        'lng' => $faker->longitude($min = -79.8347954803, $max = -79.8320975197),
+        'lat' => $faker->latitude($min = 36.0363574859, $max = 36.0431096281),
+        'lng' => $faker->longitude($min = -79.8425196688, $max = -79.8320975197),
     ];
 });
 // Treasures
@@ -381,7 +380,7 @@ $factory->state(App\Treasure::class, 'awesomeInc', function (Faker\Generator $fa
 $factory->state(App\Treasure::class, 'koury', function (Faker\Generator $faker) {
 
     return [
-        'lat' => $faker->latitude($min = 36.0374809197, $max = 36.0401788803),
-        'lng' => $faker->longitude($min = -79.8347954803, $max = -79.8320975197),
+        'lat' => $faker->latitude($min = 36.0363574859, $max = 36.0431096281),
+        'lng' => $faker->longitude($min = -79.8425196688, $max = -79.8320975197),
     ];
 });
