@@ -34,7 +34,7 @@ $factory->define(App\Adventurer::class, function (Faker\Generator $faker) {
         'treasure' => $faker->numberBetween($min = 0, $max = 5000),
         'active' => false,
         'monsters_defeated' => $faker->numberBetween($min = 0, $max = 100),
-        'user_id' => $faker->numberBetween($min = 1, $max = 2), 
+        'user_id' => $faker->numberBetween($min = 1, $max = 2),
     ];
 });
 
@@ -66,8 +66,8 @@ $factory->define(App\Monster::class, function (Faker\Generator $faker) { //defau
 });
 
 //Monster Type States
-$factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) {
+/*
 
         Monster Types
         Bear = 1,
@@ -83,8 +83,8 @@ $factory->state(App\Monster::class, 'bear', function (Faker\Generator $faker) {
     ];
 });
 
-$factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) {
+/*
 
         Monster Types
         Bear = 1,
@@ -100,8 +100,8 @@ $factory->state(App\Monster::class, 'slime', function (Faker\Generator $faker) {
     ];
 });
 
-$factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) {
+/*
 
         Monster Types
         Bear = 1,
@@ -117,7 +117,7 @@ $factory->state(App\Monster::class, 'bandit', function (Faker\Generator $faker) 
     ];
 });
 
-$factory->state(App\Monster::class, 'janine', function (Faker\Generator $faker) { 
+$factory->state(App\Monster::class, 'janine', function (Faker\Generator $faker) {
 
 
     return [
@@ -127,7 +127,7 @@ $factory->state(App\Monster::class, 'janine', function (Faker\Generator $faker) 
     ];
 });
 
-$factory->state(App\Monster::class, 'elton', function (Faker\Generator $faker) { 
+$factory->state(App\Monster::class, 'elton', function (Faker\Generator $faker) {
 
 
     return [
@@ -206,6 +206,13 @@ $factory->state(App\Monster::class, 'awesomeInc', function (Faker\Generator $fak
     ];
 });
 
+$factory->state(App\Monster::class, 'koury', function (Faker\Generator $faker) {
+
+    return [
+        'lat' => $faker->latitude($min = 36.0374809197, $max = 36.0401788803),
+        'lng' => $faker->longitude($min = -79.8347954803, $max = -79.8320975197),
+    ];
+});
 // Treasures
 
 $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
@@ -231,8 +238,8 @@ $factory->define(App\Treasure::class, function (Faker\Generator $faker) {
 });
 
 //Treasure Type States
-$factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker) {
+/*
 
         Treasure Types
         copper = 1,
@@ -249,8 +256,8 @@ $factory->state(App\Treasure::class, 'copper', function (Faker\Generator $faker)
     ];
 });
 
-$factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker) {
+/*
 
         Treasure Types
         copper = 1,
@@ -267,8 +274,8 @@ $factory->state(App\Treasure::class, 'silver', function (Faker\Generator $faker)
     ];
 });
 
-$factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) {
+/*
 
         Treasure Types
         copper = 1,
@@ -285,8 +292,8 @@ $factory->state(App\Treasure::class, 'gold', function (Faker\Generator $faker) {
     ];
 });
 
-$factory->state(App\Treasure::class, 'gem', function (Faker\Generator $faker) { 
-/* 
+$factory->state(App\Treasure::class, 'gem', function (Faker\Generator $faker) {
+/*
 
         Treasure Types
         copper = 1,
@@ -368,5 +375,13 @@ $factory->state(App\Treasure::class, 'awesomeInc', function (Faker\Generator $fa
     return [
         'lat' => $faker->latitude($min = 38.0416787663, $max = 38.0422392886),
         'lng' => $faker->longitude($min = -84.4929573798, $max = -84.4922482109),
+    ];
+});
+
+$factory->state(App\Treasure::class, 'koury', function (Faker\Generator $faker) {
+
+    return [
+        'lat' => $faker->latitude($min = 36.0374809197, $max = 36.0401788803),
+        'lng' => $faker->longitude($min = -79.8347954803, $max = -79.8320975197),
     ];
 });
